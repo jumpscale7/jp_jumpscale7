@@ -1,0 +1,44 @@
+
+process.cmd=
+process.args=
+process.env=:
+#is prio between 0 and 10, 0 is not urgent , 10 is most urgent, so first all packages with prio 10 are installed then going down to 0
+process.prio=10
+#path where process needs to be started
+process.cwd=
+process.start.timeout=60
+process.stop.timeout=10
+process.ports=,
+#can be upstart,jsagent or tmux
+process.startupmanager=upstart
+#string which identifies process in memory
+process.filterstr=
+
+#if set to link then when getting files from git they will be linked not copied, can be overruled on export rule per export rule
+files.link=true
+
+#base of repo where code or files are e.g. http://git.aydo.com/binary/base
+git.url='http://git.aydo.com/binary/base'
+#dict where key is source in repo, 
+#known var's are: $root,$base,$cfg,$jslib,$pylib,$lib  
+git.export.2=
+    git:$(git.url)
+    source:lib
+    #copy to gin in base dir (is e.g. in sandbox)
+    dest:$base/bin
+    #if not mentioned then will be copied not linked
+    #in this example I take over variable specified higher up
+    link:$(files.link)
+
+
+#name of packages which need to be installed locally
+dependencies=,
+
+platform.supported=linux64,
+
+#how many instances can be installed of this package, if 1 the instance name is always 'main'
+instances.maxnr=1
+
+#a way to describe where to backup to
+#backup.location=
+
