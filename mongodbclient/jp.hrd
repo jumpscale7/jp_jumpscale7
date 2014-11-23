@@ -18,26 +18,17 @@ process.filterstr=
 files.link=true
 
 #base of repo where code or files are e.g. http://git.aydo.com/binary/base
-git.url='http://git.aydo.com/binary/base'
+git.url=
 #dict where key is source in repo, 
 #known var's are: $root,$base,$cfg,$jslib,$pylib,$lib  
-git.export.2=
-    git:$(git.url)
-    source:lib
-    #copy to gin in base dir (is e.g. in sandbox)
-    dest:$base/bin
-    #if not mentioned then will be copied not linked
-    #in this example I take over variable specified higher up
-    link:$(files.link)
-
 
 #name of packages which need to be installed locally
 dependencies=,
 
-platform.supported=linux64,
+platform.supported=linux,
 
 #how many instances can be installed of this package, if 1 the instance name is always 'main'
-instances.maxnr=1
+instances.maxnr=100
 
 #a way to describe where to backup to
 #backup.location=

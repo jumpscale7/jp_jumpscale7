@@ -19,7 +19,7 @@ class Actions():
         """
         this gets executed before the files are downloaded & installed on approprate spots
         """
-        return True
+        pass
 
     def configure(self,hrd,**args):
         """

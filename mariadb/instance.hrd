@@ -1,0 +1,4 @@
+rootpasswd=@ASK type:str default:'rooter'
+
+
+
