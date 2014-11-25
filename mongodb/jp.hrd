@@ -1,16 +1,16 @@
 
-process.cmd='/opt/mongodb/bin/mongod --dbpath $(system.paths.var)/mongodb/$(jp.instance)/ --smallfiles --rest'
+process.cmd='/opt/mongodb/bin/mongod --dbpath $(system.paths.var)/mongodb/$(jp.instance)/ --smallfiles --rest --httpinterface'
 process.args=
 process.env=:
 #is prio between 0 and 10, 0 is not urgent , 10 is most urgent, so first all packages with prio 10 are installed then going down to 0
 process.prio=10
 #path where process needs to be started
-process.cwd=
+process.cwd='/opt/mongodb/bin'
 process.start.timeout=60
 process.stop.timeout=10
-process.ports=,
+process.ports=27017,28017,
 #can be upstart,jsagent or tmux
-process.startupmanager=upstart
+process.startupmanager=tmux
 #string which identifies process in memory
 process.filterstr='bin/mongod'
 
@@ -22,10 +22,10 @@ git.url='http://git.aydo.com/binary/mongodb'
 #dict where key is source in repo, 
 #known var's are: $root,$base,$cfg,$jslib,$pylib,$lib  
 git.export.1=
-    git:$(git.url),
-    source:root,
-    dest:'/',
-    link:$(files.link),
+    url:$(git.url),
+    source:'mongodb/bin',
+    dest:'/opt/mongodb/bin',
+    link:True,
 
 #name of packages which need to be installed locally
 dependencies=,
