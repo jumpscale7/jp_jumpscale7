@@ -10,7 +10,7 @@ process.start.timeout=60
 process.stop.timeout=10
 process.ports=,
 #can be upstart,jsagent or tmux
-process.startupmanager=upstart
+process.startupmanager=tmux
 #string which identifies process in memory
 process.filterstr=
 

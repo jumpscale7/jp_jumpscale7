@@ -1,0 +1,6 @@
+osis.key=
+#@ASK encryptionkey:var descr:give_encryption_key_for_osis type:str regex:^(?!\s*$).+ retry:5
+#example: mongodb:main influxdb:main redis:rediskvs elasticsearch:main
+osis.connection=@ASK descr:'example: mongodb:main,influxdb:main,redis:rediskvs,elasticsearch:main' default:'mongodb:main'
+osis.superadmin.passwd=@ASK default:'rooter'
+
