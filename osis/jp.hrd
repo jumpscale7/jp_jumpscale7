@@ -39,7 +39,7 @@ git.export.3=
     link:True,
 
 #name of packages which need to be installed locally
-dependencies=,
+dependencies=portal_lib,
 
 platform.supported=linux64,
 
