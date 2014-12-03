@@ -19,30 +19,26 @@ class Actions(ActionsBase):
     step7c: do monitor_remote to see if package healthy installed & running, but this time test is done from central location
     """
 
-<<<<<<< HEAD
-    # def prepare(self,hrd,**args):
-    #     """
-    #     this gets executed before the files are downloaded & installed on appropriate spots
-    #     """
-
-=======
     def prepare(self,hrd,**args):
         """
         this gets executed before the files are downloaded & installed on appropriate spots
         """
-        url='https://github.com/Jumpscale/jumpscale_portal/'
-        j.do.pullGitRepo(url,dest=None,login=j.application.config.get("whoami.git.login",default=""),passwd=j.application.config.get("whoami.git.passwd",default=""),\
-            depth=None,ignorelocalchanges=False,reset=False,branch="master")
->>>>>>> 25f913b897579bb1a734807f2fffb352aac654c7
+        j.system.platform.ubuntu.install('graphviz')
+        return True
 
-    #     return True
+    def configure(self,hrd,**args):
+        """
+        this gets executed when files are installed
+        this step is used to do configuration steps to the platform
+        after this step the system will try to start the jpackage if anything needs to be started
+        """
 
-    # def configure(self,hrd,**args):
-    #     """
-    #     this gets executed when files are installed
-    #     this step is used to do configuration steps to the platform
-    #     after this step the system will try to start the jpackage if anything needs to be started
-    #     """
+        dest="$(system.paths.base)/apps/portals/$(portal.name)"
+        j.system.fs.copyDirTree("$(system.paths.base)/apps/portals/example",dest)
+        hrd.applyOnDir(dest)
+        j.application.config.applyOnDir(dest)
+        # j.dirs.replaceFilesDirVars(dest)
+        return True        
 
 
     # def start(self,hrd,**args):

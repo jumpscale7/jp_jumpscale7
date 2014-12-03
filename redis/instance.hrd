@@ -1,0 +1,6 @@
+
+name=@ASK
+port=@ASK
+passwd=
+mem=@ASK descr=memory_max_in_MB default:100
+disk=@ASK descr=copy_to_disk default:1

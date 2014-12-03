@@ -3,6 +3,7 @@ from JumpScale import j
 ActionsBase=j.packages.getActionsBaseClass()
 
 class Actions(ActionsBase):
+
     """
     process for install
     -------------------
@@ -19,23 +20,11 @@ class Actions(ActionsBase):
     step7c: do monitor_remote to see if package healthy installed & running, but this time test is done from central location
     """
 
-<<<<<<< HEAD
     # def prepare(self,hrd,**args):
     #     """
-    #     this gets executed before the files are downloaded & installed on appropriate spots
+    #     this gets executed before the files are downloaded & installed on approprate spots
     #     """
-
-=======
-    def prepare(self,hrd,**args):
-        """
-        this gets executed before the files are downloaded & installed on appropriate spots
-        """
-        url='https://github.com/Jumpscale/jumpscale_portal/'
-        j.do.pullGitRepo(url,dest=None,login=j.application.config.get("whoami.git.login",default=""),passwd=j.application.config.get("whoami.git.passwd",default=""),\
-            depth=None,ignorelocalchanges=False,reset=False,branch="master")
->>>>>>> 25f913b897579bb1a734807f2fffb352aac654c7
-
-    #     return True
+    #     pass
 
     # def configure(self,hrd,**args):
     #     """
@@ -43,38 +32,15 @@ class Actions(ActionsBase):
     #     this step is used to do configuration steps to the platform
     #     after this step the system will try to start the jpackage if anything needs to be started
     #     """
-
-
-    # def start(self,hrd,**args):
-    #     #start mysql in background
-    #     if j.system.net.tcpPortConnectionTest("localhost",3306):
-    #         return
-
-    #     import JumpScale.baselib.screen
-
-    #     cmd="/opt/mariadb/bin/mysqld --basedir=/opt/mariadb --datadir=/opt/mariadb/data --plugin-dir=/opt/mariadb/lib/plugin/ --user=root --console --verbose"
-    #     j.system.platform.screen.createSession("servers",["mariadb"])
-    #     j.system.platform.screen.executeInScreen(sessionname="servers", screenname="mariadb", cmd=cmd, wait=0, cwd=None, env=None, user='root', tmuxuser=None)
-
-    #     #now wait till we can access the port
-    #     res=j.system.net.waitConnectionTest("localhost",3306,2)
-    #     if res==False:
-    #         j.events.inputerror_critical("mariadb did not become active, check in byobu","jpackage.install.mariadb.startup")
+    #     return True
 
     # def stop(self,hrd,**args):
     #     """
     #     if you want a gracefull shutdown implement this method
     #     a uptime check will be done afterwards (local)
     #     return True if stop was ok, if not this step will have failed & halt will be executed.
-    #     """        
-    #     cmd="$(base)/bin/mysql -u root --password='$(rootpasswd)' --execute='shutdown;'"
-    #     print (cmd)
-    #     j.do.execute(cmd)  
-
-    #     if self.check_down_local(hrd):
-    #         return True
-    #     else:
-    #         j.events.opserror_critical("Cannot stop %s."%self.jp,"jpackage.stop")
+    #     """
+    #     return True
 
     # def halt(self,hrd,**args):
     #     """
