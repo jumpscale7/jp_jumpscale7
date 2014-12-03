@@ -19,32 +19,52 @@ class Actions(ActionsBase):
     step7c: do monitor_remote to see if package healthy installed & running, but this time test is done from central location
     """
 
-    def prepare(self,hrd,**args):
-        """
-        this gets executed before the files are downloaded & installed on approprate spots
-        """
-        j.do.execute('apt-get purge \'mongo*\' -y')
-        j.do.execute('apt-get autoremove -y')
-        j.system.fs.createDir("$(system.paths.var)/mongodb/$(jp.instance)")
-        j.system.platform.ubuntu.stopService("mongod")
-        j.system.platform.ubuntu.serviceDisableStartAtBoot("mongod")
-        return True
-        
+    # def prepare(self,hrd,**args):
+    #     """
+    #     this gets executed before the files are downloaded & installed on appropriate spots
+    #     """
+
+
+    #     return True
+
     # def configure(self,hrd,**args):
     #     """
     #     this gets executed when files are installed
     #     this step is used to do configuration steps to the platform
     #     after this step the system will try to start the jpackage if anything needs to be started
     #     """
-    #     return True
+
+
+    # def start(self,hrd,**args):
+    #     #start mysql in background
+    #     if j.system.net.tcpPortConnectionTest("localhost",3306):
+    #         return
+
+    #     import JumpScale.baselib.screen
+
+    #     cmd="/opt/mariadb/bin/mysqld --basedir=/opt/mariadb --datadir=/opt/mariadb/data --plugin-dir=/opt/mariadb/lib/plugin/ --user=root --console --verbose"
+    #     j.system.platform.screen.createSession("servers",["mariadb"])
+    #     j.system.platform.screen.executeInScreen(sessionname="servers", screenname="mariadb", cmd=cmd, wait=0, cwd=None, env=None, user='root', tmuxuser=None)
+
+    #     #now wait till we can access the port
+    #     res=j.system.net.waitConnectionTest("localhost",3306,2)
+    #     if res==False:
+    #         j.events.inputerror_critical("mariadb did not become active, check in byobu","jpackage.install.mariadb.startup")
 
     # def stop(self,hrd,**args):
     #     """
     #     if you want a gracefull shutdown implement this method
     #     a uptime check will be done afterwards (local)
     #     return True if stop was ok, if not this step will have failed & halt will be executed.
-    #     """
-    #     return True
+    #     """        
+    #     cmd="$(base)/bin/mysql -u root --password='$(rootpasswd)' --execute='shutdown;'"
+    #     print (cmd)
+    #     j.do.execute(cmd)  
+
+    #     if self.check_down_local(hrd):
+    #         return True
+    #     else:
+    #         j.events.opserror_critical("Cannot stop %s."%self.jp,"jpackage.stop")
 
     # def halt(self,hrd,**args):
     #     """
