@@ -19,13 +19,6 @@ class Actions(ActionsBase):
     step7c: do monitor_remote to see if package healthy installed & running, but this time test is done from central location
     """
 
-<<<<<<< HEAD
-    # def prepare(self,hrd,**args):
-    #     """
-    #     this gets executed before the files are downloaded & installed on appropriate spots
-    #     """
-
-=======
     def prepare(self,hrd,**args):
         """
         this gets executed before the files are downloaded & installed on appropriate spots
@@ -33,7 +26,6 @@ class Actions(ActionsBase):
         url='https://github.com/Jumpscale/jumpscale_portal/'
         j.do.pullGitRepo(url,dest=None,login=j.application.config.get("whoami.git.login",default=""),passwd=j.application.config.get("whoami.git.passwd",default=""),\
             depth=None,ignorelocalchanges=False,reset=False,branch="master")
->>>>>>> 25f913b897579bb1a734807f2fffb352aac654c7
 
     #     return True
 
