@@ -1,0 +1,5 @@
+addr=@ASK default:localhost
+port=@ASK default:3306
+login=root
+passwd=@ASK default:rooter
+

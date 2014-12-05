@@ -19,57 +19,62 @@ class Actions(ActionsBase):
     step7c: do monitor_remote to see if package healthy installed & running, but this time test is done from central location
     """
 
-    def prepare(self,hrd,**args):
+    def prepare(self,**args):
         """
         this gets executed before the files are downloaded & installed on appropriate spots
         """
-        # j.system.platform.ubuntu.createGroup("mysql")
-        # j.system.platform.ubuntu.createUser("mysql", passwd="1234", home="/home/mysql", creategroup=True)
+        j.system.platform.ubuntu.createUser("mysql", passwd="1234", home="/home/mysql", creategroup=True)
         
-        # j.system.fs.chown(path="/opt/mariadb/", user="mysql")
-        # j.system.fs.createDir("/var/log/mysql")
+        j.system.fs.chown(path="/opt/mariadb/", user="mysql")
+        j.system.fs.createDir("/var/log/mysql")
 
         j.system.process.killProcessByPort(3306)
-        j.system.fs.createDir("$(system.paths.var)/mysql")
-
-        # j.system.fs.createDir("/usr/share/mysql/")
-        # j.system.fs.createDir("/var/run/mysqld/")
-        # j.do.copyFile("/opt/mariadb/share/english/errmsg.sys","/usr/share/mysql/errmsg.sys")
-        # j.system.fs.chown(path="/usr/share/mysql/", user="mysql")
-
-        # j.system.fs.chown(path="/var/log/mysql/", user="mysql")
+        j.do.delete("/var/run/mysqld/mysqld.sock")
+        j.do.delete("/etc/mysql")
+        j.do.delete("~/.my.cnf")
+        j.do.delete("/etc/my.cnf")
+        j.system.fs.createDir("/var/jumpscale/mysql")
+        j.system.fs.createDir("/tmp/mysql")
 
         return True
 
-    def configure(self,hrd,**args):
+    def configure(self,**args):
         """
         this gets executed when files are installed
         this step is used to do configuration steps to the platform
         after this step the system will try to start the jpackage if anything needs to be started
         """
-        j.application.config.applyOnDir("$(base)/cfg",filter=None, changeFileName=True,changeContent=True,additionalArgs={})
-        
+        j.application.config.applyOnDir("$(base)/cfg",filter=None, changeFileName=True,changeContent=True,additionalArgs={})       
 
         j.do.copyFile("$(base)/share/english/errmsg.sys","$(system.paths.var)/mysql/errmsg.sys")
-        j.system.fs.createDir("$(base)/data")
 
+        j.system.fs.createDir("/usr/share/mysql/")
+        j.system.fs.chown(path="/usr/share/mysql/", user="mysql")
+        j.do.copyFile("$(base)/share/english/errmsg.sys","/usr/share/mysql/errmsg.sys")
 
-        if not j.system.fs.exists(path="$(base)/data/mysql/"):
+        j.system.fs.createDir("/var/run/mysqld/")
+        j.system.fs.chown(path="$(system.paths.var)/mysql", user="mysql")
+        j.system.fs.chown(path="/var/log/mysql/", user="mysql")
+        j.system.fs.chown(path="/var/jumpscale/mysql", user="mysql")
+        j.system.fs.chown(path="/tmp/mysql", user="mysql")
+        j.system.fs.chown(path="/opt/mariadb/", user="mysql")
+        
+        if not j.system.fs.exists("/var/jumpscale/mysql/data"):
             # j.events.inputerror_critical("cannot install mariadb on $(base)/data, data does already exist","jpackage.install.mariadb.alreadythere")
-            cmd="cd $(base);scripts/mysql_install_db --user=root --defaults-file=cfg/my.cnf --basedir=$(base) --datadir=$(base)/data/"
+            cmd="cd $(base);scripts/mysql_install_db --user=mysql --defaults-file=cfg/my.cnf --basedir=$(base) --datadir=/var/jumpscale/mysql/data"
             print (cmd)
             j.do.executeInteractive(cmd)
 
-            self.start(hrd)
+            self.start()
 
             cmd="$(base)/bin/mysqladmin -u root password '$(rootpasswd)'"
             j.do.execute(cmd)
 
-            self.stop(hrd)
+            self.stop()
 
         return True
 
-    # def start(self,hrd,**args):
+    # def start(self,**args):
     #     #start mysql in background
     #     if j.system.net.tcpPortConnectionTest("localhost",3306):
     #         return
@@ -85,7 +90,7 @@ class Actions(ActionsBase):
     #     if res==False:
     #         j.events.inputerror_critical("mariadb did not become active, check in byobu","jpackage.install.mariadb.startup")
 
-    def stop(self,hrd,**args):
+    def stop(self,**args):
         """
         if you want a gracefull shutdown implement this method
         a uptime check will be done afterwards (local)
@@ -100,48 +105,48 @@ class Actions(ActionsBase):
         else:
             j.events.opserror_critical("Cannot stop %s."%self.jp,"jpackage.stop")
 
-    # def halt(self,hrd,**args):
+    # def halt(self,**args):
     #     """
     #     hard kill the app, std a linux kill is used, you can use this method to do something next to the std behaviour
     #     """
     #     return True
 
-    # def check_uptime_local(self,hrd,**args):
+    # def check_uptime_local(self,**args):
     #     """
     #     do checks to see if process(es) is (are) running.
     #     this happens on system where process is
     #     """
     #     return True
 
-    # def check_requirements(self,hrd,**args):
+    # def check_requirements(self,**args):
     #     """
     #     do checks if requirements are met to install this app
     #     e.g. can we connect to database, is this the right platform, ...
     #     """
     #     return True
 
-    # def monitor_local(self,hrd,**args):
+    # def monitor_local(self,**args):
     #     """
     #     do checks to see if all is ok locally to do with this package
     #     this happens on system where process is
     #     """
     #     return True
 
-    # def monitor_remote(self,hrd,**args):
+    # def monitor_remote(self,**args):
     #     """
     #     do checks to see if all is ok from remote to do with this package
     #     this happens on system from which we install or monitor (unless if defined otherwise in hrd)
     #     """
     #     return True
 
-    # def cleanup(self,hrd,**args):
+    # def cleanup(self,**args):
     #     """
     #     regular cleanup of env e.g. remove logfiles, ...
     #     is just to keep the system healthy
     #     """
     #     return True
 
-    # def data_export(self,hrd,**args):
+    # def data_export(self,**args):
     #     """
     #     export data of app to a central location (configured in hrd under whatever chosen params)
     #     return the location where to restore from (so that the restore action knows how to restore)
@@ -156,7 +161,7 @@ class Actions(ActionsBase):
     #     """
     #     return False
 
-    # def uninstall(self,hrd,**args):
+    # def uninstall(self,**args):
     #     """
     #     uninstall the apps, remove relevant files
     #     """

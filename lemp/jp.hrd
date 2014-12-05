@@ -1,31 +1,43 @@
 
-process.cmd='/opt/mariadb/bin/mysqld --basedir=/opt/mariadb --datadir=/opt/mariadb/data --plugin-dir=/opt/mariadb/lib/plugin/ --user=root --console --verbose'
+base='/opt/lemp/$(jp.instance)'
+process.cmd='$(base)/bin/nginx -c $(base)/cfg/nginx/nginx.conf'
 process.args=
 process.env=:
 #is prio between 0 and 10, 0 is not urgent , 10 is most urgent, so first all packages with prio 10 are installed then going down to 0
 process.prio=10
 #path where process needs to be started
-process.cwd=
+process.cwd='$(base)/bin'
 process.start.timeout=10
 process.stop.timeout=10
-process.ports=,
+process.ports=80,
 #can be upstart,jsagent or tmux
-process.startupmanager=upstart
+process.startupmanager=tmux
 #string which identifies process in memory
-process.filterstr='mysqld'
-
-#if set to link then when getting files from git they will be linked not copied, can be overruled on export rule per export rule
-files.link=false
+process.filterstr='nginx'
 
 #base of repo where code or files are e.g. http://git.aydo.com/binary/base
-git.url='http://git.aydo.com/binary/mariadb_linux64'
+git.url='http://git.aydo.com/binary/lemp'
 #dict where key is source in repo, 
 #known var's are: $root,$base,$cfg,$jslib,$pylib,$lib  
 git.export.1=
-    git:$(git.url),
-    source:root,
-    dest:'/',
-    link:$(files.link),
+    url:$(git.url),
+    source:bin,
+    dest:'$(base)/bin',
+    link:True
+
+git.export.2=
+    url:$(git.url),
+    source:cfg,
+    dest:'$(base)/cfg',
+    link:False
+    overwrite:True
+
+git.export.3=
+    url:$(git.url),
+    source:www,
+    dest:'$(base)/www',
+    link:False,
+
 
 #name of packages which need to be installed locally
 dependencies=,
