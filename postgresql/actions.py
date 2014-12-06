@@ -1,5 +1,5 @@
 from JumpScale import j
-
+import time
 ActionsBase=j.packages.getActionsBaseClass()
 
 class Actions(ActionsBase):
@@ -23,18 +23,10 @@ class Actions(ActionsBase):
         """
         this gets executed before the files are downloaded & installed on appropriate spots
         """
-        j.system.platform.ubuntu.createUser("mysql", passwd=j.base.idgenerator.generateGUID(), home="/home/mysql", creategroup=True)
+        j.system.platform.ubuntu.createUser("postgres", passwd="1234", home="/home/postgresql", creategroup=True)
         
-        j.system.fs.chown(path="/opt/mariadb/", user="mysql")
-        j.system.fs.createDir("/var/log/mysql")
-
-        j.system.process.killProcessByPort(3306)
-        j.do.delete("/var/run/mysqld/mysqld.sock")
-        j.do.delete("/etc/mysql")
-        j.do.delete("~/.my.cnf")
-        j.do.delete("/etc/my.cnf")
-        j.system.fs.createDir("/var/jumpscale/mysql")
-        j.system.fs.createDir("/tmp/mysql")
+        j.system.process.killProcessByPort(5432)
+        j.system.fs.createDir("/tmp/postgres")
 
         return True
 
@@ -44,44 +36,54 @@ class Actions(ActionsBase):
         this step is used to do configuration steps to the platform
         after this step the system will try to start the jpackage if anything needs to be started
         """
-        j.application.config.applyOnDir("$(base)/cfg",filter=None, changeFileName=True,changeContent=True,additionalArgs={})       
+        # j.application.config.applyOnDir("$(base)/cfg",filter=None, changeFileName=True,changeContent=True,additionalArgs={})  
 
-        j.do.copyFile("$(base)/share/english/errmsg.sys","$(system.paths.var)/mysql/errmsg.sys")
+        if not j.system.fs.exists(path="$(datadir)"):
+            j.system.fs.removeDirTree("$(datadir)")
+            j.system.fs.createDir("$(datadir)")
 
-        j.system.fs.createDir("/usr/share/mysql/")
-        j.system.fs.chown(path="/usr/share/mysql/", user="mysql")
-        j.do.copyFile("$(base)/share/english/errmsg.sys","/usr/share/mysql/errmsg.sys")
+            j.system.fs.chown(path="$(base)", user="postgres")
+            j.system.fs.chown(path="$(datadir)", user="postgres")        
+            j.system.fs.chmod("$(datadir)",0777)
 
-        j.system.fs.createDir("/var/run/mysqld/")
-        j.system.fs.chown(path="$(system.paths.var)/mysql", user="mysql")
-        j.system.fs.chown(path="/var/log/mysql/", user="mysql")
-        j.system.fs.chown(path="/var/jumpscale/mysql", user="mysql")
-        j.system.fs.chown(path="/tmp/mysql", user="mysql")
-        j.system.fs.chown(path="/opt/mariadb/", user="mysql")
+            cmd="su -c '$(base)/bin/initdb -D $(datadir)' postgres"
+            j.system.process.executeWithoutPipe(cmd)
+
+            def replace(path,newline,find):
+                lines=j.system.fs.fileGetContents(path)
+                out=""
+                found=False
+                for line in lines.split("\n"):
+                    if line.find(find)<>-1:
+                        line=newline
+                        found=True
+                    out+="%s\n"%line
+                if found==False:
+                    out+="%s\n"%newline
+                j.system.fs.writeFile(filename=path,contents=out)
+
+            replace("$(datadir)/pg_hba.conf","host    all             all             0.0.0.0/0               md5","0.0.0.0/0")
+
+            j.system.fs.createDir("/var/log/postgresql")
         
-        if not j.system.fs.exists("/var/jumpscale/mysql/data"):
-            # j.events.inputerror_critical("cannot install mariadb on $(base)/data, data does already exist","jpackage.install.mariadb.alreadythere")
-            cmd="cd $(base);scripts/mysql_install_db --user=mysql --defaults-file=cfg/my.cnf --basedir=$(base) --datadir=/var/jumpscale/mysql/data"
-            print (cmd)
-            j.do.executeInteractive(cmd)
-
             self.start()
+            time.sleep(1)
 
-            cmd="$(base)/bin/mysqladmin -u root password '$(rootpasswd)'"
-            j.do.execute(cmd)
+            cmd="cd $(base)/bin;./psql -U postgres template1 -c \"alter user postgres with password '$(rootpasswd)';\" -h localhost"
+            j.system.process.execute(cmd)
 
-            self.stop()
+            # self.stop()
 
         return True
 
     # def start(self,**args):
-    #     #start mysql in background
+    #     #start postgresql in background
     #     if j.system.net.tcpPortConnectionTest("localhost",3306):
     #         return
 
     #     import JumpScale.baselib.screen
 
-    #     cmd="/opt/mariadb/bin/mysqld --basedir=/opt/mariadb --datadir=/opt/mariadb/data --plugin-dir=/opt/mariadb/lib/plugin/ --user=root --console --verbose"
+    #     cmd="/opt/mariadb/bin/postgresqld --basedir=/opt/mariadb --datadir=/opt/mariadb/data --plugin-dir=/opt/mariadb/lib/plugin/ --user=root --console --verbose"
     #     j.system.platform.screen.createSession("servers",["mariadb"])
     #     j.system.platform.screen.executeInScreen(sessionname="servers", screenname="mariadb", cmd=cmd, wait=0, cwd=None, env=None, user='root', tmuxuser=None)
 
@@ -96,14 +98,14 @@ class Actions(ActionsBase):
         a uptime check will be done afterwards (local)
         return True if stop was ok, if not this step will have failed & halt will be executed.
         """        
-        cmd="$(base)/bin/mysql -u root --password='$(rootpasswd)' --execute='shutdown;'"
-        print (cmd)
-        j.do.execute(cmd)  
+        cmd="sudo -u postgres ./pg_ctl -D /var/jumpscale/postgresql stop"
+        # print (cmd)
+        rc,out=j.system.process.execute(cmd, dieOnNonZeroExitCode=False, outputToStdout=False, useShell=False, ignoreErrorOutput=True)
 
-        if self.check_down_local(hrd):
-            return True
-        else:
-            j.events.opserror_critical("Cannot stop %s."%self.jp,"jpackage.stop")
+        # if self.check_down_local(hrd):
+        #     return True
+        # else:
+        #     j.events.opserror_critical("Cannot stop %s."%self.jp,"jpackage.stop")
 
     # def halt(self,**args):
     #     """

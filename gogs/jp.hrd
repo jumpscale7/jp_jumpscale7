@@ -1,0 +1,38 @@
+base='/opt/gogs'
+
+process.cmd='gogs -web'
+process.args=
+process.env=
+#is prio between 0 and 10, 0 is not urgent , 10 is most urgent, so first all packages with prio 10 are installed then going down to 0
+process.prio=10
+#path where process needs to be started
+process.cwd='$(base)'
+process.start.timeout=10
+process.stop.timeout=10
+process.ports=9000,
+#can be upstart,jsagent or tmux
+process.startupmanager=tmux
+#string which identifies process in memory
+process.filterstr='gogs'
+
+#base of repo where code or files are e.g. http://git.aydo.com/binary/base
+git.url='http://git.aydo.com/binary/gogs'
+#known var's are: $root,$base,$cfg,$jslib,$pylib,$lib  
+git.export.1=
+    url:$(git.url),
+    source:'gogs',
+    dest:'$(base)',
+    link:False,
+    overwrite:True,
+
+#name of packages which need to be installed locally
+dependencies=,
+
+platform.supported=linux64,
+
+#how many instances can be installed of this package, if 1 the instance name is always 'main'
+instances.maxnr=1
+
+#a way to describe where to backup to
+#backup.location=
+

@@ -19,24 +19,24 @@ class Actions(ActionsBase):
     step7c: do monitor_remote to see if package healthy installed & running, but this time test is done from central location
     """
 
-    def prepare(self,**args):
-        """
-        this gets executed before the files are downloaded & installed on appropriate spots
-        """
-        j.system.platform.ubuntu.createUser("mysql", passwd=j.base.idgenerator.generateGUID(), home="/home/mysql", creategroup=True)
+    # def prepare(self,**args):
+    #     """
+    #     this gets executed before the files are downloaded & installed on appropriate spots
+    #     """
+    #     j.system.platform.ubuntu.createUser("mysql", passwd="1234", home="/home/mysql", creategroup=True)
         
-        j.system.fs.chown(path="/opt/mariadb/", user="mysql")
-        j.system.fs.createDir("/var/log/mysql")
+    #     j.system.fs.chown(path="/opt/mariadb/", user="mysql")
+    #     j.system.fs.createDir("/var/log/mysql")
 
-        j.system.process.killProcessByPort(3306)
-        j.do.delete("/var/run/mysqld/mysqld.sock")
-        j.do.delete("/etc/mysql")
-        j.do.delete("~/.my.cnf")
-        j.do.delete("/etc/my.cnf")
-        j.system.fs.createDir("/var/jumpscale/mysql")
-        j.system.fs.createDir("/tmp/mysql")
+    #     j.system.process.killProcessByPort(3306)
+    #     j.do.delete("/var/run/mysqld/mysqld.sock")
+    #     j.do.delete("/etc/mysql")
+    #     j.do.delete("~/.my.cnf")
+    #     j.do.delete("/etc/my.cnf")
+    #     j.system.fs.createDir("/var/jumpscale/mysql")
+    #     j.system.fs.createDir("/tmp/mysql")
 
-        return True
+    #     return True
 
     def configure(self,**args):
         """
@@ -44,33 +44,10 @@ class Actions(ActionsBase):
         this step is used to do configuration steps to the platform
         after this step the system will try to start the jpackage if anything needs to be started
         """
-        j.application.config.applyOnDir("$(base)/cfg",filter=None, changeFileName=True,changeContent=True,additionalArgs={})       
+        self.jp_instance.hrd.applyOnDir("$(base)/conf",filter=None, changeFileName=True,changeContent=True,additionalArgs={})
 
-        j.do.copyFile("$(base)/share/english/errmsg.sys","$(system.paths.var)/mysql/errmsg.sys")
-
-        j.system.fs.createDir("/usr/share/mysql/")
-        j.system.fs.chown(path="/usr/share/mysql/", user="mysql")
-        j.do.copyFile("$(base)/share/english/errmsg.sys","/usr/share/mysql/errmsg.sys")
-
-        j.system.fs.createDir("/var/run/mysqld/")
-        j.system.fs.chown(path="$(system.paths.var)/mysql", user="mysql")
-        j.system.fs.chown(path="/var/log/mysql/", user="mysql")
-        j.system.fs.chown(path="/var/jumpscale/mysql", user="mysql")
-        j.system.fs.chown(path="/tmp/mysql", user="mysql")
-        j.system.fs.chown(path="/opt/mariadb/", user="mysql")
-        
-        if not j.system.fs.exists("/var/jumpscale/mysql/data"):
-            # j.events.inputerror_critical("cannot install mariadb on $(base)/data, data does already exist","jpackage.install.mariadb.alreadythere")
-            cmd="cd $(base);scripts/mysql_install_db --user=mysql --defaults-file=cfg/my.cnf --basedir=$(base) --datadir=/var/jumpscale/mysql/data"
-            print (cmd)
-            j.do.executeInteractive(cmd)
-
-            self.start()
-
-            cmd="$(base)/bin/mysqladmin -u root password '$(rootpasswd)'"
-            j.do.execute(cmd)
-
-            self.stop()
+        cmd="cd /opt/gogs;sh buildkeys.sh"
+        j.system.process.execute(cmd, dieOnNonZeroExitCode=False, outputToStdout=False, useShell=False, ignoreErrorOutput=True)
 
         return True
 
@@ -90,20 +67,20 @@ class Actions(ActionsBase):
     #     if res==False:
     #         j.events.inputerror_critical("mariadb did not become active, check in byobu","jpackage.install.mariadb.startup")
 
-    def stop(self,**args):
-        """
-        if you want a gracefull shutdown implement this method
-        a uptime check will be done afterwards (local)
-        return True if stop was ok, if not this step will have failed & halt will be executed.
-        """        
-        cmd="$(base)/bin/mysql -u root --password='$(rootpasswd)' --execute='shutdown;'"
-        print (cmd)
-        j.do.execute(cmd)  
+    # def stop(self,**args):
+    #     """
+    #     if you want a gracefull shutdown implement this method
+    #     a uptime check will be done afterwards (local)
+    #     return True if stop was ok, if not this step will have failed & halt will be executed.
+    #     """        
+    #     cmd="$(base)/bin/mysql -u root --password='$(rootpasswd)' --execute='shutdown;'"
+    #     print (cmd)
+    #     j.do.execute(cmd)  
 
-        if self.check_down_local(hrd):
-            return True
-        else:
-            j.events.opserror_critical("Cannot stop %s."%self.jp,"jpackage.stop")
+    #     if self.check_down_local(hrd):
+    #         return True
+    #     else:
+    #         j.events.opserror_critical("Cannot stop %s."%self.jp,"jpackage.stop")
 
     # def halt(self,**args):
     #     """

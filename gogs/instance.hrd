@@ -1,0 +1,6 @@
+name=@ASK descr='this is name of this gogs instance will be repeated on each page'
+port=@ASK default=9000 
+rootpasswd=@ASK type:str default:'rooter'
+
+
+
