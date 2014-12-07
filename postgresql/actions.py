@@ -70,7 +70,7 @@ class Actions(ActionsBase):
             time.sleep(1)
 
             cmd="cd $(base)/bin;./psql -U postgres template1 -c \"alter user postgres with password '$(rootpasswd)';\" -h localhost"
-            j.system.process.execute(cmd)
+            j.do.execute(cmd)
 
             # self.stop()
 
@@ -98,9 +98,9 @@ class Actions(ActionsBase):
         a uptime check will be done afterwards (local)
         return True if stop was ok, if not this step will have failed & halt will be executed.
         """        
-        cmd="sudo -u postgres ./pg_ctl -D /var/jumpscale/postgresql stop"
+        cmd="sudo -u postgres $(base)/bin/pg_ctl -D /var/jumpscale/postgresql stop  -m fast"
         # print (cmd)
-        rc,out=j.system.process.execute(cmd, dieOnNonZeroExitCode=False, outputToStdout=False, useShell=False, ignoreErrorOutput=True)
+        j.do.execute(cmd, dieOnNonZeroExitCode=False, outputStdout=False, outputStderr=True)
 
         # if self.check_down_local(hrd):
         #     return True
