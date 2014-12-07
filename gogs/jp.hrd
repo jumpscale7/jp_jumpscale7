@@ -1,19 +1,16 @@
 base='/opt/gogs'
 
-process.cmd='gogs -web'
-process.args=
-process.env=
-#is prio between 0 and 10, 0 is not urgent , 10 is most urgent, so first all packages with prio 10 are installed then going down to 0
-process.prio=10
-#path where process needs to be started
-process.cwd='$(base)'
-process.start.timeout=10
-process.stop.timeout=10
-process.ports=9000,
-#can be upstart,jsagent or tmux
-process.startupmanager=tmux
-#string which identifies process in memory
-process.filterstr='gogs'
+process.1=
+    cmd:'gogs -web',
+    args:,
+    env:,
+    prio:10,
+    cwd:'$(base)',
+    timeout_start:10,
+    timeout_stop:10,
+    ports:9000,,
+    startupmanager:tmux,
+    filterstr:'gogs'
 
 #base of repo where code or files are e.g. http://git.aydo.com/binary/base
 git.url='http://git.aydo.com/binary/gogs'

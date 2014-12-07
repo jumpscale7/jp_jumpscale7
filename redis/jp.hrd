@@ -1,19 +1,15 @@
 
-
-process.cmd='$(system.paths.base)/apps/redis/redis-server'
-process.args="$(system.paths.var)/redis/$(name)/redis.conf"
-process.env=:
-#is prio between 0 and 10, 0 is not urgent , 10 is most urgent, so first all packages with prio 10 are installed then going down to 0
-process.prio=1
-#path where process needs to be started
-process.cwd='$(system.paths.base)/apps/redis'
-process.start.timeout=20
-process.stop.timeout=10
-process.ports=$(port),
-#can be upstart,jsagent or tmux
-process.startupmanager=tmux
-#string which identifies process in memory
-process.filterstr='redis-server 127.0.0.1:$(port)'
+process.1=
+    cmd:'$(system.paths.base)/apps/redis/redis-server',
+    args:"$(system.paths.var)/redis/$(name)/redis.conf",
+    env::,
+    prio:1,
+    cwd:'$(system.paths.base)/apps/redis',
+    timeout_start:20,
+    timeout_stop:10,
+    ports:$(port),,
+    startupmanager:tmux,
+    filterstr:'redis-server 127.0.0.1:$(port)'
 
 #if set to link then when getting files from git they will be linked not copied, can be overruled on export rule per export rule
 files.link=false

@@ -1,6 +1,8 @@
 
 base='/opt/go'
-process.cmd=''
+
+process.1=
+    cmd:''
 
 #base of repo where code or files are e.g. http://git.aydo.com/binary/base
 git.url='http://git.aydo.com/binary/go'

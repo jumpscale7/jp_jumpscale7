@@ -1,18 +1,14 @@
-
-process.cmd=
-process.args=
-process.env=:
-#is prio between 0 and 10, 0 is not urgent , 10 is most urgent, so first all packages with prio 10 are installed then going down to 0
-process.prio=10
-#path where process needs to be started
-process.cwd=
-process.start.timeout=60
-process.stop.timeout=10
-process.ports=,
-#can be upstart,jsagent or tmux
-process.startupmanager=tmux
-#string which identifies process in memory
-process.filterstr=
+process.1=
+    cmd:,
+    args:,
+    env::,
+    prio:10,
+    cwd:,
+    timeout_start:60,
+    timeout_stop:10,
+    ports:,,
+    startupmanager:tmux,
+    filterstr:
 
 #if set to link then when getting files from git they will be linked not copied, can be overruled on export rule per export rule
 files.link=true
