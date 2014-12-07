@@ -4,7 +4,6 @@ base='$(system.paths.base)/lib'
 process.1=
     cmd:,
     args:,
-    env::,
     prio:10,
     cwd:,
     timeout_start:10,
@@ -12,6 +11,8 @@ process.1=
     ports:,
     startupmanager:tmux,
     filterstr:''
+
+env.process.1=
 
 #base of repo where code or files are e.g. http://git.aydo.com/binary/base
 # git.url='https://github.com/Jumpscale/jumpscale_portal/'

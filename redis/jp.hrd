@@ -2,7 +2,6 @@
 process.1=
     cmd:'$(system.paths.base)/apps/redis/redis-server',
     args:"$(system.paths.var)/redis/$(name)/redis.conf",
-    env::,
     prio:1,
     cwd:'$(system.paths.base)/apps/redis',
     timeout_start:20,
@@ -10,6 +9,8 @@ process.1=
     ports:$(port),,
     startupmanager:tmux,
     filterstr:'redis-server 127.0.0.1:$(port)'
+
+env.process.1=
 
 #if set to link then when getting files from git they will be linked not copied, can be overruled on export rule per export rule
 files.link=false

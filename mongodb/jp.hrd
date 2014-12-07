@@ -2,7 +2,6 @@
 process.1=
     cmd:'/opt/mongodb/bin/mongod --dbpath $(system.paths.var)/mongodb/$(jp.instance)/ --smallfiles --rest --httpinterface',
     args:,
-    env::,
     prio:10,
     cwd:'/opt/mongodb/bin',
     timeout_start:60,
@@ -10,6 +9,8 @@ process.1=
     ports:27017,28017,
     startupmanager:tmux,
     filterstr:'bin/mongod'
+
+env.process.1=
 
 #if set to link then when getting files from git they will be linked not copied, can be overruled on export rule per export rule
 files.link=false

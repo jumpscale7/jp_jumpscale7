@@ -5,7 +5,6 @@ base='$(system.paths.base)/apps/osis'
 process.1=
     cmd:'$(system.paths.base)/bin/jspython',
     args:'osisServerStart.py $(jp.instance)',
-    env::,
     prio:10,
     cwd:'$(base)',
     timeout_start:10,
@@ -13,6 +12,8 @@ process.1=
     ports:5544,,
     startupmanager:tmux,
     filterstr:''
+
+env.process.1=
 
 #base of repo where code or files are e.g. http://git.aydo.com/binary/base
 git.url='https://github.com/Jumpscale/jumpscale_core7/'

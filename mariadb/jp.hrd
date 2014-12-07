@@ -3,7 +3,6 @@ base='/opt/mariadb'
 process.1=
     cmd:'./mysqld --user:mysql --basedir:$(base) --datadir:/var/jumpscale/mysql/data --plugin-dir:$(base)/lib/plugin/  --console --verbose',
     args:,
-    env:MYSQL_HOME:$(base),
     prio:10,
     cwd:'$(base)/bin',
     timeout_start:10,
@@ -11,6 +10,9 @@ process.1=
     ports:3306,,
     startupmanager:tmux,
     filterstr:'mysqld'
+
+env.process.1=
+    MYSQL_HOME:$(base),
 
 #base of repo where code or files are e.g. http://git.aydo.com/binary/base
 git.url='http://git.aydo.com/binary/mariadb'

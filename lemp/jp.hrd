@@ -6,7 +6,6 @@ process.1=
     name:'$(jp.instance)_nginx',
     cmd:'$(base)/bin/nginx -c $(base)/cfg/nginx/nginx.conf',
     args:,
-    env:,
     prio:10,
     cwd:'$(base)/bin',
     timeout_start:10,
@@ -15,11 +14,12 @@ process.1=
     startupmanager:tmux,
     filterstr:'nginx',
 
+env.process.1=
+
 process.2=
     name:'$(jp.instance)_pphp5fpm',
     cmd:'$(base)/bin/php5-fpm -c $(base)/cfg/php5/fpm -y $(base)/cfg/php5/fpm/php-fpm.conf -F',
     args:,
-    env:,
     prio:11,
     cwd:'$(base)/bin',
     timeout_start:10,
@@ -28,6 +28,7 @@ process.2=
     startupmanager:tmux,
     filterstr:'php5-fpm',
 
+env.process.2=
 
 #base of repo where code or files are e.g. http://git.aydo.com/binary/base
 git.url='http://git.aydo.com/binary/lemp'

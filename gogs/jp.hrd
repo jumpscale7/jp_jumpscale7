@@ -3,7 +3,6 @@ base='/opt/gogs'
 process.1=
     cmd:'gogs -web',
     args:,
-    env:,
     prio:10,
     cwd:'$(base)',
     timeout_start:10,
@@ -11,6 +10,8 @@ process.1=
     ports:9000,,
     startupmanager:tmux,
     filterstr:'gogs'
+
+env.process.1=
 
 #base of repo where code or files are e.g. http://git.aydo.com/binary/base
 git.url='http://git.aydo.com/binary/gogs'
