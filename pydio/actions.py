@@ -23,20 +23,33 @@ class Actions(ActionsBase):
         """
         this gets executed before the files are downloaded & installed on approprate spots
         """
-        j.do.execute('apt-get purge \'mongo*\' -y')
-        j.do.execute('apt-get autoremove -y')
-        j.system.fs.createDir("$(system.paths.var)/mongodb/$(jp.instance)")
-        j.system.platform.ubuntu.stopService("mongod")
-        j.system.platform.ubuntu.serviceDisableStartAtBoot("mongod")
+        from IPython import embed
+        print "DEBUG NOW ooo"
+        embed()
+
+        cmd='cd /opt/postgresql/bin;./psql -U postgres template1 -c 'create database pydio;' -h localhost'
+
+        "php5-mcrypt","php5-pgsql"
+
+        j.do.execute("")
+        j.do.execute("php5enmod mcrypt")
+        j.do.chown("/usr/share/pydio/",user="www-data")
+        
+        # j.do.execute('apt-get purge \'mongo*\' -y')
+        # j.do.execute('apt-get autoremove -y')
+        # j.system.fs.createDir("$(system.paths.var)/mongodb/$(jp.instance)")
+        # j.system.platform.ubuntu.stopService("mongod")
+        # j.system.platform.ubuntu.serviceDisableStartAtBoot("mongod")
         return True
         
-    # def configure(self,**args):
-    #     """
-    #     this gets executed when files are installed
-    #     this step is used to do configuration steps to the platform
-    #     after this step the system will try to start the jpackage if anything needs to be started
-    #     """
-    #     return True
+    def configure(self,**args):
+        """
+        this gets executed when files are installed
+        this step is used to do configuration steps to the platform
+        after this step the system will try to start the jpackage if anything needs to be started
+        """
+        # j.system.fs.chown(path="/opt/lemp", user="www-data") 
+        return True
 
     # def stop(self,**args):
     #     """

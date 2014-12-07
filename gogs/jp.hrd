@@ -1,47 +1,29 @@
-base='/opt/mariadb'
+base='/opt/gogs'
 
-process.cmd='./mysqld --user=mysql --basedir=$(base) --datadir=/var/jumpscale/mysql/data --plugin-dir=$(base)/lib/plugin/  --console --verbose'
+process.cmd='gogs -web'
 process.args=
-process.env=MYSQL_HOME:$(base)
+process.env=
 #is prio between 0 and 10, 0 is not urgent , 10 is most urgent, so first all packages with prio 10 are installed then going down to 0
 process.prio=10
 #path where process needs to be started
-process.cwd='$(base)/bin'
+process.cwd='$(base)'
 process.start.timeout=10
 process.stop.timeout=10
-process.ports=3306,
+process.ports=9000,
 #can be upstart,jsagent or tmux
 process.startupmanager=tmux
 #string which identifies process in memory
-process.filterstr='mysqld'
+process.filterstr='gogs'
 
 #base of repo where code or files are e.g. http://git.aydo.com/binary/base
-git.url='http://git.aydo.com/binary/mariadb'
+git.url='http://git.aydo.com/binary/gogs'
 #known var's are: $root,$base,$cfg,$jslib,$pylib,$lib  
 git.export.1=
     url:$(git.url),
-    source:'mariadb/bin',
-    dest:'$(base)/bin',
-    link:True,
-
-git.export.2=
-    url:$(git.url),
-    source:'mariadb/cfg',
-    dest:'$(base)/cfg',
-    overwrite:False,
+    source:'gogs',
+    dest:'$(base)',
     link:False,
-
-git.export.3=
-    url:$(git.url),
-    source:'mariadb/scripts',
-    dest:'$(base)/scripts',
-    link:True,
-
-git.export.4=
-    url:$(git.url),
-    source:'mariadb/share',
-    dest:'$(base)/share',
-    link:True,
+    overwrite:True,
 
 #name of packages which need to be installed locally
 dependencies=,

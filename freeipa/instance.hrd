@@ -1,0 +1,6 @@
+rootpasswd=@ASK type:str default:'rooter'
+freeipa.dns=@ASK
+name=@ASK
+
+
+

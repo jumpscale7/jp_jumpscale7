@@ -1,7 +1,7 @@
 base='$(system.paths.base)/apps/osis'
 
 #source $(system.paths.base)/env.sh;/$(system.paths.base)/bin/
-process.cmd='jspython'
+process.cmd='$(system.paths.base)/bin/jspython'
 process.args='osisServerStart.py $(jp.instance)'
 process.env=:
 #is prio between 0 and 10, 0 is not urgent , 10 is most urgent, so first all packages with prio 10 are installed then going down to 0

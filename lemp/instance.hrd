@@ -1,4 +1,1 @@
-rootpasswd=@ASK type:str default:'rooter'
-
-
-
+port=@ASK default:80

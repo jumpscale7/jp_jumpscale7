@@ -19,24 +19,20 @@ class Actions(ActionsBase):
     step7c: do monitor_remote to see if package healthy installed & running, but this time test is done from central location
     """
 
-    def prepare(self,**args):
-        """
-        this gets executed before the files are downloaded & installed on approprate spots
-        """
-        j.do.execute('apt-get purge \'mongo*\' -y')
-        j.do.execute('apt-get autoremove -y')
-        j.system.fs.createDir("$(system.paths.var)/mongodb/$(jp.instance)")
-        j.system.platform.ubuntu.stopService("mongod")
-        j.system.platform.ubuntu.serviceDisableStartAtBoot("mongod")
-        return True
-        
-    # def configure(self,**args):
+    # def prepare(self,**args):
     #     """
-    #     this gets executed when files are installed
-    #     this step is used to do configuration steps to the platform
-    #     after this step the system will try to start the jpackage if anything needs to be started
-    #     """
+    #     this gets executed before the files are downloaded & installed on approprate spots
+    #     """        
     #     return True
+        
+    def configure(self,**args):
+        """
+        this gets executed when files are installed
+        this step is used to do configuration steps to the platform
+        after this step the system will try to start the jpackage if anything needs to be started
+        """        
+        self.jp_instance.hrd.applyOnFile( path="/opt/elasticsearch/config/elasticsearch.yml", additionalArgs={})
+        return True
 
     # def stop(self,**args):
     #     """
