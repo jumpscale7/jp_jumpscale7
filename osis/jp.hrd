@@ -1,25 +1,13 @@
-<<<<<<< HEAD
-base='$(system.paths.base)/apps/osis/'
-
-#source $(system.paths.base)/env.sh;/$(system.paths.base)/bin/
-process.cmd='jspython'
-process.args='osisServerStart.py $jp_instance $(osis.connection)'
-=======
 base='$(system.paths.base)/apps/osis'
 
 #source $(system.paths.base)/env.sh;/$(system.paths.base)/bin/
 process.cmd='jspython'
 process.args='osisServerStart.py $(jp.instance)'
->>>>>>> 25f913b897579bb1a734807f2fffb352aac654c7
 process.env=:
 #is prio between 0 and 10, 0 is not urgent , 10 is most urgent, so first all packages with prio 10 are installed then going down to 0
 process.prio=10
 #path where process needs to be started
-<<<<<<< HEAD
-process.cwd='$(base)/bin'
-=======
 process.cwd='$(base)'
->>>>>>> 25f913b897579bb1a734807f2fffb352aac654c7
 process.start.timeout=10
 process.stop.timeout=10
 process.ports=5544,
@@ -29,49 +17,29 @@ process.startupmanager=tmux
 process.filterstr=''
 
 #base of repo where code or files are e.g. http://git.aydo.com/binary/base
-<<<<<<< HEAD
-git.url='https://github.com/Jumpscale/jumpscale_core/'
-=======
 git.url='https://github.com/Jumpscale/jumpscale_core7/'
->>>>>>> 25f913b897579bb1a734807f2fffb352aac654c7
 #known var's are: $root,$base,$cfg,$jslib,$pylib,$lib  
 git.export.1=
     url:$(git.url),
     source:'apps/osis/*',
-<<<<<<< HEAD
-    dest:'$(base)/apps/osis/',
-=======
     dest:'$(base)/',
->>>>>>> 25f913b897579bb1a734807f2fffb352aac654c7
     link:True,
     nodirs:True,
 
 git.export.2=
     url:$(git.url),
     source:'apps/osis/logic/*',
-<<<<<<< HEAD
-    dest:'$(base)/apps/osis/logic/',
-=======
     dest:'$(base)/logic/',
->>>>>>> 25f913b897579bb1a734807f2fffb352aac654c7
     link:True,
 
 git.export.3=
     url:$(git.url),
     source:'apps/osis/tests/*',
-<<<<<<< HEAD
-    dest:'$(base)/apps/osis/tests/',
-    link:True,
-
-#name of packages which need to be installed locally
-dependencies=,
-=======
     dest:'$(base)/tests/',
     link:True,
 
 #name of packages which need to be installed locally
 dependencies=portal_lib,
->>>>>>> 25f913b897579bb1a734807f2fffb352aac654c7
 
 platform.supported=linux64,
 
