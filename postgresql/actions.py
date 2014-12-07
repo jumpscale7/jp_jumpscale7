@@ -67,7 +67,7 @@ class Actions(ActionsBase):
             j.system.fs.createDir("/var/log/postgresql")
         
             self.start()
-            time.sleep(1)
+            time.sleep(2)
 
             cmd="cd $(base)/bin;./psql -U postgres template1 -c \"alter user postgres with password '$(rootpasswd)';\" -h localhost"
             j.do.execute(cmd)
@@ -100,7 +100,14 @@ class Actions(ActionsBase):
         """        
         cmd="sudo -u postgres $(base)/bin/pg_ctl -D /var/jumpscale/postgresql stop  -m fast"
         # print (cmd)
-        j.do.execute(cmd, dieOnNonZeroExitCode=False, outputStdout=False, outputStderr=True)
+        rc,out,err=j.do.execute(cmd, dieOnNonZeroExitCode=False, outputStdout=False, outputStderr=True,timeout=5)
+        if rc>0:
+            if rc==999:
+                cmd="sudo -u postgres $(base)/bin/pg_ctl -D /var/jumpscale/postgresql stop  -m immediate"
+                rc,out,err=j.do.execute(cmd, dieOnNonZeroExitCode=False, outputStdout=False, outputStderr=True,timeout=5)
+            else:
+                raise RuntimeError("could not stop %s"%self.jp_instance)
+
 
         # if self.check_down_local(hrd):
         #     return True

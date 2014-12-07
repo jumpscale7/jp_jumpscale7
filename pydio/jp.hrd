@@ -10,8 +10,25 @@ git.export.1=
     link:False,
     overwrite:True,
 
-#name of packages which need to be installed locally
-dependencies=,
+dependencies.1=
+    name:'postgresql',
+    domain:'jumpscale',
+    args:'postgresql.args'
+
+postgresql.args=
+    rootpasswd:'$(rootpasswd)'
+
+dependencies.2=
+    name:'postgresql_client',
+    domain:'jumpscale',
+    args:'postgresql.client.args'
+
+postgresql.client.args=
+    addr:'localhost',
+    port:5432,
+    login:postgres,
+    passwd:'$(rootpasswd)',
+
 
 platform.supported=linux64,
 
@@ -20,4 +37,21 @@ instances.maxnr=1
 
 #a way to describe where to backup to
 #backup.location=
+
+docker.base= 'despiegk/mc'
+docker.enable=True
+docker.ports.tcp = 80:80,443:443
+docker.vols = 
+docker.mem =
+docker.cpu =
+docker.ssh=
+docker.ns=
+
+
+ubuntu.apt.source.1 ='http;//dl.ajaxplorer.info/repos/apt stable main'
+ubuntu.apt.key.pub.1 = 'http;//dl.ajaxplorer.info/repos/charles@ajaxplorer.info.gpg.key'
+ubuntu.apt.update = True
+ubuntu.apt.upgrade = True
+ubuntu.packages=mc,pydio
+
 

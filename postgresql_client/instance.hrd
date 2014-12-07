@@ -1,0 +1,5 @@
+addr=@ASK default:localhost
+port=@ASK default:5432
+login=postgres
+passwd=@ASK default:rooter
+
