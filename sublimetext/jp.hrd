@@ -1,0 +1,24 @@
+
+param.base='/opt/sublimetext'
+
+#base of repo where code or files are e.g. http://git.aydo.com/binary/base
+git.url='http://git.aydo.com/binary/sublimetext'
+#dict where key is source in repo, 
+#known var's are: $root,$base,$cfg,$jslib,$pylib,$lib  
+git.export.1=
+    url:$(git.url),
+    source:'sublimetext/',
+    dest:'$(param.base)/',
+    link:True,
+
+git.export.2=
+    url:$(git.url),
+    source:'root/',
+    dest:'/root/',
+    link:False,
+    overwrite:False,
+
+
+platform.supported=linux64,
+
+
