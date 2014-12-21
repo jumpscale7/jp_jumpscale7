@@ -1,4 +1,4 @@
-base='$(system.paths.base)/apps/osis'
+param.base='$(system.paths.base)/apps/osis'
 
 #source $(system.paths.base)/env.sh;/$(system.paths.base)/bin/
 
@@ -6,7 +6,7 @@ process.1=
     cmd:'$(system.paths.base)/bin/jspython',
     args:'osisServerStart.py $(jp.instance)',
     prio:10,
-    cwd:'$(base)',
+    cwd:'$(param.base)',
     timeout_start:10,
     timeout_stop:10,
     ports:5544,,
@@ -21,24 +21,26 @@ git.url='https://github.com/Jumpscale/jumpscale_core7/'
 git.export.1=
     url:$(git.url),
     source:'apps/osis/*',
-    dest:'$(base)/',
+    dest:'$(param.base)/',
     link:True,
     nodirs:True,
 
 git.export.2=
     url:$(git.url),
     source:'apps/osis/logic/*',
-    dest:'$(base)/logic/',
+    dest:'$(param.base)/logic/',
     link:True,
 
 git.export.3=
     url:$(git.url),
     source:'apps/osis/tests/*',
-    dest:'$(base)/tests/',
+    dest:'$(param.base)/tests/',
     link:True,
 
 #name of packages which need to be installed locally
-dependencies=portal_lib,
+
+dependencies.1                 =
+    name:'portal_lib',
 
 platform.supported=linux64,
 

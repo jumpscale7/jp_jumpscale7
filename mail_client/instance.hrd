@@ -1,0 +1,7 @@
+smtp.server=@ASK default:'smtp.mandrillapp.com'
+smtp.port=@ASK default:587
+smtp.login=@ASK 
+smtp.passwd=@ASK
+
+
+

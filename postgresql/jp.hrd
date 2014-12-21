@@ -6,7 +6,7 @@ process.1=
     cmd:'sudo -u postgres  /opt/postgresql/bin/postgres -D /var/jumpscale/postgresql/ -i',
     args:,
     prio:10,
-    cwd:'$(base)/bin',
+    cwd:'$(param.base)/bin',
     timeout_start:10,
     timeout_stop:10,
     ports:5432,
@@ -15,9 +15,9 @@ process.1=
 
 env.process.1=
     PGDATA:'$(datadir)',
-    PGHOME:'$(base)/apps/postgresql',
-    PATH:'$(base)/apps/postgresql/bin:$PATH',
-    LD_LIBRARY_PATH:'$(base)/apps/postgresql/lib:$LD_LIBRARY_PATH',
+    PGHOME:'$(param.base)/apps/postgresql',
+    PATH:'$(param.base)/apps/postgresql/bin:$PATH',
+    LD_LIBRARY_PATH:'$(param.base)/apps/postgresql/lib:$LD_LIBRARY_PATH',
     PGUSER:'postgres',
     PGDATABASE:'postgres',
     PGPORT:'5432',
@@ -28,11 +28,8 @@ git.url='http://git.aydo.com/binary/postgresql'
 git.export.1=
     url:$(git.url),
     source:'postgresql',
-    dest:'$(base)',
+    dest:'$(param.base)',
     link:False,
-
-#name of packages which need to be installed locally
-dependencies=,
 
 platform.supported=linux64,
 

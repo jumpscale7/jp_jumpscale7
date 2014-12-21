@@ -1,9 +1,0 @@
-
-process.1=
-    cmd:
-
-#name of packages which need to be installed locally
-dependencies=,
-
-platform.supported=linux,
-

@@ -44,13 +44,13 @@ class Actions(ActionsBase):
         this step is used to do configuration steps to the platform
         after this step the system will try to start the jpackage if anything needs to be started
         """
-        j.application.config.applyOnDir("$(base)/cfg",filter=None, changeFileName=True,changeContent=True,additionalArgs={})       
+        j.application.config.applyOnDir("$(param.base)/cfg",filter=None, changeFileName=True,changeContent=True,additionalArgs={})       
 
-        j.do.copyFile("$(base)/share/english/errmsg.sys","$(system.paths.var)/mysql/errmsg.sys")
+        j.do.copyFile("$(param.base)/share/english/errmsg.sys","$(system.paths.var)/mysql/errmsg.sys")
 
         j.system.fs.createDir("/usr/share/mysql/")
         j.system.fs.chown(path="/usr/share/mysql/", user="mysql")
-        j.do.copyFile("$(base)/share/english/errmsg.sys","/usr/share/mysql/errmsg.sys")
+        j.do.copyFile("$(param.base)/share/english/errmsg.sys","/usr/share/mysql/errmsg.sys")
 
         j.system.fs.createDir("/var/run/mysqld/")
         j.system.fs.chown(path="$(system.paths.var)/mysql", user="mysql")
@@ -60,14 +60,14 @@ class Actions(ActionsBase):
         j.system.fs.chown(path="/opt/mariadb/", user="mysql")
         
         if not j.system.fs.exists("/var/jumpscale/mysql/data"):
-            # j.events.inputerror_critical("cannot install mariadb on $(base)/data, data does already exist","jpackage.install.mariadb.alreadythere")
-            cmd="cd $(base);scripts/mysql_install_db --user=mysql --defaults-file=cfg/my.cnf --basedir=$(base) --datadir=/var/jumpscale/mysql/data"
+            # j.events.inputerror_critical("cannot install mariadb on $(param.base)/data, data does already exist","jpackage.install.mariadb.alreadythere")
+            cmd="cd $(param.base);scripts/mysql_install_db --user=mysql --defaults-file=cfg/my.cnf --basedir=$(param.base) --datadir=/var/jumpscale/mysql/data"
             print (cmd)
             j.do.executeInteractive(cmd)
 
             self.start()
 
-            cmd="$(base)/bin/mysqladmin -u root password '$(rootpasswd)'"
+            cmd="$(param.base)/bin/mysqladmin -u root password '$(param.rootpasswd)'"
             j.do.execute(cmd)
 
             self.stop()
@@ -96,7 +96,7 @@ class Actions(ActionsBase):
         a uptime check will be done afterwards (local)
         return True if stop was ok, if not this step will have failed & halt will be executed.
         """        
-        cmd="$(base)/bin/mysql -u root --password='$(rootpasswd)' --execute='shutdown;'"
+        cmd="$(param.base)/bin/mysql -u root --password='$(param.rootpasswd)' --execute='shutdown;'"
         print (cmd)
         j.do.execute(cmd)  
 

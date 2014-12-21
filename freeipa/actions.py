@@ -46,7 +46,7 @@ class Actions(ActionsBase):
 
         ports="-p 80:80 -p 443:443 -p 389:389 -p 636:636 -p 88:88 -p 464:464 -p 53:53/udp -p 123:123/udp "
         vol="-v /var/jumpscale:/var/docker/freeipa "
-        cmd="docker run --dns 127.0.0.1 --name freeipa -ti -h $(freeipa.dns) %s %s -e PASSWORD=$(rootpasswd) adelton/freeipa-server:fedora-20-upstream"%(vol,ports)
+        cmd="docker run --dns 127.0.0.1 --name freeipa -ti -h $(freeipa.dns) %s %s -e PASSWORD=$(param.rootpasswd) adelton/freeipa-server:fedora-20-upstream"%(vol,ports)
         print ("create docker")
 
         rc,out,err=j.do.execute(cmd,errors=["error:"],ok=["interactive shell"],timeout=1200)
@@ -62,7 +62,7 @@ class Actions(ActionsBase):
 
         print("your hostmachine is now using the docker as DNS server")
         print("to go back to normal DNS situation do: echo 'nameserver 8.8.8.8' > /etc/resolv.conf")
-        print("to login go to 'https:\\localhost' and login with admin:$(rootpasswd)")
+        print("to login go to 'https:\\localhost' and login with admin:$(param.rootpasswd)")
 
 
         return True
@@ -73,17 +73,17 @@ class Actions(ActionsBase):
         this step is used to do configuration steps to the platform
         after this step the system will try to start the jpackage if anything needs to be started
         """
-        # j.application.config.applyOnDir("$(base)/cfg",filter=None, changeFileName=True,changeContent=True,additionalArgs={})  
+        # j.application.config.applyOnDir("$(param.base)/cfg",filter=None, changeFileName=True,changeContent=True,additionalArgs={})  
 
         if not j.system.fs.exists(path="$(datadir)"):
             j.system.fs.removeDirTree("$(datadir)")
             j.system.fs.createDir("$(datadir)")
 
-            j.system.fs.chown(path="$(base)", user="postgres")
+            j.system.fs.chown(path="$(param.base)", user="postgres")
             j.system.fs.chown(path="$(datadir)", user="postgres")        
             j.system.fs.chmod("$(datadir)",0777)
 
-            cmd="su -c '$(base)/bin/initdb -D $(datadir)' postgres"
+            cmd="su -c '$(param.base)/bin/initdb -D $(datadir)' postgres"
             j.system.process.executeWithoutPipe(cmd)
 
             def replace(path,newline,find):
@@ -106,7 +106,7 @@ class Actions(ActionsBase):
             self.start()
             time.sleep(1)
 
-            cmd="cd $(base)/bin;./psql -U postgres template1 -c \"alter user postgres with password '$(rootpasswd)';\" -h localhost"
+            cmd="cd $(param.base)/bin;./psql -U postgres template1 -c \"alter user postgres with password '$(param.rootpasswd)';\" -h localhost"
             j.system.process.execute(cmd)
 
             # self.stop()

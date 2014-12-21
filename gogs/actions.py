@@ -44,7 +44,7 @@ class Actions(ActionsBase):
         this step is used to do configuration steps to the platform
         after this step the system will try to start the jpackage if anything needs to be started
         """
-        self.jp_instance.hrd.applyOnDir("$(base)/conf",filter=None, changeFileName=True,changeContent=True,additionalArgs={})
+        self.jp_instance.hrd.applyOnDir("$(param.base)/conf",filter=None, changeFileName=True,changeContent=True,additionalArgs={})
 
         cmd="cd /opt/gogs;sh buildkeys.sh"
         j.system.process.execute(cmd, dieOnNonZeroExitCode=False, outputToStdout=False, useShell=False, ignoreErrorOutput=True)
@@ -73,7 +73,7 @@ class Actions(ActionsBase):
     #     a uptime check will be done afterwards (local)
     #     return True if stop was ok, if not this step will have failed & halt will be executed.
     #     """        
-    #     cmd="$(base)/bin/mysql -u root --password='$(rootpasswd)' --execute='shutdown;'"
+    #     cmd="$(param.base)/bin/mysql -u root --password='$(param.rootpasswd)' --execute='shutdown;'"
     #     print (cmd)
     #     j.do.execute(cmd)  
 

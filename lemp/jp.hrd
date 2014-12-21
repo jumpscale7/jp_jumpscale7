@@ -4,13 +4,13 @@ base='/opt/lemp/$(jp.instance)'
 #is prio between 0 and 10, 0 is not urgent , 10 is most urgent, so first all packages with prio 10 are installed then going down to 0
 process.1=
     name:'$(jp.instance)_nginx',
-    cmd:'$(base)/bin/nginx -c $(base)/cfg/nginx/nginx.conf',
+    cmd:'$(param.base)/bin/nginx -c $(param.base)/cfg/nginx/nginx.conf',
     args:,
     prio:10,
-    cwd:'$(base)/bin',
+    cwd:'$(param.base)/bin',
     timeout_start:10,
     timeout_stop:10,
-    ports:$(port),
+    ports:$(param.port),
     startupmanager:tmux,
     filterstr:'nginx',
 
@@ -18,10 +18,10 @@ env.process.1=
 
 process.2=
     name:'$(jp.instance)_pphp5fpm',
-    cmd:'$(base)/bin/php5-fpm -c $(base)/cfg/php5/fpm -y $(base)/cfg/php5/fpm/php-fpm.conf -F',
+    cmd:'$(param.base)/bin/php5-fpm -c $(param.base)/cfg/php5/fpm -y $(param.base)/cfg/php5/fpm/php-fpm.conf -F',
     args:,
     prio:11,
-    cwd:'$(base)/bin',
+    cwd:'$(param.base)/bin',
     timeout_start:10,
     timeout_stop:10,
     ports:,
@@ -37,26 +37,23 @@ git.url='http://git.aydo.com/binary/lemp'
 git.export.1=
     url:$(git.url),
     source:bin,
-    dest:'$(base)/bin',
+    dest:'$(param.base)/bin',
     link:True
 
 git.export.2=
     url:$(git.url),
     source:cfg,
-    dest:'$(base)/cfg',
+    dest:'$(param.base)/cfg',
     link:False,
     overwrite:True
 
 git.export.3=
     url:$(git.url),
     source:www,
-    dest:'$(base)/www',
+    dest:'$(param.base)/www',
     link:False,
     overwrite:True,
 
-
-#name of packages which need to be installed locally
-dependencies=,
 
 platform.supported=linux64,
 

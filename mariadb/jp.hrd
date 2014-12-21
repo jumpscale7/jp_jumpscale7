@@ -1,10 +1,10 @@
 base='/opt/mariadb'
 
 process.1=
-    cmd:'./mysqld --user:mysql --basedir:$(base) --datadir:/var/jumpscale/mysql/data --plugin-dir:$(base)/lib/plugin/  --console --verbose',
+    cmd:'./mysqld --user:mysql --basedir:$(param.base) --datadir:/var/jumpscale/mysql/data --plugin-dir:$(param.base)/lib/plugin/  --console --verbose',
     args:,
     prio:10,
-    cwd:'$(base)/bin',
+    cwd:'$(param.base)/bin',
     timeout_start:10,
     timeout_stop:10,
     ports:3306,,
@@ -12,7 +12,7 @@ process.1=
     filterstr:'mysqld'
 
 env.process.1=
-    MYSQL_HOME:$(base),
+    MYSQL_HOME:$(param.base),
 
 #base of repo where code or files are e.g. http://git.aydo.com/binary/base
 git.url='http://git.aydo.com/binary/mariadb'
@@ -20,30 +20,27 @@ git.url='http://git.aydo.com/binary/mariadb'
 git.export.1=
     url:$(git.url),
     source:'mariadb/bin',
-    dest:'$(base)/bin',
+    dest:'$(param.base)/bin',
     link:True,
 
 git.export.2=
     url:$(git.url),
     source:'mariadb/cfg',
-    dest:'$(base)/cfg',
+    dest:'$(param.base)/cfg',
     overwrite:False,
     link:False,
 
 git.export.3=
     url:$(git.url),
     source:'mariadb/scripts',
-    dest:'$(base)/scripts',
+    dest:'$(param.base)/scripts',
     link:True,
 
 git.export.4=
     url:$(git.url),
     source:'mariadb/share',
-    dest:'$(base)/share',
+    dest:'$(param.base)/share',
     link:True,
-
-#name of packages which need to be installed locally
-dependencies=,
 
 platform.supported=linux64,
 

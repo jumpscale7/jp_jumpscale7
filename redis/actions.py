@@ -24,7 +24,7 @@ class Actions(ActionsBase):
         this gets executed before the files are downloaded & installed on approprate spots
         """
         import JumpScale.baselib.redis
-        j.clients.redis.deleteInstance("$(name)")
+        j.clients.redis.deleteInstance("$(param.name)")
         return True
         
     def configure(self,**args):
@@ -34,7 +34,7 @@ class Actions(ActionsBase):
         after this step the system will try to start the jpackage if anything needs to be started
         """
         import JumpScale.baselib.redis
-        j.clients.redis.configureInstance("$(name)",$(port),$(mem),int($(disk))==1)        
+        j.clients.redis.configureInstance("$(param.name)",$(param.port),$(param.mem),int($(param.disk))==1)        
         return True
 
     # def stop(self,**args):

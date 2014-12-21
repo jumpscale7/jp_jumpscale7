@@ -16,7 +16,7 @@ dependencies.1=
     args:'postgresql.args'
 
 postgresql.args=
-    rootpasswd:'$(rootpasswd)'
+    rootpasswd:'$(param.rootpasswd)'
 
 dependencies.2=
     name:'postgresql_client',
@@ -27,7 +27,7 @@ postgresql.client.args=
     addr:'localhost',
     port:5432,
     login:postgres,
-    passwd:'$(rootpasswd)',
+    passwd:'$(param.rootpasswd)',
 
 
 platform.supported=linux64,

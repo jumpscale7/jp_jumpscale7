@@ -11,19 +11,17 @@ git.url='http://git.aydo.com/binary/go'
 git.export.1=
     url:$(git.url),
     source:'go/',
-    dest:'$(base)/',
+    dest:'$(param.base)/',
     link:False,
     overwrite:True
     
 # git.export.2=
 #     url:$(git.url),
 #     source:'go/myproj',
-#     dest:'$(base)/myproj',
+#     dest:'$(param.base)/myproj',
 #     link:False,
 #     overwrite:True
 
-#name of packages which need to be installed locally
-dependencies=,
 
 platform.supported=linux64,
 

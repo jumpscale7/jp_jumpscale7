@@ -6,7 +6,7 @@ process.1=
     cwd:'$(system.paths.base)/apps/portals/$(portal.name)',
     timeout_start:10,
     timeout_stop:10,
-    ports:$(portal.port),,
+    ports:$(portal.port),
     startupmanager:tmux,
     filterstr:''
 
@@ -39,8 +39,9 @@ git.export.4=
     dest:'$(system.paths.base)/apps/portals/example/',
     link:False,
 
-#name of packages which need to be installed locally
-dependencies=portal_lib,
+dependencies.1                 =
+    name:'portal_lib',
+
 
 platform.supported=linux64,
 

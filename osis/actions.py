@@ -59,7 +59,7 @@ class Actions(ActionsBase):
     #     a uptime check will be done afterwards (local)
     #     return True if stop was ok, if not this step will have failed & halt will be executed.
     #     """        
-    #     cmd="$(base)/bin/mysql -u root --password='$(rootpasswd)' --execute='shutdown;'"
+    #     cmd="$(param.base)/bin/mysql -u root --password='$(param.rootpasswd)' --execute='shutdown;'"
     #     print (cmd)
     #     j.do.execute(cmd)  
 

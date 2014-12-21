@@ -25,9 +25,6 @@ git.export.1=
     dest:'/opt/wso2is',
     link:False,
 
-#name of packages which need to be installed locally
-dependencies=,
-
 platform.supported=linux64,
 
 #how many instances can be installed of this package, if 1 the instance name is always 'main'

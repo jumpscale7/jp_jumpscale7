@@ -35,6 +35,10 @@ class Actions(ActionsBase):
         # j.do.execute("php5enmod mcrypt")
         # j.do.chown("/usr/share/pydio/",user="www-data")
         
+# apt-get install php5-mcrypt
+# mv -i /etc/php5/conf.d/mcrypt.ini /etc/php5/mods-available/
+# php5enmod mcrypt
+        
         # j.do.execute('apt-get purge \'mongo*\' -y')
         # j.do.execute('apt-get autoremove -y')
         # j.system.fs.createDir("$(system.paths.var)/mongodb/$(jp.instance)")

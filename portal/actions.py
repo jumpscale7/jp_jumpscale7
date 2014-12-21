@@ -35,7 +35,7 @@ class Actions(ActionsBase):
 
         dest="$(system.paths.base)/apps/portals/$(portal.name)"
         j.system.fs.copyDirTree("$(system.paths.base)/apps/portals/example",dest)
-        hrd.applyOnDir(dest)
+        self.jp_instance.hrd.applyOnDir(dest)
         j.application.config.applyOnDir(dest)
         # j.dirs.replaceFilesDirVars(dest)
         return True        
@@ -63,7 +63,7 @@ class Actions(ActionsBase):
     #     a uptime check will be done afterwards (local)
     #     return True if stop was ok, if not this step will have failed & halt will be executed.
     #     """        
-    #     cmd="$(base)/bin/mysql -u root --password='$(rootpasswd)' --execute='shutdown;'"
+    #     cmd="$(param.base)/bin/mysql -u root --password='$(param.rootpasswd)' --execute='shutdown;'"
     #     print (cmd)
     #     j.do.execute(cmd)  
 

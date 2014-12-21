@@ -4,7 +4,7 @@ process.1=
     cmd:'gogs -web',
     args:,
     prio:10,
-    cwd:'$(base)',
+    cwd:'$(param.base)',
     timeout_start:10,
     timeout_stop:10,
     ports:9000,,
@@ -19,12 +19,9 @@ git.url='http://git.aydo.com/binary/gogs'
 git.export.1=
     url:$(git.url),
     source:'gogs',
-    dest:'$(base)',
+    dest:'$(param.base)',
     link:False,
     overwrite:True,
-
-#name of packages which need to be installed locally
-dependencies=,
 
 platform.supported=linux64,
 

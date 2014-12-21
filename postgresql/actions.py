@@ -36,17 +36,17 @@ class Actions(ActionsBase):
         this step is used to do configuration steps to the platform
         after this step the system will try to start the jpackage if anything needs to be started
         """
-        # j.application.config.applyOnDir("$(base)/cfg",filter=None, changeFileName=True,changeContent=True,additionalArgs={})  
+        # j.application.config.applyOnDir("$(param.base)/cfg",filter=None, changeFileName=True,changeContent=True,additionalArgs={})  
 
         if not j.system.fs.exists(path="$(datadir)"):
             j.system.fs.removeDirTree("$(datadir)")
             j.system.fs.createDir("$(datadir)")
 
-            j.system.fs.chown(path="$(base)", user="postgres")
+            j.system.fs.chown(path="$(param.base)", user="postgres")
             j.system.fs.chown(path="$(datadir)", user="postgres")        
             j.system.fs.chmod("$(datadir)",0777)
 
-            cmd="su -c '$(base)/bin/initdb -D $(datadir)' postgres"
+            cmd="su -c '$(param.base)/bin/initdb -D $(datadir)' postgres"
             j.system.process.executeWithoutPipe(cmd)
 
             def replace(path,newline,find):
@@ -69,7 +69,7 @@ class Actions(ActionsBase):
             self.start()
             time.sleep(2)
 
-            cmd="cd $(base)/bin;./psql -U postgres template1 -c \"alter user postgres with password '$(rootpasswd)';\" -h localhost"
+            cmd="cd $(param.base)/bin;./psql -U postgres template1 -c \"alter user postgres with password '$(param.rootpasswd)';\" -h localhost"
             j.do.execute(cmd)
 
             # self.stop()
@@ -98,12 +98,12 @@ class Actions(ActionsBase):
         a uptime check will be done afterwards (local)
         return True if stop was ok, if not this step will have failed & halt will be executed.
         """        
-        cmd="sudo -u postgres $(base)/bin/pg_ctl -D /var/jumpscale/postgresql stop  -m fast"
+        cmd="sudo -u postgres $(param.base)/bin/pg_ctl -D /var/jumpscale/postgresql stop  -m fast"
         # print (cmd)
         rc,out,err=j.do.execute(cmd, dieOnNonZeroExitCode=False, outputStdout=False, outputStderr=True,timeout=5)
         if rc>0:
             if rc==999:
-                cmd="sudo -u postgres $(base)/bin/pg_ctl -D /var/jumpscale/postgresql stop  -m immediate"
+                cmd="sudo -u postgres $(param.base)/bin/pg_ctl -D /var/jumpscale/postgresql stop  -m immediate"
                 rc,out,err=j.do.execute(cmd, dieOnNonZeroExitCode=False, outputStdout=False, outputStderr=True,timeout=5)
             else:
                 raise RuntimeError("could not stop %s"%self.jp_instance)

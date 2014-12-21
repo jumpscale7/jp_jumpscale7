@@ -1,6 +1,5 @@
-
-name=@ASK
-port=@ASK
-passwd=
-mem=@ASK descr=memory_max_in_MB default:100
-disk=@ASK descr=copy_to_disk default:1
+param.disk                     = @ASK
+param.mem                      = @ASK
+param.name                     = '@ASK default'
+param.passwd                   = 
+param.port                     = '@ASK default:9999'

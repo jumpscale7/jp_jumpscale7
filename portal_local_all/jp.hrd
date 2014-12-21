@@ -1,0 +1,61 @@
+dependencies.1                 =
+    args:'deb.args.redis',
+    instance:'mem',
+    name:'redis',
+
+deb.args.redis                    =
+    param.disk:1,
+    param.mem:100,
+    param.name:'mem',
+    param.port:9999,
+
+
+dependencies.2                 =
+    args:'deb.args.mongodb',
+    name:'mongodb',
+
+deb.args.mongodb               =
+    param.host:'localhost',
+    param.port:27017,
+    param.replicaset:,
+
+
+dependencies.3                 =
+    args:'deb.args.mongodbclient',
+    name:'mongodb_client',
+
+deb.args.mongodbclient         =
+    param.addr:'localhost',
+    param.login:,
+    param.passwd:,
+    param.port:27017,
+
+
+dependencies.4                =
+    args:'deb.args.osis',
+    name:'osis',
+
+deb.args.osis         =
+    param.osis.connection:'main',
+    param.osis.superadmin.passwd:'$(param.rootpasswd)',
+
+
+dependencies.5               =
+    args:'deb.args.osis_client',
+    name:'osis_client',
+
+deb.args.osis_client         =
+    param.osis.client.addr:'localhost',
+    param.osis.client.login:'root',
+    param.osis.client.passwd:'$(param.rootpasswd)',
+
+
+dependencies.6               =
+    args:'deb.args.portal',
+    name:'portal',
+
+deb.args.portal         =
+    param.portal.ipaddr:'localhost',
+    param.portal.name:'test',
+    param.portal.port:82,
+    param.osis.connection:'main',

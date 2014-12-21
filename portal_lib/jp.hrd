@@ -1,4 +1,4 @@
-base='$(system.paths.base)/lib'
+param.base='$(system.paths.base)/lib'
 
 #source $(system.paths.base)/env.sh;/$(system.paths.base)/bin/
 process.1=
@@ -21,11 +21,9 @@ git.url='http://git.aydo.com/binary/web_python'
 git.export.1=
     url:$(git.url),
     source:'root/lib/',
-    dest:'$(base)/',
+    dest:'$(param.base)/',
     link:False,
 
-#name of packages which need to be installed locally
-dependencies=,
 
 platform.supported=linux64,
 

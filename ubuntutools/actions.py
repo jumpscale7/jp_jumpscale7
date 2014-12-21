@@ -23,14 +23,18 @@ class Actions(ActionsBase):
         """
         this gets executed before the files are downloaded & installed on appropriate spots
         """
-        j.do.execute('apt-get purge \'nginx*\' -y')
-        j.do.execute('apt-get autoremove -y')
-        j.system.process.killProcessByPort(80)
-        j.system.fs.createDir("/var/nginx/cache/fcgi")
-        j.system.fs.createDir("/var/log/nginx")
+        # j.system.platform.ubuntu.createUser("mysql", passwd=j.base.idgenerator.generateGUID(), home="/home/mysql", creategroup=True)
+        
+        # j.system.fs.chown(path="/opt/mariadb/", user="mysql")
+        # j.system.fs.createDir("/var/log/mysql")
 
-        j.system.platform.ubuntu.createUser("www-data", passwd=j.base.idgenerator.generateGUID(), home="/home/www-data", creategroup=True)
-    
+        # j.system.process.killProcessByPort(3306)
+        # j.do.delete("/var/run/mysqld/mysqld.sock")
+        # j.do.delete("/etc/mysql")
+        # j.do.delete("~/.my.cnf")
+        # j.do.delete("/etc/my.cnf")
+        # j.system.fs.createDir("/var/jumpscale/mysql")
+        # j.system.fs.createDir("/tmp/mysql")
 
         return True
 
@@ -40,10 +44,7 @@ class Actions(ActionsBase):
         this step is used to do configuration steps to the platform
         after this step the system will try to start the jpackage if anything needs to be started
         """
-        self.jp_instance.hrd.applyOnDir( path="$(param.base)/cfg", additionalArgs={})
-        j.system.fs.chown(path="/opt/lemp", user="www-data")
-        j.system.fs.chown(path="/var/nginx", user="www-data")
-        j.system.fs.chown(path="/var/log/nginx", user="www-data")        
+
 
         return True
 
