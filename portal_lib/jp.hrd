@@ -27,7 +27,7 @@ git.export.1=
 git.export.2=
     url:$(git.url),
     source:'root/jslib/',
-    dest:'$(base)/apps/portals/',
+    dest:'$(system.paths.base)/apps/portals/jslib/',
     link:False,
 
 platform.supported=linux64,
