@@ -51,5 +51,5 @@ handler.authorizer = authorizer
 server = FTPServer(("0.0.0.0", 21), handler)
 server.serve_forever()        
         """
-        j.do.writeFile("/opt/pyftpserver/start.py",C)
+        j.do.writeFile("/opt/pyftpserver/ftpstart.py",C)
 
