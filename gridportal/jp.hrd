@@ -5,7 +5,7 @@ git.url='https://github.com/Jumpscale/jumpscale_portal/'
 #known var's are: $root,$base,$cfg,$jslib,$pylib,$lib  
 git.export.1=
     url:$(git.url),
-    source:'apps/portalbase/gridportal/*',
+    source:'apps/gridportal/*',
     dest:'$(system.paths.base)/apps/portals/$(portal.instance)/base/gridportal',
     link:True,
 
