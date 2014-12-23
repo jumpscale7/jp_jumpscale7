@@ -24,4 +24,4 @@ class Actions(ActionsBase):
         instructions how to build the package
         build to /opt/luajit210
         """
-        pass
+        print "test"

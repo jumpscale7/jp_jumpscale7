@@ -1,0 +1,11 @@
+
+
+
+git.url='https://github.com/giampaolo/pyftpdlib'
+git.export.1=
+    url:$(git.url),
+    source:'pyftpdlib/',
+    dest:'/opt/pyftpserver/pyftpdlib/',
+    link:False,
+    overwrite:True
+    
