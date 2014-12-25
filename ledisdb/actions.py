@@ -218,7 +218,11 @@ fi
 
 echo "GO BUILD TAGS:$GO_BUILD_TAGS"
 
-
+#I read about bug to use other version (but does not resolve my issue)
+cd /opt/go/myproj/src/github.com/syndtr/goleveldb/leveldb
+git checkout 871eee0a7546bb7d1b2795142e29c4534abc49b3
+cd /opt/go/myproj
+go build github.com/syndtr/goleveldb/leveldb
 
 #build dir needs to be under goroot
 cp -R $(param.basebuild)/ledisdb /opt/go/myproj/src/github.com/siddontang/ledisdb/
