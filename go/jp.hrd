@@ -1,13 +1,8 @@
 
-base='/opt/go'
+param.base='/opt/go'
 
-process.1=
-    cmd:''
 
-#base of repo where code or files are e.g. http://git.aydo.com/binary/base
 git.url='http://git.aydo.com/binary/go'
-#dict where key is source in repo, 
-#known var's are: $root,$base,$cfg,$jslib,$pylib,$lib  
 git.export.1=
     url:$(git.url),
     source:'go/',
@@ -15,19 +10,4 @@ git.export.1=
     link:False,
     overwrite:True
     
-# git.export.2=
-#     url:$(git.url),
-#     source:'go/myproj',
-#     dest:'$(param.base)/myproj',
-#     link:False,
-#     overwrite:True
-
-
-platform.supported=linux64,
-
-#how many instances can be installed of this package, if 1 the instance name is always 'main'
-instances.maxnr=1
-
-#a way to describe where to backup to
-#backup.location=
 
