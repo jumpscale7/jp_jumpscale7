@@ -1,25 +1,49 @@
 
-param.basebuild.luajit=/opt/build/luajit
-param.basebuild.luarocks=/opt/build/luarocks
-
-param.base.luajit=/opt/luajit
+param.basebuild=/opt/build/ledisdb
+param.base=/opt/ledisdb
 
 git.export.1=
-    url:'https://github.com/torch/luajit-rocks.git',
+    url:'https://github.com/facebook/rocksdb.git',
+    branch:'3.5.fb',
     source:'',
-    dest:'$(param.basebuild.luarocks)/',
-    link:True,
-    login:anynonymous,
+    dest:'$(param.basebuild)/rocksdb/',
+    link:False,
+    login:guest,
     overwrite:True,
 
 git.export.2=
-    url:'http://luajit.org/git/luajit-2.0.git',
+    url:'https://github.com/siddontang/leveldb.git',
     source:'',
-    dest:'$(param.basebuild.luajit)/',
-    link:True,
-    login:anynonymous,
-    depth:all,
+    dest:'$(param.basebuild)/leveldb/',
+    link:False,
+    login:guest,
     overwrite:True,
+
+git.export.3=
+    url:'https://github.com/siddontang/ledisdb.git',
+    branch:'develop',
+    source:'',
+    dest:'$(param.basebuild)/ledisdb/',
+    link:False,
+    login:guest,
+    overwrite:True,
+
+git.export.4=
+    url:'https://github.com/siddontang/snappy.git',
+    source:'',
+    dest:'$(param.basebuild)/snappy/',
+    link:False,
+    login:guest,
+    overwrite:True,
+
+# git.export.5=
+#     url:'https://github.com/LuaDist/lua',
+#     branch:'lua-5.1',
+#     source:'',
+#     dest:'$(param.basebuild)/lua/',
+#     link:False,
+#     login:guest,
+#     overwrite:True,
 
 
 platform.supported=linux,

@@ -24,7 +24,9 @@ class Actions(ActionsBase):
         reset=True
         if reset:
             j.do.delete("/opt/code/luajit/",force=True)
+            j.do.delete("/opt/luajit/",force=True)
             j.do.delete("/opt/code/github/torch/",force=True)
+            j.do.delete("/opt/jumpscale7/cfg/actions/jp_jumpscale_luajit_build.json") #make sure we restart from scratch
 
         j.system.platform.ubuntu.checkInstall(["cmake"], "cmake")
         j.system.platform.ubuntu.checkInstall(["gcc"], "gcc")
@@ -97,7 +99,7 @@ class Actions(ActionsBase):
         j.action.start(retry=2, name="install lupy",description='', cmds=cmd, action=None, actionRecover=None, actionArgs={}, errorMessage='', die=True, stdOutput=False, jp=self.jp_instance)
 
         def cleanup():
-            todelete=["$(param.base.luajit)/include/","$(param.base.luajit)/lib/pkgconfig/","$(param.base.luajit)/share/cmake/","$(param.base.luajit)/share/man/"]#,"$(param.base.luajit)/lib/luarocks/"
+            todelete=["$(param.base.luajit)/lib/pkgconfig/","$(param.base.luajit)/share/cmake/","$(param.base.luajit)/share/man/"]#,"$(param.base.luajit)/lib/luarocks/","$(param.base.luajit)/include/"
             for item in todelete:
                 j.do.delete(item)
-        j.action.start(retry=1, name="cleanup",description='', cmds="", action=cleanup, actionRecover=None, actionArgs={}, errorMessage='', die=True, stdOutput=False, jp=self.jp_instance)
+        # j.action.start(retry=1, name="cleanup",description='', cmds="", action=cleanup, actionRecover=None, actionArgs={}, errorMessage='', die=True, stdOutput=False, jp=self.jp_instance)

@@ -14,3 +14,8 @@ process.1=
     filterstr:,
 
 
+git.export.1=
+    url:'http://git.aydo.com/binary/weedfs',
+    source:'weedfs/',
+    dest:'$(param.base)/',
+    link:True,
