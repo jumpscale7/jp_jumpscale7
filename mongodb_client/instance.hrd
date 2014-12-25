@@ -2,4 +2,6 @@ param.addr=@ASK default:localhost
 param.port=@ASK default:27017
 param.login=@ASK default:
 param.passwd=@ASK default:
+param.ssl=
+param.replicaSet=
 
