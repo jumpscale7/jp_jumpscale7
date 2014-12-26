@@ -120,21 +120,23 @@ set -ex
 . /opt/go/goenv.sh
 cd /opt/go/myproj
 
-go get -u github.com/cupcake/rdb
-go get -u github.com/cupcake/rdb/nopdecoder
-go get -u github.com/szferi/gomdb
-go get -u github.com/boltdb/bolt
-go get -u github.com/ugorji/go/codec
-go get -u github.com/BurntSushi/toml
-go get -u github.com/edsrzf/mmap-go
-go get -u github.com/syndtr/goleveldb/leveldb
-go get -u github.com/siddontang/go/bson
-go get -u github.com/siddontang/go/log
-go get -u github.com/siddontang/go/snappy
-go get -u github.com/siddontang/go/num
-go get -u github.com/siddontang/go/filelock
-go get -u github.com/siddontang/go/sync2
-go get -u github.com/siddontang/go/arena
+go get github.com/tools/godep
+
+#go get -u github.com/cupcake/rdb
+#go get -u github.com/cupcake/rdb/nopdecoder
+#go get -u github.com/szferi/gomdb
+#go get -u github.com/boltdb/bolt
+#go get -u github.com/ugorji/go/codec
+#go get -u github.com/BurntSushi/toml
+#go get -u github.com/edsrzf/mmap-go
+#go get -u github.com/syndtr/goleveldb/leveldb
+#go get -u github.com/siddontang/go/bson
+#go get -u github.com/siddontang/go/log
+#go get -u github.com/siddontang/go/snappy
+#go get -u github.com/siddontang/go/num
+#go get -u github.com/siddontang/go/filelock
+#go get -u github.com/siddontang/go/sync2
+#go get -u github.com/siddontang/go/arena
 """
 
         j.action.start(retry=1, name="godeps",description='get godeps', cmds=cmd, action=None, actionRecover=None, actionArgs={}, errorMessage='', die=True, stdOutput=True, jp=self.jp_instance)
@@ -161,8 +163,9 @@ CGO_CXXFLAGS=
 CGO_LDFLAGS=
 
 #get lua5.1 from build dir
-cp /opt/code/git/binary/ledisdb/lua/* /opt/ledisdb/lib
-cp /opt/code/git/binary/ledisdb/luainclude/* /opt/ledisdb/include
+cp /opt/build/ledisdb/ledisdb/lua/* /opt/ledisdb/lib
+#cp /opt/code/git/binary/ledisdb/lua/* /opt/ledisdb/lib
+#cp /opt/code/git/binary/ledisdb/luainclude/* /opt/ledisdb/include
 
 # check dependent libray, now we only check simply, maybe later add proper checking 
 
@@ -219,15 +222,16 @@ fi
 echo "GO BUILD TAGS:$GO_BUILD_TAGS"
 
 #I read about bug to use other version (but does not resolve my issue)
-cd /opt/go/myproj/src/github.com/syndtr/goleveldb/leveldb
-git checkout 871eee0a7546bb7d1b2795142e29c4534abc49b3
-cd /opt/go/myproj
-go build github.com/syndtr/goleveldb/leveldb
+#cd /opt/go/myproj/src/github.com/syndtr/goleveldb/leveldb
+#git checkout 871eee0a7546bb7d1b2795142e29c4534abc49b3
+#cd /opt/go/myproj
+#go build github.com/syndtr/goleveldb/leveldb
 
 #build dir needs to be under goroot
-cp -R $(param.basebuild)/ledisdb /opt/go/myproj/src/github.com/siddontang/ledisdb/
+mkdir -p /opt/go/myproj/src/github.com/siddontang/
+cp -R $(param.basebuild)/ledisdb /opt/go/myproj/src/github.com/siddontang/
 cd /opt/go/myproj/src/github.com/siddontang/ledisdb/
-
+godep restore
 make
 make test
 
