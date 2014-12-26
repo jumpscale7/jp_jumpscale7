@@ -19,3 +19,6 @@ git.export.1=
     source:'weedfs/',
     dest:'$(param.base)/',
     link:True,
+
+dependencies.1                 =
+    name:'go',

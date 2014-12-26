@@ -47,3 +47,6 @@ git.export.4=
 
 
 platform.supported=linux,
+
+dependencies.1                 =
+    name:'go',
