@@ -63,7 +63,7 @@ class Actions(ActionsBase):
         toinstall=["penlight","fs","buffer","async","redis-async","parallel","trepl","readline","persist","sys","xlua","paths","pprint",\
             "redis-queue","redis-status","rq-monitor","thmap","sundown","strict","threads","utf8","util","lua-resty-snappy","lua-resty-libcjson",\
             "lua-resty-fileinfo","lua-resty-template","json","turbo","lustache","pgmoon","luazip","lanes","etlua","luaposix","lua-cjson",\
-            "redis-lua","env","luasocket","lpeg","serpent","i18n","hdf5","md5","curl"]#,"lzlib"]
+            "redis-lua","env","luasocket","lpeg","serpent","i18n","hdf5","md5","curl","image"]#,"lzlib"]
 
         for item in toinstall:
             cmd="luarocks install %s"%item
