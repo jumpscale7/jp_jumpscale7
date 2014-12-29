@@ -20,20 +20,9 @@ class Actions(ActionsBase):
     """
 
     def prepare(self,**args):
-        j.system.platform.ubuntu.checkInstall(["cmake"], "cmake")
-        j.system.platform.ubuntu.checkInstall(["gcc"], "gcc")
-
-        cmd='apt-get install --no-install-recommends -y ca-certificates curl git-core g++ dh-autoreconf pkg-config libgflags-dev liblua5.1-dev git tmux mercurial'
-        j.action.start(retry=1, name="deps",description='install deps', cmds=cmd, action=None, actionRecover=None, actionArgs={}, errorMessage='', die=True, stdOutput=True, jp=self.jp_instance)
-
-        reset=True
-        if reset:
-            j.do.delete("/opt/code/github/siddontang/",force=True)
-            j.do.delete("/opt/code/github/facebook/rocksdb/",force=True)
-            j.do.delete("/opt/build/ledisdb",force=True)
-            j.do.delete("/opt/ledisdb",force=True)
-            j.do.delete("/opt/jumpscale7/hrd/apps/jpackage.jumpscale.ledisdb.main.hrd",force=True)
-            j.do.delete("/opt/jumpscale7/cfg/actions/jp_jumpscale_ledisdb.json",force=True)
+        """
+        """
+        pass
 
 
     def configure(self,**args):
@@ -41,7 +30,25 @@ class Actions(ActionsBase):
         """
         pass
 
-    def build(self,**args):
+    def removedata(self,**args):
+        j.do.delete("/opt/code/github/siddontang/",force=True)
+        j.do.delete("/opt/code/github/facebook/rocksdb/",force=True)
+        j.do.delete("/opt/build/ledisdb",force=True)
+        j.do.delete("/opt/ledisdb",force=True)
+
+
+    def build(self,**args):     
+
+        #to reset the state use jpackage reset -n ...
+
+        def preparebuild():
+            j.system.platform.ubuntu.checkInstall(["cmake"], "cmake")
+            j.system.platform.ubuntu.checkInstall(["gcc"], "gcc")
+
+            cmd='apt-get install --no-install-recommends -y ca-certificates curl git-core g++ dh-autoreconf pkg-config libgflags-dev liblua5.1-dev git tmux mercurial'
+            j.do.executeInteractive(cmd)
+
+        j.action.start(retry=2, name="preparebuild",description='', cmds='', action=preparebuild, actionRecover=None, actionArgs={}, errorMessage='', die=True, stdOutput=False, jp=self.jp_instance)
 
         #WAS QUITE UGLY, COPY PASTE FROM BASH FILES. DID SOME CLEANUP ALREADY (KRISTOF)
         #ALSO THE WAY HOW WE COMPILED IN NON SANDBOXED DIRS IS UGLY, NOW MOVED IT TO SANDBOXED DIRS
@@ -51,26 +58,14 @@ class Actions(ActionsBase):
         # Get and compile :
         #   - snappy
         #   - add leveldb for good measure
-        #   - for gflags and lua, get system binaries (Lua = 5.1)
+        #   - for gflags and lua
 
-
-#         #BUILDLUA
-#         cmd="""
-# set -e
-# cd $(param.basebuild)/lua/
-# cp src/luaconf.h.orig src/luaconf.h
-# make linux
-# cp src/lua /opt/ledisdb/lib/
-# cp src/luac /opt/ledisdb/lib/
-# cp src/liblua.a /opt/ledisdb/lib/
-# """
-#         j.action.start(retry=1, name="lua",description='compile lua', cmds=cmd, action=None, actionRecover=None, actionArgs={}, errorMessage='', die=True, stdOutput=True, jp=self.jp_instance)
 
         cmd="""
 set -e
 # bail if anywhere in there
 # SNAPPY
-cd $(param.basebuild)/snappy/
+cd /opt/build/github.com/siddontang/snappy/
 export SNAPPY_DIR=/opt/ledisdb
 autoreconf --force --install
 ./configure --prefix=$SNAPPY_DIR
@@ -82,7 +77,7 @@ make install
 
         cmd="""
 set -e
-cd $(param.basebuild)/rocksdb/
+cd /opt/build/github.com/facebook/rocksdb/
 # git checkout -b 3.5.fb origin/3.5.fb
 make shared_lib
 cp librocksdb.so /opt/ledisdb/lib
@@ -93,7 +88,7 @@ cp -r include /opt/ledisdb
         cmd="""
 # LEVELDB
 set -e
-cd $(param.basebuild)/leveldb/
+cd /opt/build/github.com/siddontang/leveldb/
 export LEVELDB_DIR=/opt/ledisdb
 export SNAPPY_DIR=/opt/ledisdb
 echo "echo \"PLATFORM_CFLAGS+=-I$SNAPPY_DIR/include\" >> build_config.mk" >> build_detect_platform
@@ -160,9 +155,9 @@ CGO_CFLAGS=
 CGO_CXXFLAGS=
 CGO_LDFLAGS=
 
-#get lua5.1 from build dir
-cp /opt/code/git/binary/ledisdb/lua/* /opt/ledisdb/lib
-cp /opt/code/git/binary/ledisdb/luainclude/* /opt/ledisdb/include
+#get lua5.2 from binary dir
+cp /opt/code/git/binary/lua/lua/* /opt/ledisdb/lib
+cp /opt/code/git/binary/lua/luainclude/* /opt/ledisdb/include
 
 # check dependent libray, now we only check simply, maybe later add proper checking 
 

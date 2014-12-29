@@ -1,52 +1,33 @@
 
-param.basebuild=/opt/build/ledisdb
 param.base=/opt/ledisdb
 
+git.url='http://git.aydo.com/binary/ledisdb'
 git.export.1=
+    url:$(git.url),
+    source:'ledisdb',
+    dest:'/opt/ledisdb',
+    link:False,
+    overwrite:True,
+
+git.build.1=
     url:'https://github.com/facebook/rocksdb.git',
     branch:'3.5.fb',
-    source:'',
-    dest:'$(param.basebuild)/rocksdb/',
-    link:False,
-    login:guest,
-    overwrite:True,
 
-git.export.2=
+git.build.2=
     url:'https://github.com/siddontang/leveldb.git',
-    source:'',
-    dest:'$(param.basebuild)/leveldb/',
-    link:False,
-    login:guest,
-    overwrite:True,
 
-git.export.3=
+git.build.3=
     url:'https://github.com/siddontang/ledisdb.git',
-    branch:'develop',
-    source:'',
-    dest:'$(param.basebuild)/ledisdb/',
-    link:False,
-    login:guest,
-    overwrite:True,
 
-git.export.4=
+git.build.4=
     url:'https://github.com/siddontang/snappy.git',
-    source:'',
-    dest:'$(param.basebuild)/snappy/',
-    link:False,
-    login:guest,
-    overwrite:True,
 
-# git.export.5=
-#     url:'https://github.com/LuaDist/lua',
-#     branch:'lua-5.1',
-#     source:'',
-#     dest:'$(param.basebuild)/lua/',
-#     link:False,
-#     login:guest,
-#     overwrite:True,
 
 
 platform.supported=linux,
 
 dependencies.1                 =
     name:'go',
+
+dependencies.2                 =
+    name:'lua',
