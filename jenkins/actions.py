@@ -24,6 +24,7 @@ class Actions(ActionsBase):
         this gets executed before the files are downloaded & installed on appropriate spots
         """
         j.do.execute('wget -q -O - http://pkg.jenkins-ci.org/debian/jenkins-ci.org.key | apt-key add -')
-        j.do.execute('echo "deb http://pkg.jenkins-ci.org/debian binary/" >> /etc/apt/sources.list')
+        j.do.execute('grep jenkins /etc/apt/sources.list || echo "deb http://pkg.jenkins-ci.org/debian binary/" >> /etc/apt/sources.list')
         j.do.execute('apt-get update && apt-get install -y jenkins')
+        j.do.execute('service jenkins start')
 
