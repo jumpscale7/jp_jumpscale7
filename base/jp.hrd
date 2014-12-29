@@ -1,0 +1,18 @@
+
+git.url='http://git.aydo.com/binary/base_python'
+git.export.1=
+    url:$(git.url),
+    source:'root/bin/',
+    dest:'/opt/jumpscale7/bin/',
+    link:False,
+    overwrite:True,
+
+git.export.2=
+    url:$(git.url),
+    source:'root/lib/',
+    dest:'/opt/jumpscale7/lib/',
+    link:False,
+    overwrite:True,
+
+platform.supported=linux64,
+

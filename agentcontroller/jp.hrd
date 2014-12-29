@@ -1,0 +1,31 @@
+#source $(system.paths.base)/env.sh;/$(system.paths.base)/bin/
+
+#base of repo where code or files are e.g. http://git.aydo.com/binary/base
+git.url='https://github.com/Jumpscale/jumpscale_core7/'
+#known var's are: $root,$base,$cfg,$jslib,$pylib,$lib  
+git.export.1=
+    url:$(git.url),
+    source:'apps/agentcontroller/*',
+    dest:'$(system.paths.base)/apps/agentcontroller/$(jp.instance)',
+    link:True,
+
+process.1=
+    cmd:'python controller.py',
+    args:,
+    prio:20,
+    env:,
+    cwd:'$(system.paths.base)/apps/agentcontroller/$(jp.instance)/',
+    timeout_start:20,
+    timeout_stop:20,
+    ports:4444,
+    startupmanager:tmux,
+    filterstr:'controller.py'
+
+platform.supported=linux64,
+
+#how many instances can be installed of this package, if 1 the instance name is always 'main'
+instances.maxnr=10
+
+#a way to describe where to backup to
+#backup.location=
+

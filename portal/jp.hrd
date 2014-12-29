@@ -12,9 +12,8 @@ process.1=
 
 env.process.1=
 
-#base of repo where code or files are e.g. http://git.aydo.com/binary/base
 git.url='https://github.com/Jumpscale/jumpscale_portal/'
-#known var's are: $root,$base,$cfg,$jslib,$pylib,$lib  
+
 git.export.1=
     url:$(git.url),
     source:'apps/portalbase/macros/*',

@@ -1,11 +1,18 @@
-
+param.base=/opt/luajit
 
 git.url='http://git.aydo.com/binary/luajit'
 git.export.1=
     url:$(git.url),
     source:'luajit',
-    dest:'/opt/luajit',
+    dest:'$(param.base)',
     link:False,
     overwrite:True,
+
+git.build.1=
+    url:'https://github.com/torch/luajit-rocks.git',
+
+#not needed lua is part of luajit-rocks
+# git.build.2=
+#     url:'http://luajit.org/git/luajit-2.0.git',
 
 platform.supported=linux64,
