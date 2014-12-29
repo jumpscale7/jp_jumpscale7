@@ -158,8 +158,7 @@ CGO_CXXFLAGS=
 CGO_LDFLAGS=
 
 #get lua5.1 from build dir
-cp /opt/build/ledisdb/ledisdb/lua/* /opt/ledisdb/lib
-#cp /opt/code/git/binary/ledisdb/lua/* /opt/ledisdb/lib
+cp /opt/code/git/binary/ledisdb/lua/* /opt/ledisdb/lib
 # check dependent libray, now we only check simply, maybe later add proper checking 
 
 # check snappy 
@@ -222,7 +221,7 @@ echo "GO BUILD TAGS:$GO_BUILD_TAGS"
 
 #build dir needs to be under goroot
 mkdir -p /opt/go/myproj/src/github.com/siddontang/
-cp -R $(param.basebuild)/ledisdb /opt/go/myproj/src/github.com/siddontang/
+cp -R /opt/build/github.com/siddontang/ledisdb /opt/go/myproj/src/github.com/siddontang/
 cd /opt/go/myproj/src/github.com/siddontang/ledisdb/
 godep restore
 make
