@@ -1,0 +1,10 @@
+
+param.base=/opt/kvm
+
+git.url='http://git.aydo.com/aydo/qemu-ledis'
+git.export.1=
+    url:$(git.url),
+    source:'',
+    dest:'/opt/kvm',
+    link:False,
+    overwrite:True,

@@ -23,12 +23,37 @@ class Actions(ActionsBase):
         """
         this gets executed before the files are downloaded & installed on approprate spots
         """
+        cmd="apt-get update"
+        rc,out,err=j.do.execute( cmd, outputStdout=True, outputStderr=True, useShell=True, log=True, cwd=None, timeout=360, captureout=True, dieOnNonZeroExitCode=False)
+
+    def configure(self, **args):
+        pass
+
+    def removedata(self, **args):
+        pass
+
+    def build(self, **args):
+        def prepare_build():
+            j.system.platform.ubuntu.checkInstall(["cmake"], "cmake")
+
+            cmd='apt-get update && apt-get install --no-install-recommends -y libglib2.0-dev libpixman-1-dev autoconf libtool build-essential'
+            j.do.executeInteractive(cmd)
+
+
+        j.action.start(retry=2, name="prepare_build",description='', cmds='', action=prepare_build, actionRecover=None, actionArgs={}, errorMessage='', die=True, stdOutput=True, jp=self.jp_instance)
 
         if not j.do.exists("/usr/bin/virsh"):
             cmd="apt-get install qemu-kvm qemu virt-manager virt-viewer libvirt-bin bridge-utils -y"
             rc,out,err=j.do.execute( cmd, outputStdout=True, outputStderr=True, useShell=True, log=True, cwd=None, timeout=360, captureout=True, dieOnNonZeroExitCode=False)
 
-        
+        cmd = """
+set -e
+cd /opt/code/git/aydo/qemu-ledis/
+./configure --target-list="x86_64-softmmu x86_64-linux-user" --enable-debug 
+make
+cp x86_64-softmmu/qemu-system-x86_64 /usr/bin/
+"""
+        j.action.start(retry=1, name="qemu-ledis",description='compile qemu ledis', cmds=cmd, action=None, actionRecover=None, actionArgs={}, errorMessage='', die=True, stdOutput=True, jp=self.jp_instance)
 
         netconfig="""
 # Network interfaces file 
@@ -51,3 +76,6 @@ dns-nameservers 4.2.2.2
 bridge_ports eth0
 bridge_stp off        
 """
+
+    def cleanup(self, **args):
+        pass
