@@ -4,7 +4,7 @@ param.base=/opt/ledisdb
 git.url='http://git.aydo.com/binary/ledisdb'
 git.export.1=
     url:$(git.url),
-    source:'ledisdb',
+    source:'',
     dest:'/opt/ledisdb',
     link:False,
     overwrite:True,
