@@ -33,7 +33,7 @@ class Actions(ActionsBase):
         after this step the system will try to start the jpackage if anything needs to be started
         """
 
-        dest="$(system.paths.base)/apps/portals/$(portal.name)"
+        dest="$(system.paths.base)/apps/portals/$(param.portal.name)"
         j.system.fs.copyDirTree("$(system.paths.base)/apps/portals/example",dest)
         self.jp_instance.hrd.applyOnDir(dest)
         j.application.config.applyOnDir(dest)
