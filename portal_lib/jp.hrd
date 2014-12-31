@@ -17,15 +17,17 @@ env.process.1=
 git.url='http://git.aydo.com/binary/web_python'
 git.export.1=
     url:$(git.url),
-    source:'root/lib/',
+    source:'root/lib/*',
     dest:'$(param.base)/',
     link:False,
+    overwrite:False,
 
 git.export.2=
     url:$(git.url),
-    source:'root/jslib/',
+    source:'root/jslib/*',
     dest:'$(system.paths.base)/apps/portals/jslib/',
     link:False,
+    overwrite:False,
 
 platform.supported=linux64,
 
