@@ -8,7 +8,6 @@ git.export.1=
     source:'core/src',
     dest:'/opt/lemp/main/www/pydio',
     link:False,
-    overwrite:True,
 
 dependencies.1=
     name:'postgresql',

@@ -18,5 +18,4 @@ git.export.1=
     source:'pyftpdlib/',
     dest:'/opt/pyftpserver/pyftpdlib/',
     link:False,
-    overwrite:True
     

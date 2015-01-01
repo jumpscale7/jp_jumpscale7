@@ -1,9 +1,9 @@
 
-git.url='http://git.aydo.com/binary/base_python'
+git.url='http://git.aydo.com/binary/web_python'
 git.export.1=
     url:$(git.url),
-    source:'root/bin/',
-    dest:'/opt/jumpscale7/bin/',
+    source:'root/jslib/',
+    dest:'/opt/jumpscale7/jslib/',
     link:False,
 
 git.export.2=

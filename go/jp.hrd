@@ -8,6 +8,6 @@ git.export.1=
     source:'go/',
     dest:'$(param.base)/',
     link:False,
-    overwrite:True
+    
     
 

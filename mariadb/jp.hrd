@@ -27,7 +27,6 @@ git.export.2=
     url:$(git.url),
     source:'mariadb/cfg',
     dest:'$(param.base)/cfg',
-    overwrite:False,
     link:False,
 
 git.export.3=

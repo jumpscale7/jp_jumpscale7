@@ -23,13 +23,14 @@ class Actions(ActionsBase):
         """
         this gets executed before the files are downloaded & installed on approprate spots
         """
-        cmd="apt-get update"
-        rc,out,err=j.do.execute( cmd, outputStdout=True, outputStderr=True, useShell=True, log=True, cwd=None, timeout=360, captureout=True, dieOnNonZeroExitCode=False)
 
 
         def deps():
+            cmd="apt-get update"
+            rc,out,err=j.do.execute( cmd, outputStdout=True, outputStderr=True, useShell=True, log=True, cwd=None, timeout=360, captureout=True, dieOnNonZeroExitCode=False)
+
             if not j.do.exists("/usr/bin/virsh"):
-                cmd="apt-get install qemu-kvm qemu virt-manager virt-viewer libvirt-bin bridge-utils -y"
+                cmd="apt-get install qemu-kvm qemu virt-manager virt-viewer libvirt-bin bridge-utils lrzip -y"
                 rc,out,err=j.do.execute( cmd, outputStdout=True, outputStderr=True, useShell=True, log=True, cwd=None, timeout=360, captureout=True, dieOnNonZeroExitCode=False)
 
         j.action.start(retry=2, name="deps",description='install deps', cmds='', action=deps, actionRecover=None, actionArgs={}, errorMessage='', die=True, stdOutput=True, jp=self.jp_instance) 
@@ -41,14 +42,29 @@ mkdir -p /mnt/ftp
 curlftpfs pub:pub1234@git.aydo.com /mnt/ftp
 mkdir -p /mnt/vmstor/kvm/images
 rsync -arv --partial --progress /mnt/ftp/images/ubuntu1404/ /mnt/vmstor/kvm/images/ubuntu1404/
+rsync -arv --partial --progress /mnt/ftp/images/ubuntu1410/ /mnt/vmstor/kvm/images/ubuntu1410/
 rsync -arv --partial --progress /mnt/ftp/images/openwrt/ /mnt/vmstor/kvm/images/openwrt/
 """                
 
         j.action.start(retry=2, name="getimages",description='get ubuntu & openwrt images (can take a while)', cmds=C, action=None, actionRecover=None, actionArgs={}, errorMessage='', die=True, stdOutput=True, jp=self.jp_instance) 
 
+        def unpack():
+            for item in j.system.fs.listFilesInDir( "/mnt/vmstor/kvm/images/", recursive=True, filter="*.lrz", followSymlinks=True, listSymlinks=False):
+                cmd="lrzip -d %s"%item
+                j.do.executeInteractive(cmd)
+                j.do.delete(item)
+                
+        unpack()
+
 
     def configure(self, **args):
-        pass
+
+        def setnetwork():
+            import JumpScale.lib.kvm
+            j.system.platform.kvm.initPhysicalBridges()
+            # j.system.platform.kvm.initLibvirtNetwork()
+
+        j.action.start(retry=2, name="setnetwork",description='setnetwork', cmds='', action=setnetwork, actionRecover=None, actionArgs={}, errorMessage='', die=True, stdOutput=True, jp=self.jp_instance) 
 
     def removedata(self, **args):
         pass
@@ -72,29 +88,6 @@ cp x86_64-softmmu/qemu-system-x86_64 /usr/bin/
 """
         j.action.start(retry=1, name="qemu-ledis",description='compile qemu ledis', cmds=cmd, action=None, actionRecover=None, actionArgs={}, errorMessage='', die=True, stdOutput=True, jp=self.jp_instance)
 
-
-
-        netconfig="""
-# Network interfaces file 
-auto lo
-iface lo inet loopback
-
-# eth0 interface
-auto eth0
-iface eth0 inet manual
-
-# br0 interface 
-auto br0
-iface br0 inet static
-address 192.168.1.190
-network 192.168.1.0
-netmask 255.255.255.0
-broadcast 192.168.1.255
-gateway 192.168.1.1
-dns-nameservers 4.2.2.2
-bridge_ports eth0
-bridge_stp off        
-"""
 
     def cleanup(self, **args):
         pass
