@@ -24,10 +24,24 @@ class Actions(ActionsBase):
         this gets executed before the files are downloaded & installed on approprate spots
         """
 
-        if not j.do.exists("/usr/bin/virsh"):
-            cmd="apt-get install qemu-kvm qemu virt-manager virt-viewer libvirt-bin bridge-utils -y"
-            rc,out,err=j.do.execute( cmd, outputStdout=True, outputStderr=True, useShell=True, log=True, cwd=None, timeout=360, captureout=True, dieOnNonZeroExitCode=False)
+        def deps():
+            if not j.do.exists("/usr/bin/virsh"):
+                cmd="apt-get install qemu-kvm qemu virt-manager virt-viewer libvirt-bin bridge-utils -y"
+                rc,out,err=j.do.execute( cmd, outputStdout=True, outputStderr=True, useShell=True, log=True, cwd=None, timeout=360, captureout=True, dieOnNonZeroExitCode=False)
 
+        j.action.start(retry=2, name="deps",description='install deps', cmds='', action=deps, actionRecover=None, actionArgs={}, errorMessage='', die=True, stdOutput=True, jp=self.jp_instance) 
+
+
+        C="""
+apt-get install curlftpfs -y
+mkdir -p /mnt/ftp
+curlftpfs pub:pub1234@git.aydo.com /mnt/ftp
+mkdir -p /mnt/vmstor/kvm/images
+rsync -arv --partial --progress /mnt/ftp/images/ubuntu1404/ /mnt/vmstor/kvm/images/ubuntu1404/
+rsync -arv --partial --progress /mnt/ftp/images/openwrt/ /mnt/vmstor/kvm/images/openwrt/
+"""                
+
+        j.action.start(retry=2, name="getimages",description='get ubuntu & openwrt images (can take a while)', cmds=C, action=None, actionRecover=None, actionArgs={}, errorMessage='', die=True, stdOutput=True, jp=self.jp_instance) 
         
 
         netconfig="""
