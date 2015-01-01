@@ -10,7 +10,7 @@ git.export.1=
     link:True,
 
 process.1=
-    cmd:'python controller.py',
+    cmd:'python controller.py -i $(jp.instance)',
     args:,
     prio:20,
     env:,

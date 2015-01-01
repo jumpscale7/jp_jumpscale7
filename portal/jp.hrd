@@ -3,10 +3,10 @@ process.1=
     cmd:'jspython',
     args:'portal_start.py $(jp.instance)',
     prio:10,
-    cwd:'$(system.paths.base)/apps/portals/$(portal.name)',
+    cwd:'$(system.paths.base)/apps/portals/$(param.portal.name)',
     timeout_start:10,
     timeout_stop:10,
-    ports:$(portal.port),
+    ports:$(param.portal.port),
     startupmanager:tmux,
     filterstr:''
 

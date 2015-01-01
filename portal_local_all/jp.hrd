@@ -36,7 +36,7 @@ dependencies.4                =
     name:'osis',
 
 deb.args.osis         =
-    param.osis.connection:'main',
+    param.osis.connection.mongodb:'main',
     param.osis.superadmin.passwd:'$(param.rootpasswd)',
 
 
@@ -56,6 +56,6 @@ dependencies.6               =
 
 deb.args.portal         =
     param.portal.ipaddr:'localhost',
-    param.portal.name:'test',
+    param.portal.name:'main',
     param.portal.port:82,
     param.osis.connection:'main',

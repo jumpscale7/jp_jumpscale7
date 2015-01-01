@@ -1,1 +1,2 @@
-agentcontroller.instance=@ASK 
+portal.osis.connection=@ASK
+webdis.connection=@ASK
