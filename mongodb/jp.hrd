@@ -1,6 +1,6 @@
 
 process.1=
-    cmd:'rm -rf /opt/jumpscale7/var/mongodb/main/mongod.lock;/opt/mongodb/bin/mongod --dbpath $(system.paths.var)/mongodb/$(jp.instance)/ --smallfiles --rest --httpinterface',
+    cmd:'rm -rf /opt/jumpscale7/var/mongodb/main/mongod.lock;export LC_ALL=C;/opt/mongodb/bin/mongod --dbpath $(system.paths.var)/mongodb/$(jp.instance)/ --smallfiles --rest --httpinterface',
     args:,
     prio:10,
     env:,
