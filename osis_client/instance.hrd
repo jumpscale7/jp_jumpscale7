@@ -1,5 +1,5 @@
-osis.client.addr=@ASK default:localhost  descr:'can be more than one use comma separated list'
-osis.client.port=5544
-osis.client.login=@ASK default:root
-osis.client.passwd=@ASK default:
+param.osis.client.addr=@ASK default:localhost  descr:'can be more than one use comma separated list'
+param.osis.client.port=5544
+param.osis.client.login=@ASK default:root
+param.osis.client.passwd=@ASK default:
 

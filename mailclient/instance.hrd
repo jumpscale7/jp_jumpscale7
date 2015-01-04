@@ -3,5 +3,7 @@ smtp.port=@ASK default:587
 smtp.login=@ASK 
 smtp.passwd=@ASK
 
+smtp.sender=@ASK default:'' descr:'email address of sender, can leave empty.'
+
 
 
