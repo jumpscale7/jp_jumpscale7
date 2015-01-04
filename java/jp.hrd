@@ -1,6 +1,6 @@
 
 process.1=
-    cmd:
+    cmd:,
 
 #base of repo where code or files are e.g. http://git.aydo.com/binary/base
 git.url='http://git.aydo.com/binary/java'
