@@ -45,14 +45,12 @@ git.export.2=
     source:cfg,
     dest:'$(param.base)/cfg',
     link:False,
-    overwrite:True
 
 git.export.3=
     url:$(git.url),
     source:www,
     dest:'$(param.base)/www',
     link:False,
-    overwrite:True,
 
 
 platform.supported=linux64,

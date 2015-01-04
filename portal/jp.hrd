@@ -17,19 +17,19 @@ git.url='https://github.com/Jumpscale/jumpscale_portal/'
 git.export.1=
     url:$(git.url),
     source:'apps/portalbase/macros/*',
-    dest:'$(system.paths.base)/apps/portalbase/macros/',
+    dest:'$(system.paths.base)/apps/portals/portalbase/macros/',
     link:True,
 
 git.export.2=
     url:$(git.url),
     source:'apps/portalbase/system/*',
-    dest:'$(system.paths.base)/apps/portalbase/system/',
+    dest:'$(system.paths.base)/apps/portals/portalbase/system/',
     link:True,
 
 git.export.3=
     url:$(git.url),
     source:'apps/portalbase/wiki/*',
-    dest:'$(system.paths.base)/apps/portalbase/wiki/',
+    dest:'$(system.paths.base)/apps/portals/portalbase/wiki/',
     link:True,
 
 git.export.4=
@@ -40,6 +40,9 @@ git.export.4=
 
 dependencies.1                 =
     name:'portal_lib',
+
+dependencies.2                 =
+    name:'mailclient',
 
 
 platform.supported=linux64,

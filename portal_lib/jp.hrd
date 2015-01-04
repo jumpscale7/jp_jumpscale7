@@ -20,14 +20,12 @@ git.export.1=
     source:'root/lib/*',
     dest:'$(param.base)/',
     link:False,
-    overwrite:False,
 
 git.export.2=
     url:$(git.url),
     source:'root/jslib/*',
     dest:'$(system.paths.base)/apps/portals/jslib/',
     link:False,
-    overwrite:False,
 
 platform.supported=linux64,
 

@@ -3,7 +3,7 @@ dependencies.1                 =
     instance:'mem',
     name:'redis',
 
-deb.args.redis                    =
+deb.args.redis                 =
     param.disk:1,
     param.mem:100,
     param.name:'mem',
@@ -49,8 +49,19 @@ deb.args.osis_client         =
     param.osis.client.login:'root',
     param.osis.client.passwd:'$(param.rootpasswd)',
 
-
 dependencies.6               =
+    args:'deb.args.mailclient',
+    name:'mailclient',
+
+deb.args.mailclient         =
+    smtp.login : 'support@mothership1.com',
+    smtp.passwd: '???',
+    smtp.port  : 587,
+    smtp.server: 'smtp.mandrillapp.com',
+    smtp.sender:'info@incubaid.com',
+
+
+dependencies.7               =
     args:'deb.args.portal',
     name:'portal',
 
@@ -58,4 +69,5 @@ deb.args.portal         =
     param.portal.ipaddr:'localhost',
     param.portal.name:'main',
     param.portal.port:82,
+    param.portal.rootpasswd:'admin',
     param.osis.connection:'main',

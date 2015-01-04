@@ -16,7 +16,6 @@ git.export.2=
     source:'root/',
     dest:'/root/',
     link:False,
-    overwrite:False,
 
 
 platform.supported=linux64,

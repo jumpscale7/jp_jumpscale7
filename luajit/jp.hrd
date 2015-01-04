@@ -6,7 +6,6 @@ git.export.1=
     source:'luajit',
     dest:'$(param.base)',
     link:False,
-    overwrite:True,
 
 git.build.1=
     url:'https://github.com/torch/luajit-rocks.git',

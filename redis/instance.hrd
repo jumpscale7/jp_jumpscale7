@@ -1,5 +1,6 @@
-param.disk                     = @ASK
-param.mem                      = @ASK
-param.name                     = '@ASK default'
+param.disk                     = @ASK default:0	descr:'backup redis to disk as appendonly file,1  for true'
+param.mem                      = @ASK default:100 descr:'memory max in MB, default 100'
+param.name                     = @ASK default:'main'
 param.passwd                   = 
-param.port                     = '@ASK default:9999'
+param.port                     = @ASK default:9999
+
