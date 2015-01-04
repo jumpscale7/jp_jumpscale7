@@ -10,8 +10,8 @@ git.export.1=
     link:True,
 
 process.1=
-    cmd:'python controller.py -i $(jp.instance)',
-    args:,
+    cmd:'jspython',
+    args: 'controller.py -i $(jp.instance)',
     prio:20,
     env:,
     cwd:'$(system.paths.base)/apps/agentcontroller/$(jp.instance)/',
