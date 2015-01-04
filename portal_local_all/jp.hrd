@@ -3,7 +3,7 @@ dependencies.1                 =
     instance:'mem',
     name:'redis',
 
-deb.args.redis:
+deb.args.redis                 =
     param.disk:1,
     param.mem:100,
     param.name:'mem',

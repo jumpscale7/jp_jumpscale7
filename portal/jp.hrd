@@ -41,6 +41,9 @@ git.export.4=
 dependencies.1                 =
     name:'portal_lib',
 
+dependencies.2                 =
+    name:'mailclient',
+
 
 platform.supported=linux64,
 
