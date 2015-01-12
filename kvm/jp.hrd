@@ -3,3 +3,5 @@ param.base=/opt/kvm
 
 build.export.1=
     url:'http://git.aydo.com/aydo/qemu-ledis',
+
+ubuntu.packages=['python-libvirt']

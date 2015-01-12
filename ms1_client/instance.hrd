@@ -1,0 +1,7 @@
+param.location='default'
+#@ASK default:'ca1' descr:'ca1 (canada),us2 (us)'
+
+param.cloudspace=@ASK default:'default' descr:'name of cloudspace you want to work with'
+param.login=@ASK
+param.passwd=@ASK
+param.secret=
