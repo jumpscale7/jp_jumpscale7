@@ -9,8 +9,10 @@ dep.args.redis                 =
     param.name:'mem',
     param.port:9999,
 
-
 dependencies.2                 =
+    name:'web',
+
+dependencies.3                 =
     args:'dep.args.mongodb',
     name:'mongodb',
 
@@ -20,7 +22,7 @@ dep.args.mongodb               =
     param.replicaset:,
 
 
-dependencies.3                 =
+dependencies.4                 =
     args:'dep.args.mongodbclient',
     name:'mongodb_client',
 
@@ -31,7 +33,7 @@ dep.args.mongodbclient         =
     param.port:27017,
 
 
-dependencies.4                =
+dependencies.5                =
     args:'dep.args.osis',
     name:'osis',
 
@@ -40,7 +42,7 @@ dep.args.osis         =
     param.osis.superadmin.passwd:'$(param.rootpasswd)',
 
 
-dependencies.5               =
+dependencies.6               =
     args:'dep.args.osis_client',
     name:'osis_client',
 
@@ -49,7 +51,7 @@ dep.args.osis_client         =
     param.osis.client.login:'root',
     param.osis.client.passwd:'$(param.rootpasswd)',
 
-dependencies.6               =
+dependencies.7               =
     args:'dep.args.mailclient',
     name:'mailclient',
 
@@ -61,7 +63,7 @@ dep.args.mailclient         =
     smtp.sender:'info@incubaid.com',
 
 
-dependencies.7               =
+dependencies.8               =
     args:'dep.args.portal',
     name:'portal',
 
