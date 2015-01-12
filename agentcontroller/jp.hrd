@@ -29,3 +29,6 @@ instances.maxnr=10
 #a way to describe where to backup to
 #backup.location=
 
+dependencies.1                 =
+    instance:'main',
+    name:'webdis_client',
