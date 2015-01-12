@@ -1,9 +1,9 @@
 dependencies.1                 =
-    args:'deb.args.redis',
+    args:'dep.args.redis',
     instance:'mem',
     name:'redis',
 
-deb.args.redis                 =
+dep.args.redis                 =
     param.disk:1,
     param.mem:100,
     param.name:'mem',
@@ -11,20 +11,20 @@ deb.args.redis                 =
 
 
 dependencies.2                 =
-    args:'deb.args.mongodb',
+    args:'dep.args.mongodb',
     name:'mongodb',
 
-deb.args.mongodb               =
+dep.args.mongodb               =
     param.host:'localhost',
     param.port:27017,
     param.replicaset:,
 
 
 dependencies.3                 =
-    args:'deb.args.mongodbclient',
+    args:'dep.args.mongodbclient',
     name:'mongodb_client',
 
-deb.args.mongodbclient         =
+dep.args.mongodbclient         =
     param.addr:'localhost',
     param.login:,
     param.passwd:,
@@ -32,28 +32,28 @@ deb.args.mongodbclient         =
 
 
 dependencies.4                =
-    args:'deb.args.osis',
+    args:'dep.args.osis',
     name:'osis',
 
-deb.args.osis         =
+dep.args.osis         =
     param.osis.connection.mongodb:'main',
     param.osis.superadmin.passwd:'$(param.rootpasswd)',
 
 
 dependencies.5               =
-    args:'deb.args.osis_client',
+    args:'dep.args.osis_client',
     name:'osis_client',
 
-deb.args.osis_client         =
+dep.args.osis_client         =
     param.osis.client.addr:'localhost',
     param.osis.client.login:'root',
     param.osis.client.passwd:'$(param.rootpasswd)',
 
 dependencies.6               =
-    args:'deb.args.mailclient',
+    args:'dep.args.mailclient',
     name:'mailclient',
 
-deb.args.mailclient         =
+dep.args.mailclient         =
     smtp.login : 'support@mothership1.com',
     smtp.passwd: '???',
     smtp.port  : 587,
@@ -62,10 +62,10 @@ deb.args.mailclient         =
 
 
 dependencies.7               =
-    args:'deb.args.portal',
+    args:'dep.args.portal',
     name:'portal',
 
-deb.args.portal         =
+dep.args.portal         =
     param.portal.ipaddr:'localhost',
     param.portal.name:'main',
     param.portal.port:82,

@@ -1,0 +1,16 @@
+param.ms1.connection='main'
+
+param.name=@ASK descr:'name of vmachine on ms1'
+param.memsize=@ASK type:dropdown descr:'memsize in GB'  dropdownvals:0.5,1,2,4,8,16
+param.ssdsize=@ASK type:dropdown descr:'ssd size in GB'  dropdownvals:10,20,30,40,100
+
+#param.imagename=@ASK type:dropdown dropdownvals:fedora,windows,ubuntu.13.10,ubuntu.12.04,windows.essentials,ubuntu.14.04,zentyal,debian.7,arch,fedora,centos,opensuse,gitlab,ubuntu.jumpscale
+#we are always going to work with ubuntu 14.04 in this implementation
+param.imagename='ubuntu.14.04'
+
+param.machine.id=
+param.machine.ssh.ip=
+param.machine.ssh.port=
+
+#link to sshkey to be used
+param.ssh.key.name = @ASK default:'default'
