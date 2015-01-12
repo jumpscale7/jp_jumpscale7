@@ -4,12 +4,14 @@ git.export.1=
     url:$(git.url),
     source:'root/bin/',
     dest:'/opt/jumpscale7/bin/',
+    depth:1,
     link:False,
 
 git.export.2=
     url:$(git.url),
     source:'root/lib/',
     dest:'/opt/jumpscale7/lib/',
+    depth:1,
     link:False,
 
 platform.supported=linux64,
