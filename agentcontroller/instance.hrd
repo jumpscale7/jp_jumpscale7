@@ -1,2 +1,3 @@
-portal.osis.connection=@ASK
+osis.connection=@ASK
 webdis.connection=@ASK
+agentcontroller.webdiskey=EMPTY
