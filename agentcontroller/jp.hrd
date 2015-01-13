@@ -6,7 +6,7 @@ git.url='https://github.com/Jumpscale/jumpscale_core7/'
 git.export.1=
     url:$(git.url),
     source:'apps/agentcontroller/*',
-    dest:'$(system.paths.base)/apps/agentcontroller/$(jp.instance)',
+    dest:'$(system.paths.base)/apps/agentcontroller/',
     link:True,
 
 process.1=
@@ -14,7 +14,7 @@ process.1=
     args: 'controller.py -i $(jp.instance)',
     prio:20,
     env:,
-    cwd:'$(system.paths.base)/apps/agentcontroller/$(jp.instance)/',
+    cwd:'$(system.paths.base)/apps/agentcontroller/',
     timeout_start:20,
     timeout_stop:20,
     ports:4444,
