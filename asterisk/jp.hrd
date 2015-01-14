@@ -10,7 +10,7 @@ git.export.1=
     url:$(git.url),
     source:'',
     dest:'/opt/',
-    link:True,
+    link:False,
 
 platform.supported=linux64,
 
