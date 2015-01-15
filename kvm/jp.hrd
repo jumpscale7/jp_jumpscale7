@@ -12,4 +12,4 @@ git.export.1=
     dest:'$(system.paths.base)'/apps/kvm,
     link:False
 
-ubuntu.packages=['python-libvirt']
+ubuntu.packages='python-libvirt', 'lrzip', 'python-libvirt', 'libvirt-bin', 'bridge-utils'
