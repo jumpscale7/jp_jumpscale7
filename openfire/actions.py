@@ -25,10 +25,12 @@ class Actions(ActionsBase):
         """
 
         cmd="""
-sudo apt-get update && apt-get install default-jre  -y && cd /tmp && wget http://www.igniterealtime.org/downloadServlet?filename=openfire/openfire_3.9.3_all.deb && dpkg -i *openfire_3.9.3_all.deb
+sudo apt-get update && apt-get install default-jre  -y 
 """
 
         rc,out,err=j.do.executeCmds( cmd, outputStdout=True, outputStderr=True, useShell=True, log=True, cwd=None, timeout=360, captureout=True, dieOnNonZeroExitCode=False)
+	j.do.execute('cd /tmp && wget http://www.igniterealtime.org/downloadServlet?filename=openfire/openfire_3.9.3_all.deb')
+	j.do.execute('cd /tmp && dpkg -i *openfire_3.9.3_all.deb')
 #        if rc>0:
  #           cmd2="""
  #   sudo apt-get upgrade --fix-missing
