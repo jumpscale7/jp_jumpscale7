@@ -19,23 +19,22 @@ class Actions(ActionsBase):
     step7c: do monitor_remote to see if package healthy installed & running, but this time test is done from central location
     """
 
-    # def prepare(self,**args):
-    #     """
-    #     this gets executed before the files are downloaded & installed on appropriate spots
-    #     """
-    #     j.do.execute('apt-get purge \'nginx*\' -y')
-    #     j.do.execute('apt-get autoremove -y')
-    #     j.system.process.killProcessByPort(80)
-    #     j.system.fs.createDir("/var/nginx/cache/fcgi")
-    #     j.system.fs.createDir("/var/log/nginx")
-    #     return True
+    def prepare(self,**args):
+        """
+        this gets executed before the files are downloaded & installed on approprate spots
+        """
 
-    # def configure(self,**args):
-    #     """
-    #     this gets executed when files are installed
-    #     this step is used to do configuration steps to the platform
-    #     after this step the system will try to start the jpackage if anything needs to be started
-    #     """
-    #     self.jp_instance.hrd.applyOnDir( path="$(param.base)/cfg", additionalArgs={})
-    #     return True
+        cmd="""
+sudo apt-get update && apt-get install default-jre  -y 
+"""
 
+        rc,out,err=j.do.executeCmds( cmd, outputStdout=True, outputStderr=True, useShell=True, log=True, cwd=None, timeout=360, captureout=True, dieOnNonZeroExitCode=False)
+	j.do.execute('cd /tmp && wget http://www.igniterealtime.org/downloadServlet?filename=openfire/openfire_3.9.3_all.deb')
+	j.do.execute('cd /tmp && dpkg -i *openfire_3.9.3_all.deb')
+#        if rc>0:
+ #           cmd2="""
+ #   sudo apt-get upgrade --fix-missing
+ #   sudo apt-get -f install
+   # sudo dpkg -i skype-install.deb
+   # """
+    #        rc,out,err=j.do.executeCmds( cmd2, outputStdout=True, outputStderr=True, useShell=True, log=True, cwd=None, timeout=360, captureout=True, dieOnNonZeroExitCode=False)

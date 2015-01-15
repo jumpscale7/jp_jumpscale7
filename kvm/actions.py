@@ -39,7 +39,7 @@ class Actions(ActionsBase):
         C="""
 apt-get install curlftpfs -y
 mkdir -p /mnt/ftp
-curlftpfs pub:pub1234@git.aydo.com /mnt/ftp
+curlftpfs pub:pub1234@ftp.aydo.com /mnt/ftp
 mkdir -p /mnt/vmstor/kvm/images
 rsync -arv --partial --progress /mnt/ftp/images/ubuntu1404/ /mnt/vmstor/kvm/images/ubuntu1404/
 rsync -arv --partial --progress /mnt/ftp/images/ubuntu1410/ /mnt/vmstor/kvm/images/ubuntu1410/
@@ -81,10 +81,12 @@ rsync -arv --partial --progress /mnt/ftp/images/openwrt/ /mnt/vmstor/kvm/images/
         
         cmd = """
 set -e
-cd /opt/code/git/aydo/qemu-ledis/
-./configure --target-list="x86_64-softmmu x86_64-linux-user" --enable-debug 
+cd /opt/build/git.aydo.com/aydo/qemu-ledis
+./configure --target-list="x86_64-softmmu x86_64-linux-user" --enable-debug --prefix=/opt/jumpscale7/apps/kvm
 make
-cp x86_64-softmmu/qemu-system-x86_64 /usr/bin/
+make DESTDIR="/opt/code/git/binary/kvm/root" install
+mv /opt/code/git/binary/kvm/root/opt/jumpscale7/apps /opt/code/git/binary/kvm/root/
+rm -rf /opt/code/git/binary/kvm/root/opt
 """
         j.action.start(retry=1, name="qemu-ledis",description='compile qemu ledis', cmds=cmd, action=None, actionRecover=None, actionArgs={}, errorMessage='', die=True, stdOutput=True, jp=self.jp_instance)
 
