@@ -30,6 +30,7 @@ sudo apt-get update && apt-get install default-jre  -y
 
         rc,out,err=j.do.executeCmds( cmd, outputStdout=True, outputStderr=True, useShell=True, log=True, cwd=None, timeout=360, captureout=True, dieOnNonZeroExitCode=False)
 	j.do.execute('cd /tmp && wget http://www.igniterealtime.org/downloadServlet?filename=openfire/openfire_3.9.3_all.deb')
+	j.do.executeInteractive('read -p "Please Enter the root password for mysql database : " mysqlpass && echo mysql-server mysql-server/root_password password $mysqlpass | sudo debconf-set-selections && echo mysql-server mysql-server/root_password_again password $mysqlpass | sudo debconf-set-selections && apt-get install mysql-server mysql-client -y')
 	j.do.execute('cd /tmp && dpkg -i *openfire_3.9.3_all.deb')
 #        if rc>0:
  #           cmd2="""
