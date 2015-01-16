@@ -40,6 +40,7 @@ class Actions(ActionsBase):
     def build(self,**args):     
 
         #to reset the state use jpackage reset -n ...
+        params = {'ledis' :"/opt/build/git.aydo.com/aydo/ledisdb"}
 
         def preparebuild():
             j.system.platform.ubuntu.checkInstall(["cmake"], "cmake")
@@ -66,12 +67,12 @@ set -e
 # bail if anywhere in there
 # SNAPPY
 cd /opt/build/github.com/siddontang/snappy/
-export SNAPPY_DIR=/opt/ledisdb
+export SNAPPY_DIR=%(ledis)s
 autoreconf --force --install
 ./configure --prefix=$SNAPPY_DIR
 make
 make install
-"""
+""" % params
         j.action.start(retry=1, name="snappy",description='compile snappy', cmds=cmd, action=None, actionRecover=None, actionArgs={}, errorMessage='', die=True, stdOutput=True, jp=self.jp_instance)
 
 
@@ -80,17 +81,17 @@ set -e
 cd /opt/build/github.com/facebook/rocksdb/
 # git checkout -b 3.5.fb origin/3.5.fb
 make shared_lib
-cp librocksdb.so /opt/ledisdb/lib
-cp -r include /opt/ledisdb
-"""
+cp librocksdb.so %(ledis)s/lib
+cp -r include %(ledis)s 
+""" % params
         j.action.start(retry=1, name="ROCKSDB",description='compile ROCKSDB', cmds=cmd, action=None, actionRecover=None, actionArgs={}, errorMessage='', die=True, stdOutput=True, jp=self.jp_instance)
 
         cmd="""
 # LEVELDB
 set -e
 cd /opt/build/github.com/siddontang/leveldb/
-export LEVELDB_DIR=/opt/ledisdb
-export SNAPPY_DIR=/opt/ledisdb
+export LEVELDB_DIR=%(ledis)s
+export SNAPPY_DIR=%(ledis)s
 echo "echo \"PLATFORM_CFLAGS+=-I$SNAPPY_DIR/include\" >> build_config.mk" >> build_detect_platform
 echo "echo \"PLATFORM_CXXFLAGS+=-I$SNAPPY_DIR/include\" >> build_config.mk" >> build_detect_platform
 echo "echo \"PLATFORM_LDFLAGS+=-L $SNAPPY_DIR/lib -lsnappy\" >> build_config.mk" >> build_detect_platform
@@ -100,7 +101,7 @@ install include/leveldb/*.h $LEVELDB_DIR/include/leveldb
 mkdir -p $LEVELDB_DIR/lib
 cp -P libleveldb.* $LEVELDB_DIR/lib
 # ln -s /usr/local/leveldb/lib/libleveldb.so.1 /usr/lib/libleveldb.so.1
-"""
+""" % params
         j.action.start(retry=1, name="LEVELDB",description='compile LEVELDB', cmds=cmd, action=None, actionRecover=None, actionArgs={}, errorMessage='', die=True, stdOutput=True, jp=self.jp_instance)
         #@todo is not working, still issue
 
@@ -117,21 +118,6 @@ cd /opt/go/myproj
 
 go get github.com/tools/godep
 
-#go get -u github.com/cupcake/rdb
-#go get -u github.com/cupcake/rdb/nopdecoder
-#go get -u github.com/szferi/gomdb
-#go get -u github.com/boltdb/bolt
-#go get -u github.com/ugorji/go/codec
-#go get -u github.com/BurntSushi/toml
-#go get -u github.com/edsrzf/mmap-go
-#go get -u github.com/syndtr/goleveldb/leveldb
-#go get -u github.com/siddontang/go/bson
-#go get -u github.com/siddontang/go/log
-#go get -u github.com/siddontang/go/snappy
-#go get -u github.com/siddontang/go/num
-#go get -u github.com/siddontang/go/filelock
-#go get -u github.com/siddontang/go/sync2
-#go get -u github.com/siddontang/go/arena
 """
 
         j.action.start(retry=1, name="godeps",description='get godeps', cmds=cmd, action=None, actionRecover=None, actionArgs={}, errorMessage='', die=True, stdOutput=True, jp=self.jp_instance)
@@ -147,10 +133,10 @@ export PATH=$GOROOT/bin:$GOROOT/myproj/bin:$PATH
 
 #default snappy and leveldb install path
 #you may change yourself
-SNAPPY_DIR=/opt/ledisdb
-LEVELDB_DIR=/opt/ledisdb
-ROCKSDB_DIR=/opt/ledisdb
-LUA_DIR=/opt/ledisdb
+SNAPPY_DIR=%(ledis)s
+LEVELDB_DIR=%(ledis)s
+ROCKSDB_DIR=%(ledis)s
+LUA_DIR=%(ledis)s
 
 GO_BUILD_TAGS=
 CGO_CFLAGS=
@@ -158,7 +144,7 @@ CGO_CXXFLAGS=
 CGO_LDFLAGS=
 
 #get lua5.1 from build dir
-cp /opt/code/git/binary/ledisdb/lua/* /opt/ledisdb/lib
+cp %(ledis)s/lua/* %(ledis)s/lib
 # check dependent libray, now we only check simply, maybe later add proper checking 
 
 # check snappy 
@@ -227,9 +213,18 @@ godep restore
 make
 make test
 
-"""
+""" % params
         j.action.start(retry=1, name="ledisdb",description='compile ledisdb', cmds=cmd, action=None, actionRecover=None, actionArgs={}, errorMessage='', die=True, stdOutput=True, jp=self.jp_instance)
 
+        def copyBins():
+            gobin = "/opt/go/myproj/bin"
+            destfolder = "/opt/code/git/binary/ledisdb/bin"
+            j.system.fs.removeDirTree(destfolder)
+            j.system.fs.createDir(destfolder)
+            for file_ in j.system.fs.find(gobin, "ledis*"):
+                j.system.fs.copyFile(j.system.fs.joinPaths(gobin, file_), destfolder)
+
+        j.action.start(retry=1, name="package",description='copy resuls', action=copyBins, actionRecover=None, actionArgs={}, errorMessage='', die=True, stdOutput=True, jp=self.jp_instance)
 
         def cleanup():
             todelete=["$(param.base.luajit)/include/","$(param.base.luajit)/lib/luarocks/","$(param.base.luajit)/lib/pkgconfig/","$(param.base.luajit)/share/cmake/","$(param.base.luajit)/share/man/"]

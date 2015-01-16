@@ -1,24 +1,40 @@
+process.1=
+    name:'$(jp.instance)_$(jp.name)',
+    cmd:'$(system.paths.base)/apps/ledisdb/bin/ledis-server,
+    args:,
+    env:,
+    prio:1,
+    cwd:'',
+    timeout_start:10,
+    timeout_stop:10,
+    ports:[6380],
+    startupmanager:tmux,
+    filterstr:'ledis-server',
 
-param.base=/opt/ledisdb
+
 
 git.url='http://git.aydo.com/binary/ledisdb'
 git.export.1=
     url:$(git.url),
-    source:'',
-    dest:'/opt/ledisdb',
+    source:'bin',
+    dest:'$(system.paths.base)/apps/ledisdb/bin',
     link:False,
 
+
 git.build.1=
+    url:'http://git.aydo.com/aydo/ledisdb.git',
+
+git.build.2=
     url:'https://github.com/facebook/rocksdb.git',
     branch:'3.5.fb',
 
-git.build.2=
+git.build.3=
     url:'https://github.com/siddontang/leveldb.git',
 
-git.build.3=
+git.build.4=
     url:'https://github.com/siddontang/ledisdb.git',
 
-git.build.4=
+git.build.5=
     url:'https://github.com/siddontang/snappy.git',
 
 
@@ -26,7 +42,8 @@ git.build.4=
 platform.supported=linux,
 
 dependencies.1                 =
-    name:'go',
+    name:'lua',
 
 dependencies.2                 =
-    name:'lua',
+    name:'go',
+    type: 'build'
