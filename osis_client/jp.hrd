@@ -1,14 +1,3 @@
-process.1=
-    cmd:,
-    args:,
-    prio:10,
-    cwd:,
-    timeout_start:60,
-    timeout_stop:10,
-    ports:,,
-    startupmanager:tmux,
-    filterstr:
-
 env.process.1=
 
 #if set to link then when getting files from git they will be linked not copied, can be overruled on export rule per export rule
