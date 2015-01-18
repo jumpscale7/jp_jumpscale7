@@ -23,7 +23,7 @@ class Actions(ActionsBase):
         """
         this gets executed before the files are downloaded & installed on appropriate spots
         """
-        j.system.fs.createDir("$(system.paths.base)/apps/agentcontroller/$(jp.instance)")
+        j.system.fs.createDir("$(system.paths.base)/apps/agentcontroller")
         return True
 
     # def configure(self,**args):
