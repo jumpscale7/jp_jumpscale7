@@ -1,0 +1,10 @@
+base='/opt/ruby'
+git.url='https://git.aydo.com/binary/ruby.git'
+
+git.export=
+    url:$(git.url),
+    source:'',
+    dest:'/opt/',
+
+platform.supported=linux64,
+instances.maxnr=1
