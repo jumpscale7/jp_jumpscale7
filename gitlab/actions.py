@@ -59,7 +59,7 @@ class Actions(ActionsBase):
 ##        sudo adduser --disabled-login --gecos 'GitLab' git"""
 ##        j.do.execute(cmd)
 ##        print('#####################################################################################################################################')
-        j.system.platform.ubuntu.checkInstall('postgresql', 'psql')
+        j.system.platform.ubuntu.checkInstall('postgresql-9.3', 'psql')
         j.system.platform.ubuntu.checkInstall('postgresql-client', 'psql')
         j.do.execute('apt-get install -y libpq-dev')
         cmd = """
