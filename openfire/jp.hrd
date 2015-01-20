@@ -7,14 +7,19 @@ git.export.1=
 
 process.1=
     name:'openfire',
-    cmd:'./openfire',
+    cmd:'export JAVA_HOME=/opt/openjdk/jre && ./openfire',
     args:'start',
-    env:JAVA_HOME=/opt/openjdk/jre,
     prio:10,
     cwd:'$(system.paths.base)/apps/openfire/bin,
     timeout_start:30,
     timeout_stop:30,
-    ports:9090
-    startupmanager:tmux,
+    ports:9090,
+    startupmanager:,
     filterstr:'openfire',
 
+
+
+dependencies.1=
+    name:'java',
+    domain:,
+    instance:,
