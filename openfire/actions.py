@@ -19,23 +19,11 @@ class Actions(ActionsBase):
     step7c: do monitor_remote to see if package healthy installed & running, but this time test is done from central location
     """
 
-    def prepare(self,**args):
-        """
-        this gets executed before the files are downloaded & installed on approprate spots
-        """
-
-        cmd="""
-sudo apt-get update && apt-get install default-jre  -y 
-"""
-
-        rc,out,err=j.do.executeCmds( cmd, outputStdout=True, outputStderr=True, useShell=True, log=True, cwd=None, timeout=360, captureout=True, dieOnNonZeroExitCode=False)
-	j.do.execute('cd /tmp && wget http://www.igniterealtime.org/downloadServlet?filename=openfire/openfire_3.9.3_all.deb')
-	j.do.executeInteractive('read -p "Please Enter the root password for mysql database : " mysqlpass && echo mysql-server mysql-server/root_password password $mysqlpass | sudo debconf-set-selections && echo mysql-server mysql-server/root_password_again password $mysqlpass | sudo debconf-set-selections && apt-get install mysql-server mysql-client -y')
-	j.do.execute('cd /tmp && dpkg -i *openfire_3.9.3_all.deb')
-#        if rc>0:
- #           cmd2="""
- #   sudo apt-get upgrade --fix-missing
- #   sudo apt-get -f install
-   # sudo dpkg -i skype-install.deb
-   # """
-    #        rc,out,err=j.do.executeCmds( cmd2, outputStdout=True, outputStderr=True, useShell=True, log=True, cwd=None, timeout=360, captureout=True, dieOnNonZeroExitCode=False)
+    def build(self, **kwargs):
+        import urllib
+        binpath = '/opt/code/git/binary/openfire'
+        tmppath = j.system.fs.joinPaths(j.dirs.tmpDir, 'openfire.tgz')
+        j.system.fs.createDir(binpath)
+        urllib.urlretrieve('http://download.igniterealtime.org/openfire/openfire_3_9_3.tar.gz', tmppath)
+        j.system.fs.targzUncompress(tmppath, binpath)
+        

@@ -1,0 +1,20 @@
+git.url='http://git.aydo.com/binary/openfire'
+git.export.1=
+    url:$(git.url),
+    source:'openfire',
+    dest:'$(system.paths.base)/apps/openfire/',
+    link:False,
+
+process.1=
+    name:'openfire',
+    cmd:'./openfire',
+    args:'start',
+    env:JAVA_HOME=/opt/openjdk/jre,
+    prio:10,
+    cwd:'$(system.paths.base)/apps/openfire/bin,
+    timeout_start:30,
+    timeout_stop:30,
+    ports:9090
+    startupmanager:tmux,
+    filterstr:'openfire',
+
