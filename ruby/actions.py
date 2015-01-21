@@ -1,5 +1,4 @@
 from JumpScale import j
-import os
 
 ActionsBase=j.packages.getActionsBaseClass()
 
@@ -21,52 +20,28 @@ class Actions(ActionsBase):
     """
 
     def prepare(self,**args):
-        print '************* 1 ********************'
         """
         this gets executed before the files are downloaded & installed on approprate spots
         """
-#        j.do.createDir('/opt/ruby')
-        j.do.execute('apt-get install -y make gcc')
-        j.do.execute('apt-get install -y build-essential zlib1g-dev libyaml-dev libssl-dev libgdbm-dev libreadline-dev libncurses5-dev libffi-dev checkinstall libxml2-dev libxslt-dev libcurl4-openssl-dev libicu-dev logrotate python-docutils pkg-config cmake libkrb5-dev')
-        return True
-
-#        j.system.process.executeWithoutPipe(cmd)
-#        print ("update apt")
-#        j.system.process.executeWithoutPipe("apt-get update -y",dieOnNonZeroExitCode=False)
-#        print ("install lxc docker")
-#        j.system.platform.ubuntu.install("lxc-docker")
-#
-#        j.system.process.executeWithoutPipe("sudo service docker restart")
-#        return True
-        
-    def configure(self,**args):
-        print '************* 2 ********************$(base)'
-        j.do.execute('tar xzvf /opt/ruby-2.1.5.tar.gz -C /opt/')
-        os.system('mv /opt/ruby-2.1.5 /opt/ruby')
-        j.do.chdir('/opt/ruby/')
-        j.do.execute('pwd')
+        print 'TEST 1'
+        if not j.do.isDir('/opt/jumpscale7/include'):
+        	j.do.createDir('/opt/jumpscale7/include')
+        if not j.do.isDir('/opt/jumpscale7/share'):
+	        j.do.createDir('/opt/jumpscale7/share')
         cmd = '''
-cd /opt/ruby &&
-pwd &&
-mv configure.org configure
-./configure && 
-make &&
-make install &&
-gem install bundler --no-ri --no-rdoc
+sudo apt-get install -y build-essential zlib1g-dev libyaml-dev libssl-dev libgdbm-dev libreadline-dev libncurses5-dev libffi-dev curl checkinstall libxml2-dev libxslt-dev libcurl4-openssl-dev libicu-dev logrotate python-docutils pkg-config cmake libkrb5-dev
 '''
-        os.system(cmd)
-#        os.system('cd /opt/ruby && ./configure --disable-install-rdoc && make && make install')
-#        os.system('cd /opt/code/git/binary/ruby && make')
-#        j.do.execute('make install')
-#        j.do.execute('cd /opt/ruby/ && gem install bundler --no-ri --no-rdoc')
+#        j.do.execute(cmd)
         return True
-
+        
+    # def configure(self,**args):
+    #     print 'TEST 2'
     #     """
     #     this gets executed when files are installed
     #     this step is used to do configuration steps to the platform
     #     after this step the system will try to start the jpackage if anything needs to be started
     #     """
-#        return True
+    #     return True
 
     # def stop(self,**args):
     #     """
@@ -126,11 +101,12 @@ gem install bundler --no-ri --no-rdoc
     #     return False
 
     # def data_import(self,id,hrd,**args):
+    #     print 'TEST 3'
     #     """
     #     import data of app to local location
     #     if specifies which retore to do, id corresponds with line item in the $name.export file
     #     """
-    #     return False
+    #     return True
 
     # def uninstall(self,**args):
     #     """
