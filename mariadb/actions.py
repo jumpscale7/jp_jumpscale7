@@ -1,4 +1,5 @@
 from JumpScale import j
+import time
 
 ActionsBase=j.packages.getActionsBaseClass()
 
@@ -58,11 +59,13 @@ class Actions(ActionsBase):
         j.system.fs.chown(path="$(system.paths.base)/apps/mariadb", user="mysql")
         
         if not j.system.fs.exists("/var/jumpscale/mysql/data"):
+            print("############## in configure:")
             cmd="cd $(system.paths.base)/apps/mariadb;scripts/mysql_install_db --user=mysql --defaults-file=cfg/my.cnf --basedir=$(system.paths.base)/apps/mariadb --datadir=/var/jumpscale/mysql/data"
             print (cmd)
             j.do.executeInteractive(cmd)
             self.start()
             cmd="$(system.paths.base)/apps/mariadb/bin/mysqladmin -u root password '$(param.rootpasswd)'"
-            j.do.executeInteractive(cmd)
+            time.sleep(5)
+            j.system.process.execute(cmd)
             self.stop()
         return True
