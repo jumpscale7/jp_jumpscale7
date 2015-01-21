@@ -1,4 +1,4 @@
-rootpasswd=@ASK type:str default:'rooter'
+param.rootpasswd=@ASK type:str default:'rooter'
 
 
 
