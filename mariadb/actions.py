@@ -49,7 +49,7 @@ class Actions(ActionsBase):
         j.do.copyFile("$(system.paths.base)/apps/mariadb/share/english/errmsg.sys","$(system.paths.var)/mysql/errmsg.sys")
         j.system.fs.createDir("/usr/share/mysql/")
         j.system.fs.chown(path="/usr/share/mysql/", user="mysql")
-        j.do.copyFile("$(system.paths.base)/apps/mariadb/share/english/errmsg.sys","/usr/local/share/mysql/errmsg.sys")
+        j.do.copyFile("$(system.paths.base)/apps/mariadb/share/english/errmsg.sys","/usr/share/mysql/errmsg.sys")
         j.system.fs.createDir("/var/run/mysqld/")
         j.system.fs.chown(path="$(system.paths.var)/mysql", user="mysql")
         j.system.fs.chown(path="/var/log/mysql/", user="mysql")
@@ -63,6 +63,6 @@ class Actions(ActionsBase):
             j.do.executeInteractive(cmd)
             self.start()
             cmd="$(system.paths.base)/apps/mariadb/bin/mysqladmin -u root password '$(param.rootpasswd)'"
-            j.do.execute(cmd)
+            j.do.executeInteractive(cmd)
             self.stop()
         return True
