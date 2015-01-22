@@ -37,6 +37,9 @@ git.export.3=
     dest:'$(param.base)/tests/',
     link:True,
 
+dependencies.1                 =
+    name:'portal_lib',
+    
 #name of packages which need to be installed locally
 
 platform.supported=linux64,

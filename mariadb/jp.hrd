@@ -1,10 +1,8 @@
-base='/opt/mariadb'
-
 process.1=
-    cmd:'./mysqld --user:mysql --basedir:$(param.base) --datadir:/var/jumpscale/mysql/data --plugin-dir:$(param.base)/lib/plugin/  --console --verbose',
+    cmd:'./mysqld --user=mysql --basedir=$(system.paths.base)/apps/mariadb --datadir=/var/jumpscale/mysql/data --plugin-dir=$(system.paths.base)/apps/mariadb/lib/plugin/  --console --verbose',
     args:,
     prio:10,
-    cwd:'$(param.base)/bin',
+    cwd:'$(system.paths.base)/apps/mariadb/bin',
     timeout_start:10,
     timeout_stop:10,
     ports:3306,,
@@ -12,7 +10,7 @@ process.1=
     filterstr:'mysqld'
 
 env.process.1=
-    MYSQL_HOME:$(param.base),
+    MYSQL_HOME:$(system.paths.base)/apps/mariadb,
 
 #base of repo where code or files are e.g. http://git.aydo.com/binary/base
 git.url='http://git.aydo.com/binary/mariadb'
@@ -20,25 +18,25 @@ git.url='http://git.aydo.com/binary/mariadb'
 git.export.1=
     url:$(git.url),
     source:'mariadb/bin',
-    dest:'$(param.base)/bin',
+    dest:'$(system.paths.base)/apps/mariadb/bin,	
     link:True,
 
 git.export.2=
     url:$(git.url),
     source:'mariadb/cfg',
-    dest:'$(param.base)/cfg',
+    dest:'$(system.paths.base)/apps/mariadb/cfg',
     link:False,
 
 git.export.3=
     url:$(git.url),
     source:'mariadb/scripts',
-    dest:'$(param.base)/scripts',
+    dest:'$(system.paths.base)/apps/mariadb/scripts',
     link:True,
 
 git.export.4=
     url:$(git.url),
     source:'mariadb/share',
-    dest:'$(param.base)/share',
+    dest:'$(system.paths.base)/apps/mariadb/share',
     link:True,
 
 platform.supported=linux64,

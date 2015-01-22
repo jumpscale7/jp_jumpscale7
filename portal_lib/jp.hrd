@@ -1,19 +1,6 @@
 param.base='$(system.paths.base)/lib'
 
 #source $(system.paths.base)/env.sh;/$(system.paths.base)/bin/
-process.1=
-    cmd:,
-    args:,
-    prio:10,
-    cwd:,
-    timeout_start:10,
-    timeout_stop:10,
-    ports:,
-    startupmanager:tmux,
-    filterstr:''
-
-env.process.1=
-
 git.url='http://git.aydo.com/binary/web_python'
 git.export.1=
     url:$(git.url),

@@ -5,9 +5,24 @@ git.url='https://github.com/Jumpscale/jumpscale_core7/'
 #known var's are: $root,$base,$cfg,$jslib,$pylib,$lib  
 git.export.1=
     url:$(git.url),
-    source:'apps/agentcontroller/*',
-    dest:'$(system.paths.base)/apps/agentcontroller/',
+    source:'apps/agentcontroller/controller.py',
+    dest:'$(system.paths.base)/apps/agentcontroller/controller.py',
     link:True,
+
+
+git.export.2=
+    url:$(git.url),
+    source:'apps/agentcontroller/jumpscripts/core',
+    dest:'$(system.paths.base)/apps/agentcontroller/jumpscripts/core',
+    link:True,
+
+
+git.export.3=
+    url:$(git.url),
+    source:'apps/agentcontroller/processmanager',
+    dest:'$(system.paths.base)/apps/agentcontroller/processmanager',
+    link:True,
+
 
 process.1=
     cmd:'jspython',
@@ -25,8 +40,6 @@ platform.supported=linux64,
 
 #how many instances can be installed of this package, if 1 the instance name is always 'main'
 instances.maxnr=10
-
-agentcontroller.webdiskey = fawzy
 
 #a way to describe where to backup to
 #backup.location=
