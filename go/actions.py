@@ -49,8 +49,9 @@ class Actions(ActionsBase):
             j.do.execute(command="echo 'export GOPATH=/opt/go/workspace' >> /root/.bashrc")
             j.do.execute(command="echo 'export GOROOT=/opt/go' >> /root/.bashrc")
             _,path,_ = j.do.execute("echo $PATH",outputStdout=False)
+            from ipdb import set_trace;set_trace()
             # from ipdb import set_trace;set_trace()
-            cmd = "echo 'export PATH=%s:$GOROOT/bin:$GOPATH/bin' >> /root/.bashrc" % path.split()
+            cmd = "echo 'export PATH=%s:$GOROOT/bin:$GOPATH/bin' >> /root/.bashrc" % path.strip()
             j.do.execute(command=cmd)
         j.action.start(retry=0, name="createENV",description='create GOPATH', cmds='', action=createENV, actionRecover=None, actionArgs={}, errorMessage='', die=True, stdOutput=True, jp=self.jp_instance)
         return True
@@ -59,3 +60,4 @@ class Actions(ActionsBase):
         j.system.fs.removeDirTree("/opt/go")
         j.do.execute(command="sed -i '/GOPATH/d' /root/.bashrc")
         j.do.execute(command="sed -i '/GOROOT/d' /root/.bashrc")
+# /opt/jumpscale7/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
