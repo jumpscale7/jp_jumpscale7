@@ -5,15 +5,19 @@ ActionsBase=j.packages.getActionsBaseClass()
 import JumpScale.baselib.remote.cuisine
 
 class Actions(ActionsBase):
-
     
     def execute(self,**args):
         """
         execute over ssh something onto the machine
         """
-        # self.jp_instance.hrd.set("param.machine.id",machineid)
-        ip=self.jp_instance.hrd.get("param.machine.ssh.ip")
-        port=self.jp_instance.hrd.get("param.machine.ssh.port")
+        ip = self.jp_instance.hrd.get("param.machine.ssh.ip")
+        port = self.jp_instance.hrd.get("param.machine.ssh.port")
+
+        from IPython import embed
+        print "DEBUG NOW ooo99"
+        embed()
+        
+        j.remote.cuisine.fabric.env["key_filename"] = privkey
         cl=j.remote.cuisine.connect(ip,port)
 
         if "cmd" not in args:
@@ -23,7 +27,10 @@ class Actions(ActionsBase):
             #can pass something to lua or jumpscale
             pass
         else:
-            cl.run(args["cmd"])
+            cl.run(''.join(args['cmd']))
+
+        #clean priv key from memory
+        del j.remote.cuisine.fabric.env["key_filename"]
 
         return True
         
