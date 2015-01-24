@@ -10,8 +10,9 @@ git.export.1=
 git.build.1=
     url:'https://github.com/torch/luajit-rocks.git',
 
-#not needed lua is part of luajit-rocks
-# git.build.2=
-#     url:'http://luajit.org/git/luajit-2.0.git',
+# mongodb driver - luamongo
+git.build.2=
+    url:'https://github.com/moai/luamongo.git',
+    branch:'luajit',
 
 platform.supported=linux64,
