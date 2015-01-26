@@ -26,5 +26,5 @@ class Actions(ActionsBase):
         """
         ############ Asterisk
         j.do.execute('sudo apt-get update')
-        j.do.execute('sudo apt-get update && apt-get install gcc make g++ libncurses5-dev uuid-dev libjansson* libxml2 libxml2-* sqlite3 libsqlite3-dev -y')
+        j.do.execute('sudo apt-get update && apt-get install gcc make g++ libncurses5-dev uuid-dev libjansson* libxml2 libxml2-* sqlite3 libsqlite3-dev libxslt1-dev  -y')
         return True
