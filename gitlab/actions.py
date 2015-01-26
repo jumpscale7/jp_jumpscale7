@@ -24,41 +24,31 @@ class Actions(ActionsBase):
         """
         this gets executed before the files are downloaded & installed on approprate spots
         """
-##        cmd = '''export LC_ALL=$LANG &&
-##        export  LANGUAGE=$LANG &&
-##        apt-get update &&
-##        apt-get upgrade -y &&
-##        sudo apt-get install -y build-essential zlib1g-dev libyaml-dev libssl-dev libgdbm-dev libreadline-dev libncurses5-dev libffi-dev checkinstal##         sudo apt-get install -y cmake libxml2-dev libxslt-dev libcurl4-openssl-dev libicu-dev logrotate python-docutils libkrb5-dev'''
-#        j.do.execute('export LC_ALL=$LANG && export  LANGUAGE=$LANG')
-#        j.do.execute('sudo dpkg --configure -a')
-#        j.do.execute('apt-get update && apt-get upgrade -y')
+    #Install dep
         j.do.execute('apt-get install -y build-essential zlib1g-dev libyaml-dev libssl-dev libgdbm-dev libreadline-dev libncurses5-dev libffi-dev checkinstall libxml2-dev')
         j.do.execute('apt-get install -y libxslt-dev libcurl4-openssl-dev libicu-dev logrotate python-docutils libkrb5-dev cmake')
-#        j.do.execute(cmd)
-        j.system.platform.ubuntu.checkInstall('sudo', 'sudo')
-        j.system.platform.ubuntu.checkInstall('openssh-server', 'ssh')
+        # j.system.platform.ubuntu.checkInstall('sudo', 'sudo')
+        # j.system.platform.ubuntu.checkInstall('openssh-server', 'ssh')
         j.system.platform.ubuntu.checkInstall('curl', 'curl')
         j.system.platform.ubuntu.checkInstall('pkg-config', 'pkg-config')
         j.system.platform.ubuntu.checkInstall('git', 'git')
-        j.do.execute('apt-get install -y gcc')
+#        j.do.execute('apt-get install -y gcc')
         j.system.platform.ubuntu.checkInstall('postfix', 'postfix')
-        j.do.createDir('/tmp/ruby')
-        j.do.chdir('/tmp/ruby')
-        j.do.execute('curl -L --progress http://cache.ruby-lang.org/pub/ruby/2.1/ruby-2.1.5.tar.gz | tar xz')
-        j.do.chdir('/tmp/ruby/ruby-2.1.5')
-        j.do.execute('./configure --disable-install-rdoc')
-        os.system('cd /tmp/ruby/ruby-2.1.5 && make')
-##        j.do.execute('make')
-        j.do.execute('make install')
-        j.do.execute('gem install bundler --no-ri --no-rdoc')
+
+   # Install Ruby
+        # j.do.createDir('/tmp/ruby')
+        # j.do.chdir('/tmp/ruby')
+        # j.do.execute('curl -L --progress http://cache.ruby-lang.org/pub/ruby/2.1/ruby-2.1.5.tar.gz | tar xz')
+        # j.do.chdir('/tmp/ruby/ruby-2.1.5')
+        # j.do.execute('./configure --disable-install-rdoc')
+        # os.system('cd /tmp/ruby/ruby-2.1.5 && make')
+        # j.do.execute('make install')
+
+   # Add git user
         j.do.execute('adduser --disabled-login --gecos \'GitLab\' git')
-##        cmd = """./configure --disable-install-rdoc &&
-##        sudo make &&
-##        sudo make install &&
-##        sudo gem install bundler --no-ri --no-rdoc &&
-##        sudo adduser --disabled-login --gecos 'GitLab' git"""
-##        j.do.execute(cmd)
-##        print('#####################################################################################################################################')
+        j.do.createDir('/home/git/gitlab')
+
+   # Install postgresql 9.3
         j.system.platform.ubuntu.checkInstall('postgresql-9.3', 'psql')
         j.system.platform.ubuntu.checkInstall('postgresql-client', 'psql')
         j.do.execute('apt-get install -y libpq-dev')
@@ -71,6 +61,9 @@ class Actions(ActionsBase):
         sudo -u postgres psql -d template1 -c 'CREATE DATABASE gitlabhq_production OWNER git'
         """
         j.do.execute(cmd)
+
+   # Install Redis server 
+
         j.system.platform.ubuntu.checkInstall('redis-server', 'redis-server')
         j.do.copyFile('/etc/redis/redis.conf', '/etc/redis/redis.conf.orig')
         j.do.execute("sed 's/^port .*/port 0/' /etc/redis/redis.conf.orig | sudo tee /etc/redis/redis.conf")
@@ -83,10 +76,24 @@ class Actions(ActionsBase):
         if j.do.isDir('/etc/tmpfiles.d'):
             j.do.writeFile('/etc/tmpfiles.d/redis.conf', 'd  /var/run/redis  0755  redis  redis  10d  -')
         j.do.execute('service redis-server restart')
-#        j.system.platform.ubuntu.addUser2Group('redis', 'git')
         j.do.execute('usermod -aG redis git')
+
+   # Install Enginx
+ #       print('userName: root\npassword: 5iveL!fe')
+        
+        return True
+        
+    def configure(self,**args):
+    #     """
+    #     this gets executed when files are installed
+    #     this step is used to do configuration steps to the platform
+    #     after this step the system will try to start the jpackage if anything needs to be started
+    #     """
+   # Install gitlab
+        j.do.execute('chown git:git -R /home/git')
+        j.do.execute('pwd')
         j.do.chdir('/home/git')
-        j.do.execute('sudo -u git -H git clone https://gitlab.com/gitlab-org/gitlab-ce.git -b 7-6-stable gitlab')
+        j.do.execute('sudo -u git -H git clone https://git.aydo.com/binary/gitlab-ce.git gitlab')
         j.do.chdir('/home/git/gitlab')
         j.do.copyFile('config/gitlab.yml.example', 'config/gitlab.yml')
         j.do.chown('config/gitlab.yml', 'git')
@@ -95,13 +102,6 @@ class Actions(ActionsBase):
         j.do.execute('chmod -R u+rwX,go-w log/ && chmod -R u+rwX tmp/')
         j.do.createDir('/home/git/gitlab-satellites')
         j.do.chown('/home/git/gitlab-satellites', 'git')
-##        cmd = """
-##        chmod u+rwx,g=rx,o-rwx /home/git/gitlab-satellites
-##        chmod -R u+rwX tmp/pids/
-##        chmod -R u+rwX tmp/sockets/
-##        chmod -R u+rwX  public/uploads
-##        """
-##        j.do.execute(cmd)
         j.do.execute('chmod u+rwx,g=rx,o-rwx /home/git/gitlab-satellites')
         j.do.execute('chmod -R u+rwX tmp/pids/')
         j.do.execute('chmod -R u+rwX tmp/sockets/')
@@ -109,12 +109,6 @@ class Actions(ActionsBase):
         j.do.copyFile('config/unicorn.rb.example', 'config/unicorn.rb')
         j.do.copyFile('config/initializers/rack_attack.rb.example', 'config/initializers/rack_attack.rb')
         j.do.chown('config/', 'git')
-##        cmd = '''
-##        sudo -u git -H git config --global user.name "GitLab"
-##        sudo -u git -H git config --global user.email $(param.email)
-##        sudo -u git -H git config --global core.autocrlf input
-##        '''
-##        j.do.execute(cmd)
         os.system('sudo -u git -H git config --global user.name \"GitLab\"')
         os.system('sudo -u git -H git config --global user.email \"$(param.email)\"')
         os.system("sudo -u git -H git config --global core.autocrlf input")
@@ -123,50 +117,38 @@ class Actions(ActionsBase):
         j.do.chown('config/resque.yml', 'git')
         j.do.chown('config/database.yml', 'git')
         j.do.execute('sudo -u git -H chmod o-rwx config/database.yml')
-##        cmd = """
-##        sudo -u git -H bundle install --deployment --without development test mysql aws
-##        sudo -u git -H bundle exec rake gitlab:shell:install[v2.4.0] REDIS_URL=unix:/var/run/redis/redis.sock RAILS_ENV=production
-##        sudo -u git -H bundle exec rake gitlab:setup RAILS_ENV=production
-##        """
-##        j.do.execute(cmd)
-#        os.system('cd /home/git/gitlab && sudo -u git -H bundle install --deployment --without development test mysql aws')
-#        os.system('cd /home/git/gitlab && sudo -u git -H bundle exec rake gitlab:shell:install[v2.4.0] REDIS_URL=unix:/var/run/redis/redis.sock RAILS_ENV=production')
-#        os.system('cd /home/git/gitlab && sudo -u git -H bundle exec rake gitlab:setup RAILS_ENV=production')
         j.do.copyFile('lib/support/init.d/gitlab', '/etc/init.d/gitlab')
         j.do.copyFile('lib/support/init.d/gitlab.default.example', '/etc/default/gitlab')
         j.do.execute('update-rc.d gitlab defaults 21')
-        j.do.copyFile('lib/support/logrotate/gitlab', '/etc/logrotate.d/gitlab')
-##        cmd = '''
-##        sudo -u git -H bundle exec rake gitlab:env:info RAILS_ENV=production
-##        sudo -u git -H bundle exec rake assets:precompile RAILS_ENV=production
-##        '''
-##        j.do.execute(cmd)
-#        os.system('cd /home/git/gitlab && sudo -u git -H bundle exec rake gitlab:env:info RAILS_ENV=production')
-#        os.system('cd /home/git/gitlab && sudo -u git -H bundle exec rake assets:precompile RAILS_ENV=production')
-        j.system.platform.ubuntu.checkInstall('nginx', 'nginx')
-        j.do.copyFile('lib/support/nginx/gitlab', '/etc/nginx/sites-available/gitlab')
-        j.do.execute('ln -s /etc/nginx/sites-available/gitlab /etc/nginx/sites-enabled/gitlab')
-        j.do.delete('/etc/nginx/sites-enabled/default')
-##        j.system.platform.ubuntu.restartService('nginx')
-##        j.system.platform.ubuntu.restartService('gitlab')
-        os.system('cd /home/git/gitlab && sudo -u git -H bundle install --deployment --without development test mysql aws')
-        os.system('cd /home/git/gitlab && sudo -u git -H bundle exec rake gitlab:shell:install[v2.4.0] REDIS_URL=unix:/var/run/redis/redis.sock RAILS_ENV=production')
-        os.system('cd /home/git/gitlab && sudo -u git -H bundle exec rake gitlab:setup RAILS_ENV=production')
-        os.system('cd /home/git/gitlab && sudo -u git -H bundle exec rake gitlab:env:info RAILS_ENV=production')
-        os.system('cd /home/git/gitlab && sudo -u git -H bundle exec rake assets:precompile RAILS_ENV=production')
+        j.do.copyFile('/home/git/gitlab/lib/support/logrotate/gitlab', '/etc/logrotate.d/gitlab')
+
+   # Install bundler Gem
+        j.do.copyFile('/etc/login.defs', '/etc/login.defs.org')
+        j.do.execute("cd /etc/ && sed 's/ENV_PATH\tPATH=.*/ENV_PATH\tPATH=\/opt\/jumpscale7\/bin:\/usr\/local\/sbin:\/usr\/local\/bin:\/usr\/sbin:\/usr\/bin:\/sbin:\/bin:\/usr\/games:\/usr\/local\/games/' login.defs.org | tee login.defs")
+        j.do.execute('chown git:git -R /home/git')
+        print 1
+        j.do.execute('usermod -a -G root git')
+        print 2
+        j.do.execute('cd /home/git/gitlab && gem install bundler --no-ri --no-rdoc')
+   # Configure Enginx
+        if not j.do.isFile('/etc/nginx/sites-available/gitlab'):
+            j.do.copyFile('/home/git/gitlab/lib/support/nginx/gitlab', '/etc/nginx/sites-available/gitlab')
+        if not j.do.isLink('/etc/nginx/sites-enabled/gitlab'):
+            j.do.execute('ln -s /etc/nginx/sites-available/gitlab /etc/nginx/sites-enabled/gitlab')
+            j.do.delete('/etc/nginx/sites-enabled/default')
+        print 3
+        os.system("su - git -c 'cd /home/git/gitlab && bundle install --deployment --without development test mysql aws'")
+        print 4
+        os.system("su - git -c 'cd /home/git/gitlab && bundle exec rake gitlab:shell:install[v2.4.0] REDIS_URL=unix:/var/run/redis/redis.sock RAILS_ENV=production'")
+        os.system("su - git -c 'cd /home/git/gitlab && bundle exec rake gitlab:setup RAILS_ENV=production'")
+        os.system("su - git -c 'cd /home/git/gitlab && bundle exec rake gitlab:env:info RAILS_ENV=production'")
+        os.system("su - git -c 'cd /home/git/gitlab && bundle exec rake assets:precompile RAILS_ENV=production'")
         j.do.execute('service nginx restart && service gitlab restart')
-        
+
         print('userName: root\npassword: 5iveL!fe')
-        
+
+
         return True
-        
-    # def configure(self,**args):
-    #     """
-    #     this gets executed when files are installed
-    #     this step is used to do configuration steps to the platform
-    #     after this step the system will try to start the jpackage if anything needs to be started
-    #     """
-    #     return True
 
     # def stop(self,**args):
     #     """
