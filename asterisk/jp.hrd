@@ -15,6 +15,6 @@ git.url='https://git.aydo.com/binary/asterisk.git'
 git.export.1=
     url:$(git.url),
     source:'',
-    dest:'$(system.paths.base)/apps/asterisk/bin,
+    dest:'$(system.paths.base)/apps/asterisk/,
     link:False,
  
