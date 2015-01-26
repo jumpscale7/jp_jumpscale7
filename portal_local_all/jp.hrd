@@ -1,12 +1,11 @@
 dependencies.1                 =
     args:'dep.args.redis',
-    instance:'mem',
+    instance:'system',
     name:'redis',
 
 dep.args.redis                 =
     param.disk:1,
     param.mem:100,
-    param.name:'mem',
     param.port:9999,
 
 dependencies.2                 =

@@ -34,9 +34,9 @@ class Actions(ActionsBase):
         j.do.delete("~/.my.cnf")
         j.do.delete("/etc/my.cnf")
         j.system.fs.createDir("/var/jumpscale/mysql")
-	j.system.fs.createDir("$(system.paths.var)/mysql")
+        j.system.fs.createDir("$(system.paths.var)/mysql")
         j.system.fs.createDir("/tmp/mysql")
-	j.do.execute('apt-get install libaio1 -y')
+        j.do.execute('apt-get install libaio1 -y')
         return True
 
     def configure(self,**args):

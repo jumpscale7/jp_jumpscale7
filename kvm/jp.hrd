@@ -7,7 +7,6 @@ git.build.1=
 git.export.1=
     url:'http://git.aydo.com/binary/kvm',
     source:'root/apps/kvm',
-    branch:,
     revision:,
     dest:'$(system.paths.base)'/apps/kvm,
     link:False

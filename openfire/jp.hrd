@@ -23,3 +23,8 @@ dependencies.1=
     name:'java',
     domain:,
     instance:,
+
+dependencies.2=
+    name:'mariadb',
+    domain:,
+    instance:,
