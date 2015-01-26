@@ -23,6 +23,11 @@ git.export.3=
     dest:'$(system.paths.base)/apps/agentcontroller/processmanager',
     link:True,
 
+git.export.4=
+    url:$(git.url),
+    source:'apps/agentcontroller/luajumpscripts/jumpscale',
+    dest:'$(system.paths.base)/apps/agentcontroller/luajumpscripts/jumpscale',
+    link:True,
 
 process.1=
     cmd:'jspython',
