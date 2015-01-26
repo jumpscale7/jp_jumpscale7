@@ -1,4 +1,5 @@
 from JumpScale import j
+import time
 
 ActionsBase=j.packages.getActionsBaseClass()
 
@@ -21,37 +22,9 @@ class Actions(ActionsBase):
 
     def prepare(self,**args):
         """
-        this gets executed before the files are downloaded & installed on approprate spots
+        this gets executed before the files are downloaded & installed on appropriate spots
         """
-
-        cmd="""
-sudo apt-get update && apt-get install gcc make  g++ libncurses5-dev uuid-dev libjansson* libxml2 libxml2-* sqlite3 libsqlite3-dev -y 
-
-"""
-
-        rc,out,err=j.do.executeCmds( cmd, outputStdout=True, outputStderr=True, useShell=True, log=True, cwd=None, timeout=360, captureout=True, dieOnNonZeroExitCode=False)
- 
-
-
-    def configure(self,**args):
-	
-	"""
-        this only configure astrisk first 
-        """
-        j.do.execute('cd /opt/asterisk && ./configure')
-	j.do.execute('echo "1" > /opt/asterisk/.cleancount')
-        j.do.execute('cd /opt/asterisk && make distclean ')
-        j.do.execute('cd /opt/asterisk/contrib/scripts && ./install_prereq install') 
-	j.do.execute('cd /opt/asterisk/contrib/scripts && ./install_prereq install-unpackaged')
-	j.do.execute('echo "######################## reconfigure Asterisk ############################ " ')
-	j.do.execute('cd /opt/asterisk && ./configure')
-	#j.do.execute('cd /opt/asterisk && make menuselect')
-	j.do.execute('echo "################# Installing Asterisk #################################"')
-	j.do.chdir('/opt/asterisk')
-	j.do.execute('pwd')
-	j.do.execute('make') 
-	j.do.execute('make install')
-	j.do.execute('make samples')
-	j.do.execute('make config') 
-	j.do.execute('make install-logrotate')
-	j.do.execute('echo "###################### Thank You #######################################"')
+        ############ Asterisk
+        j.do.execute('sudo apt-get update')
+        j.do.execute('sudo apt-get update && apt-get install gcc make g++ libncurses5-dev uuid-dev libjansson* libxml2 libxml2-* sqlite3 libsqlite3-dev -y')
+        return True
