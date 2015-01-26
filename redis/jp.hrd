@@ -15,7 +15,7 @@ platform.supported             =
 'linux64',     ,
 
 process.1                      =
-    args:'"$(system.paths.var)/redis/$(param.name)/redis.conf"',
+    args:'"$(system.paths.var)/redis/$(jp.instance)/redis.conf"',
     cmd:'$(system.paths.base)/apps/redis/redis-server',
     cwd:'$(system.paths.base)/apps/redis',
     env:,
