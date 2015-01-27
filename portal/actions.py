@@ -41,5 +41,10 @@ class Actions(ActionsBase):
         j.do.execute(cmd)
         cmd='jsuser add -d admin:$(param.portal.rootpasswd):admin:fakeemail.test.com:jumpscale'
         j.do.execute(cmd)
-        return True        
+        secret = "$(param.portal.secret)".strip()
+        if secret:
+            ini = j.config.getInifile(dest + '/cfg/portal')
+            ini.setParam('main', 'secret', secret)
+            ini.write()
+        return True
 
