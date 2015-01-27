@@ -24,15 +24,8 @@ class Actions(ActionsBase):
         """
         this gets executed before the files are downloaded & installed on appropriate spots
         """
-        ############ Asterisk
-        j.do.execute('sudo apt-get update')
-        j.do.execute('sudo apt-get update && apt-get install gcc make g++ libncurses5-dev uuid-dev libjansson* libxml2 libxml2-* sqlite3 libsqlite3-dev libxslt1-dev  -y')
-        return True
+	#Buid steps
 
-
-    def configure(self,**kwargs):
-        j.do.execute('cp -rf /opt/jumpscale7/apps/asterisk/config /etc/init.d')
-        j.do.execute('update-rc.d asterisk defaults')
 
     def stop(self,**kwargs):
         if j.system.fs.exists('/opt/jumpscale7/apps/asterisk/config'):
