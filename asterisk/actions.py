@@ -31,9 +31,9 @@ class Actions(ActionsBase):
 
 
     def configure(self,**kwargs):
-	j.do.execute('cp -rf /opt/jumpscale7/apps/asterisk/config /etc/init.d')
-	j.do.execute('update-rc.d asterisk defaults')
-	
+        j.do.execute('cp -rf /opt/jumpscale7/apps/asterisk/config /etc/init.d')
+        j.do.execute('update-rc.d asterisk defaults')
 
     def stop(self,**kwargs):
-	j.do.execute('cd /opt/jumpscale7/apps/asterisk/config && ./asterisk stop ')
+        if j.system.fs.exists('/opt/jumpscale7/apps/asterisk/config'):
+            j.do.execute('cd /opt/jumpscale7/apps/asterisk/config && ./asterisk stop ')

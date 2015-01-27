@@ -1,6 +1,7 @@
 from JumpScale import j
 
-ActionsBase=j.packages.getActionsBaseClass()
+ActionsBase = j.packages.getActionsBaseClass()
+
 
 class Actions(ActionsBase):
     """
@@ -18,7 +19,18 @@ class Actions(ActionsBase):
     step7b: do monitor_local to see if package healthy installed & running
     step7c: do monitor_remote to see if package healthy installed & running, but this time test is done from central location
     """
-    pass
+
+    def prepare(self, **args):
+        C = """
+#Grid information
+id = @ASK descr:'id of grid' default:1
+node.id = 0
+roles = @ASK descr:'roles this node subscribes to' default:node
+"""
+        hpath = j.system.fs.joinPaths(j.dirs.hrdDir, 'system', 'grid.hrd')
+        if not j.system.fs.exists(path=hpath):
+            j.system.fs.writeFile(hpath, C)
+        j.application.loadConfig()
 
     # def configure(self,**args):
     #     """
@@ -28,9 +40,8 @@ class Actions(ActionsBase):
     #     """
     #     return True
 
-
     # def start(self,**args):
-    #     #start mysql in background
+    # start mysql in background
     #     if j.system.net.tcpPortConnectionTest("localhost",3306):
     #         return
 
@@ -40,7 +51,7 @@ class Actions(ActionsBase):
     #     j.system.platform.screen.createSession("servers",["mariadb"])
     #     j.system.platform.screen.executeInScreen(sessionname="servers", screenname="mariadb", cmd=cmd, wait=0, cwd=None, env=None, user='root', tmuxuser=None)
 
-    #     #now wait till we can access the port
+    # now wait till we can access the port
     #     res=j.system.net.waitConnectionTest("localhost",3306,2)
     #     if res==False:
     #         j.events.inputerror_critical("mariadb did not become active, check in byobu","jpackage.install.mariadb.startup")
@@ -50,10 +61,10 @@ class Actions(ActionsBase):
     #     if you want a gracefull shutdown implement this method
     #     a uptime check will be done afterwards (local)
     #     return True if stop was ok, if not this step will have failed & halt will be executed.
-    #     """        
+    #     """
     #     cmd="$(param.base)/bin/mysql -u root --password='$(param.rootpasswd)' --execute='shutdown;'"
     #     print (cmd)
-    #     j.do.execute(cmd)  
+    #     j.do.execute(cmd)
 
     #     if self.check_down_local(hrd):
     #         return True
@@ -121,5 +132,3 @@ class Actions(ActionsBase):
     #     uninstall the apps, remove relevant files
     #     """
     #     pass
-
-
