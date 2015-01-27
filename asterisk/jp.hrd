@@ -5,9 +5,9 @@ process.1=
     cwd:'$(system.paths.base)/apps/asterisk/config',
     timeout_start:10,
     timeout_stop:10,
-    ports:[],
+    ports:,
     startupmanager:tmux,
-    filterstr:'asterisk'
+    filterstr:'/sbin/asterisk'
 
 #base of repo where code or files are e.g. http://git.aydo.com/binary/base
 git.url='https://git.aydo.com/binary/asterisk.git'
