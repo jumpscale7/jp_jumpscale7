@@ -24,10 +24,6 @@ class Actions(ActionsBase):
         """
         this gets executed before the files are downloaded & installed on appropriate spots
         """
-        ############ Asterisk
-        j.do.execute('sudo apt-get update')
-        j.do.execute('apt-get install libxslt1.1  -y')
-        return True
 
     def stop(self,**kwargs):
 	j.do.execute('cd /opt/jumpscale7/apps/asterisk/config && ./asterisk stop ')

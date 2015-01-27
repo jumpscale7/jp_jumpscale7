@@ -18,3 +18,6 @@ git.export.1=
     dest:'$(system.paths.base)/apps/asterisk/,
     link:False,
  
+
+ubuntu.apt.update=True
+ubuntu.packages=libxslt1.1
