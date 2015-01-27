@@ -1,5 +1,5 @@
 process.1=
-    cmd:'asterisk',
+    cmd:'./asterisk',
     args:start,
     prio:10,
     cwd:'$(system.paths.base)/apps/asterisk/config',
