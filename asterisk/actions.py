@@ -26,14 +26,8 @@ class Actions(ActionsBase):
         """
         ############ Asterisk
         j.do.execute('sudo apt-get update')
-        j.do.execute('sudo apt-get update && apt-get install gcc make g++ libncurses5-dev uuid-dev libjansson* libxml2 libxml2-* sqlite3 libsqlite3-dev libxslt1-dev  -y')
+        j.do.execute('apt-get install libxslt1.1  -y')
         return True
-
-
-    def configure(self,**kwargs):
-	j.do.execute('cp -rf /opt/jumpscale7/apps/asterisk/config /etc/init.d')
-	j.do.execute('update-rc.d asterisk defaults')
-	
 
     def stop(self,**kwargs):
 	j.do.execute('cd /opt/jumpscale7/apps/asterisk/config && ./asterisk stop ')
