@@ -17,7 +17,7 @@ process.1=
     cwd:'$(system.paths.base)/apps/jsagent/',
     timeout_start:20,
     timeout_stop:20,
-    ports:4444,
+    ports:4446,
     startupmanager:tmux,
     filterstr:'jsagent.py',
 
