@@ -2,4 +2,4 @@ param.disk                     = @ASK default:0	descr:'backup redis to disk as a
 param.mem                      = @ASK default:100 descr:'memory max in MB, default 100'
 param.passwd                   = @ASK type:str
 param.port                     = @ASK default:9999
-
+param.unixsocket               = @ASK default:0 descr:'Enable unixsocket, default 0 (disabled), 1 (enable)'
