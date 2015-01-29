@@ -127,6 +127,8 @@ class Actions(ActionsBase):
         j.do.copyFile('/home/git/gitlab/lib/support/init.d/gitlab.default.example', '/etc/default/gitlab')
         j.do.execute('update-rc.d gitlab defaults 21')
         j.do.copyFile('/home/git/gitlab/lib/support/logrotate/gitlab', '/etc/logrotate.d/gitlab')
+        j.do.copyFile('/home/git/gitlab-shell/config.yml', '/home/git/gitlab-shell/config.yml.org')
+        os.system("cd /home/git/gitlab-shell && sed 's/socket:.*/\/opt\/jumpscale7\/var\/redis\/main\/redis.sock/' config.yml.org | tee config.yml")
 
    # Install bundler Gem
 #        j.do.copyFile('/etc/login.defs', '/etc/login.defs.org')
@@ -151,8 +153,6 @@ class Actions(ActionsBase):
         os.system("cd /home/git/gitlab && sudo -u git -H bundle exec rake assets:precompile RAILS_ENV=production")
         os.system("cd /home/git/gitlab-shell && sudo -u git -H git fetch && sudo -u git -H git checkout v`cat /home/git/gitlab/GITLAB_SHELL_VERSION`")
         os.system("sudo -u git -H RAILS_ENV=production bin/background_jobs start")
-        j.do.copyFile('/home/git/gitlab-shell/config.yml', '/home/git/gitlab-shell/config.yml.org')
-        os.system("cd /home/git/gitlab-shell && sed 's/socket:.*/\/opt\/jumpscale7\/var\/redis\/main\/redis.sock/' config.yml.org | tee config.yml")
         j.do.execute('service nginx restart && service gitlab restart')
 
         print('userName: root\npassword: 5iveL!fe')
