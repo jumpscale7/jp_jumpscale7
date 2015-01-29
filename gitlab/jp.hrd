@@ -5,7 +5,7 @@ dependencies.1=
 
 dependencies.2=
     name:'redis',
-    domain:,
+    instance:'gitlab'
     args:'redis.server.args'
 
 redis.server.args=
