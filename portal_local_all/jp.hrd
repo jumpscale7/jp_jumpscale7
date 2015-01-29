@@ -6,6 +6,7 @@ dependencies.1                 =
 dep.args.redis                 =
     param.disk:1,
     param.mem:100,
+    param.passwd:'$(param.rootpasswd)',
     param.port:9999,
 
 dependencies.2                 =
@@ -70,5 +71,15 @@ dep.args.portal         =
     param.portal.ipaddr:'localhost',
     param.portal.name:'main',
     param.portal.port:82,
-    param.portal.rootpasswd:'admin',
+    param.portal.rootpasswd:'$(param.rootpasswd)',
+    param.portal.secret:'$(param.rootpasswd)',
     param.osis.connection:'main',
+
+dependencies.9               =
+    args:'dep.args.portal_client',
+    name:'portal_client',
+
+dep.args.portal_client       =
+    param.addr:'localhost',
+    param.port:82,
+    param.secret:'$(param.rootpasswd)',
