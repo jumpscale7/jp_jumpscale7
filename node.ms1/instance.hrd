@@ -1,4 +1,4 @@
-param.ms1.connection='main'
+param.ms1.connection=@ASK descr:'ms1_client instance to use to connecte to ms1' default:'main'
 
 param.name=@ASK descr:'name of vmachine on ms1'
 param.memsize=@ASK type:dropdown descr:'memsize in GB'  dropdownvals:0.5,1,2,4,8,16

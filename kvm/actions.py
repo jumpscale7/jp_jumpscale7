@@ -41,8 +41,10 @@ apt-get install curlftpfs -y
 mkdir -p /mnt/ftp
 curlftpfs pub:pub1234@ftp.aydo.com /mnt/ftp
 mkdir -p /mnt/vmstor/kvm/images
+#rsync -arv --partial --progress /mnt/ftp/images/ubuntu1404/ /mnt/vmstor/kvm/images/ubuntu1404/
+#rsync -arv --partial --progress /mnt/ftp/images/ubuntu1410/ /mnt/vmstor/kvm/images/ubuntu1410/
 rsync -arv --partial --progress /mnt/ftp/images/openwrt/ /mnt/vmstor/kvm/images/openwrt/
-"""                
+"""
 
         j.action.start(retry=2, name="getimages",description='get ubuntu & openwrt images (can take a while)', cmds=C, action=None, actionRecover=None, actionArgs={}, errorMessage='', die=True, stdOutput=True, jp=self.jp_instance) 
 

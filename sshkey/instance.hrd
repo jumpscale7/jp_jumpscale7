@@ -1,4 +1,6 @@
 
-param.ssh.key.pub = @ASK descr:'public ssh key, leave empty if you want to generate one.'
-param.ssh.key.priv = @ASK descr:'private ssh key, leave empty if you want to generate one.'
+param.ssh.key.pub = 
+param.ssh.key.priv = @ASK descr:'private ssh key, leave empty if you want to generate one.' type:multiline
+
+
 
