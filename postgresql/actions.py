@@ -25,7 +25,7 @@ class Actions(ActionsBase):
         """
         j.system.platform.ubuntu.createUser("postgres", passwd=j.base.idgenerator.generateGUID(), home="/home/postgresql", creategroup=True)
         
-        j.system.process.killProcessByPort(5432)
+        j.system.process.killProcessByPort("$(param.port)")
         j.system.fs.createDir("/tmp/postgres")
 
         return True
@@ -98,10 +98,9 @@ class Actions(ActionsBase):
         a uptime check will be done afterwards (local)
         return True if stop was ok, if not this step will have failed & halt will be executed.
         """
-        
         # No process actually running
-        if not j.system.process.getPidsByPort(5432):
-            return 
+        if not j.system.process.getPidsByPort("$(param.port)"):
+            return
         
         cmd="sudo -u postgres $(param.base)/bin/pg_ctl -D /var/jumpscale/postgresql stop  -m fast"
         # print (cmd)

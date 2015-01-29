@@ -1,4 +1,5 @@
-rootpasswd=@ASK type:str default:'rooter'
+param.rootpasswd=@ASK type:str default:'rooter'
+param.port=@ASK type:int default:5432
 
 
 
