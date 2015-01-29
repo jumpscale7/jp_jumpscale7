@@ -23,7 +23,7 @@ class Actions(ActionsBase):
         """
         this gets executed before the files are downloaded & installed on appropriate spots
         """
-        j.system.platform.ubuntu.createUser("postgres", passwd="1234", home="/home/postgresql", creategroup=True)
+        j.system.platform.ubuntu.createUser("postgres", passwd=j.base.idgenerator.generateGUID(), home="/home/postgresql", creategroup=True)
         
         j.system.process.killProcessByPort(5432)
         j.system.fs.createDir("/tmp/postgres")
