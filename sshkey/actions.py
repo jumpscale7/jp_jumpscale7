@@ -6,6 +6,16 @@ import JumpScale.baselib.remote.cuisine
 
 class Actions(ActionsBase):
 
+    def prepare(self,**args):
+        privkey=self.jp_instance.hrd.get("param.ssh.key.priv") 
+        j.do.writeFile("/tmp/privkey",privkey)
+        j.do.chmod('/tmp/privkey',0o600)
+        cmd='ssh-keygen -f /tmp/privkey -y -N \'\'> \'/tmp/pubkey\''
+        j.do.execute(cmd)
+        j.do.chmod('/tmp/pubkey',0o600)
+        pubkey=j.do.readFile('/tmp/pubkey')
+        self.jp_instance.hrd.set("param.ssh.key.pub",pubkey) 
+
     
     def configure(self,**args):
         """

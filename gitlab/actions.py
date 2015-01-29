@@ -24,25 +24,8 @@ class Actions(ActionsBase):
         """
         this gets executed before the files are downloaded & installed on approprate spots
         """
-    #Install dep
-        j.do.execute('apt-get install -y build-essential zlib1g-dev libyaml-dev libssl-dev libgdbm-dev libreadline-dev libncurses5-dev libffi-dev checkinstall libxml2-dev')
-        j.do.execute('apt-get install -y libxslt-dev libcurl4-openssl-dev libicu-dev logrotate python-docutils libkrb5-dev cmake')
-        # j.system.platform.ubuntu.checkInstall('sudo', 'sudo')
-        # j.system.platform.ubuntu.checkInstall('openssh-server', 'ssh')
-        j.system.platform.ubuntu.checkInstall('curl', 'curl')
-        j.system.platform.ubuntu.checkInstall('pkg-config', 'pkg-config')
-        j.system.platform.ubuntu.checkInstall('git', 'git')
-#        j.do.execute('apt-get install -y gcc')
+    #Install postfix
         j.system.platform.ubuntu.checkInstall('postfix', 'postfix')
-
-   # Install Ruby
-        # j.do.createDir('/tmp/ruby')
-        # j.do.chdir('/tmp/ruby')
-        # j.do.execute('curl -L --progress http://cache.ruby-lang.org/pub/ruby/2.1/ruby-2.1.5.tar.gz | tar xz')
-        # j.do.chdir('/tmp/ruby/ruby-2.1.5')
-        # j.do.execute('./configure --disable-install-rdoc')
-        # os.system('cd /tmp/ruby/ruby-2.1.5 && make')
-        # j.do.execute('make install')
 
    # Add git user
         j.do.execute('adduser --disabled-login --gecos \'GitLab\' git')
@@ -67,25 +50,8 @@ class Actions(ActionsBase):
         """
         j.do.execute(cmd)
 
-   # Install Redis server 
-
-#        j.system.platform.ubuntu.checkInstall('redis-server', 'redis-server')
-#        j.do.copyFile('/etc/redis/redis.conf', '/etc/redis/redis.conf.orig')
-#        j.do.execute("sed 's/^port .*/port 0/' /etc/redis/redis.conf.orig | sudo tee /etc/redis/redis.conf")
-#        filee = j.do.readFile('/etc/redis/redis.conf') + '\nunixsocket /var/run/redis/redis.sock' + '\nunixsocketperm 770'
-#        j.do.writeFile('/etc/redis/redis.conf', filee)
-#        if not j.do.isDir('/var/run/redis'):
-#            j.do.createDir('/var/run/redis')
-#        j.do.chown('/var/run/redis', 'redis')
-#        j.do.execute('chmod 755 /var/run/redis')
-#        if j.do.isDir('/etc/tmpfiles.d'):
-#            j.do.writeFile('/etc/tmpfiles.d/redis.conf', 'd  /var/run/redis  0755  redis  redis  10d  -')
-#        j.do.execute('service redis-server restart')
-#        j.do.execute('usermod -aG redis git')
-
    # Install Enginx
         j.system.platform.ubuntu.checkInstall('nginx', 'nginx')
- #       print('userName: root\npassword: 5iveL!fe')
         
         return True
         
@@ -130,9 +96,6 @@ class Actions(ActionsBase):
         j.do.copyFile('/home/git/gitlab-shell/config.yml', '/home/git/gitlab-shell/config.yml.org')
         os.system("cd /home/git/gitlab-shell && sed 's/socket:.*/\/opt\/jumpscale7\/var\/redis\/main\/redis.sock/' config.yml.org | tee config.yml")
 
-   # Install bundler Gem
-#        j.do.copyFile('/etc/login.defs', '/etc/login.defs.org')
-#        j.do.execute("cd /etc/ && sed 's/ENV_PATH\tPATH=.*/ENV_PATH\tPATH=\/opt\/jumpscale7\/bin:\/usr\/local\/sbin:\/usr\/local\/bin:\/usr\/sbin:\/usr\/bin:\/sbin:\/bin:\/usr\/games:\/usr\/local\/games/' login.defs.org | tee login.defs")
         j.do.execute('chown git:git -R /home/git')
         print 1
         j.do.execute('usermod -a -G root git')
@@ -156,8 +119,6 @@ class Actions(ActionsBase):
         j.do.execute('service nginx restart && service gitlab restart')
 
         print('userName: root\npassword: 5iveL!fe')
-
-
         return True
 
     # def stop(self,**args):

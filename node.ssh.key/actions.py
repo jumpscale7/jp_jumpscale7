@@ -2,46 +2,31 @@ from JumpScale import j
 
 ActionsBase=j.packages.getActionsBaseClass()
 
-import JumpScale.lib.ms1
 import JumpScale.baselib.remote.cuisine
 
 class Actions(ActionsBase):
 
     def configure(self,**args):
         """
-        will install a node
+        will install a node over ssh
         """
-
-        ms1client_hrd=j.application.getAppInstanceHRD("ms1_client","$(param.ms1.connection)")
-
-        spacesecret=ms1client_hrd.get("param.secret")
-
-        def createmachine():
-
-            machineid,ip,port=j.tools.ms1.createMachine(spacesecret, "$(param.name)", memsize="$(param.memsize)", \
-                ssdsize=$(param.ssdsize), vsansize=0, description='',imagename="$(param.imagename)",delete=False)
-
-            self.jp_instance.hrd.set("param.machine.id",machineid)
-            self.jp_instance.hrd.set("param.machine.ssh.ip",ip)
-            self.jp_instance.hrd.set("param.machine.ssh.port",port)
-
-
-        j.action.start(retry=1, name="createmachine",description='createmachine', cmds='', action=createmachine, \
-            actionRecover=None, actionArgs={}, errorMessage='', die=True, stdOutput=True, jp=self.jp_instance)
-
-
         def update():
             self.execute(cmd="apt-get update")
-        j.action.start(retry=1, name="update",description='update', action=update, stdOutput=True, jp=self.jp_instance)
+        j.action.start(retry=2, name="update",description='update', action=update, stdOutput=True, jp=self.jp_instance)
 
         def upgrade():
             self.execute(cmd="apt-get upgrade -y")
-        j.action.start(retry=1, name="upgrade",description='upgrade', action=upgrade, stdOutput=True, jp=self.jp_instance)
+        j.action.start(retry=2, name="upgrade",description='upgrade', action=upgrade, stdOutput=True, jp=self.jp_instance)
 
         def jumpscale():
             self.execute(cmd="curl https://raw.githubusercontent.com/Jumpscale/jumpscale_core7/master/install/install_python_web.sh > /tmp/installjs.sh")
             self.execute(cmd="sh /tmp/installjs.sh")
         j.action.start(retry=1, name="jumpscale",description='install jumpscale', action=jumpscale, stdOutput=True, jp=self.jp_instance)
+
+        def extra():
+            self.execute(cmd="apt-get install byobu -y")
+        j.action.start(retry=1, name="extra",description='extra', action=extra, stdOutput=True, jp=self.jp_instance)
+
 
         return True
 
@@ -50,18 +35,16 @@ class Actions(ActionsBase):
         """
         delete vmachine
         """
-        ms1client_hrd=j.application.getAppInstanceHRD("ms1_client","$(param.ms1.connection)")
-        spacesecret=ms1client_hrd.get("param.secret")
-        j.tools.ms1.deleteMachine(spacesecret, "$(param.name)")
-
+        self.execute(cmd="killall tmux;killall python;echo")
+        self.execute(cmd="rm -rf /opt")
         return True
 
     def execute(self,**args):
         """
         execute over ssh something onto the machine
         """
-        ip=self.jp_instance.hrd.get("param.machine.ssh.ip")
-        port=self.jp_instance.hrd.get("param.machine.ssh.port")
+        ip = self.jp_instance.hrd.get("param.machine.ssh.ip")
+        port = self.jp_instance.hrd.get("param.machine.ssh.port")
 
         keyhrd=j.application.getAppInstanceHRD("sshkey",'$(param.ssh.key.name)')
         key = keyhrd.get("param.ssh.key.priv")
@@ -82,3 +65,4 @@ class Actions(ActionsBase):
         del j.remote.cuisine.fabric.env["key"]
 
         return True
+
