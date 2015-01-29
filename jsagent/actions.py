@@ -25,8 +25,9 @@ class Actions(ActionsBase):
 #Grid information
 id = @ASK descr:'id of grid' default:1
 node.id = 0
+node.machineguid = %s
 roles = @ASK descr:'roles this node subscribes to' default:node
-"""
+""" % j.application.getUniqueMachineId()
         hpath = j.system.fs.joinPaths(j.dirs.hrdDir, 'system', 'grid.hrd')
         if not j.system.fs.exists(path=hpath):
             j.system.fs.writeFile(hpath, C)
