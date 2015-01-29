@@ -25,7 +25,6 @@ class Actions(ActionsBase):
         this gets executed before the files are downloaded & installed on appropriate spots
         """
         j.system.platform.ubuntu.createUser("mysql", passwd=j.base.idgenerator.generateGUID(), home="/home/mysql", creategroup=True)
-
         j.system.fs.createDir("/opt/mariadb")
         j.system.fs.chown(path="/opt/mariadb/", user="mysql")
         j.system.fs.createDir("/var/log/mysql")
@@ -35,7 +34,7 @@ class Actions(ActionsBase):
         j.do.delete("~/.my.cnf")
         j.do.delete("/etc/my.cnf")
         j.system.fs.createDir("/var/jumpscale/mysql")
-
+	j.system.fs.createDir("$(system.paths.var)/mysql")
         j.system.fs.createDir("/tmp/mysql")
         j.do.execute('apt-get install libaio1 -y')
         return True
