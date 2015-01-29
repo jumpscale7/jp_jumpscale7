@@ -19,9 +19,6 @@ process.1                      =
     cmd:'$(system.paths.base)/apps/redis/redis-server',
     cwd:'$(system.paths.base)/apps/redis',
     env:,
-    filterstr:'redis-server 127.0.0.1:$(param.port)',
     ports:'$(param.port)',
     prio:1,
     startupmanager:'tmux',
-    timeout_start:20,
-    timeout_stop:10
