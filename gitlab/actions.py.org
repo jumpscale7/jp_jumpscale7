@@ -143,14 +143,12 @@ class Actions(ActionsBase):
             j.do.execute('ln -s /etc/nginx/sites-available/gitlab /etc/nginx/sites-enabled/gitlab')
             j.do.delete('/etc/nginx/sites-enabled/default')
         print 3
-        os.system("cd /home/git/gitlab && sudo -u git -H bundle install --deployment --without development test mysql aws")
+        os.system("su - git -c 'cd /home/git/gitlab && bundle install --deployment --without development test mysql aws'")
         print 4
-        os.system("cd /home/git/gitlab && sudo -u git -H bundle exec rake gitlab:shell:install[v2.4.0] REDIS_URL=unix:/var/run/redis/redis.sock RAILS_ENV=production")
-        os.system("cd /home/git/gitlab && sudo -u git -H bundle exec rake gitlab:setup RAILS_ENV=production")
-        os.system("cd /home/git/gitlab && sudo -u git -H bundle exec rake gitlab:env:info RAILS_ENV=production")
-        os.system("cd /home/git/gitlab && sudo -u git -H bundle exec rake assets:precompile RAILS_ENV=production")
-        os.system("cd /home/git/gitlab-shell && sudo -u git -H git fetch && sudo -u git -H git checkout v`cat /home/git/gitlab/GITLAB_SHELL_VERSION`")
-        os.system("sudo -u git -H RAILS_ENV=production bin/background_jobs start")
+        os.system("su - git -c 'cd /home/git/gitlab && bundle exec rake gitlab:shell:install[v2.4.0] REDIS_URL=unix:/var/run/redis/redis.sock RAILS_ENV=production'")
+        os.system("su - git -c 'cd /home/git/gitlab && bundle exec rake gitlab:setup RAILS_ENV=production'")
+        os.system("su - git -c 'cd /home/git/gitlab && bundle exec rake gitlab:env:info RAILS_ENV=production'")
+        os.system("su - git -c 'cd /home/git/gitlab && bundle exec rake assets:precompile RAILS_ENV=production'")
         j.do.execute('service nginx restart && service gitlab restart')
 
         print('userName: root\npassword: 5iveL!fe')
