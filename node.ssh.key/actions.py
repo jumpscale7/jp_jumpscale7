@@ -47,10 +47,9 @@ class Actions(ActionsBase):
         port = self.jp_instance.hrd.get("param.machine.ssh.port")
 
         keyhrd=j.application.getAppInstanceHRD("sshkey",'$(param.ssh.key.name)')
-        keypath="/tmp/$(param.ssh.key.name).privkey"
-        j.do.writeFile(keypath,keyhrd.get("param.ssh.key.priv"))
+        key = keyhrd.get("param.ssh.key.priv")
 
-        j.remote.cuisine.fabric.env["key_filename"] = keypath
+        j.remote.cuisine.fabric.env["key"] = key
         cl=j.remote.cuisine.connect(ip,port)
 
         if "cmd" not in args:
@@ -63,8 +62,7 @@ class Actions(ActionsBase):
             cl.run(''.join(args['cmd']))
 
         #clean priv key from memory
-        del j.remote.cuisine.fabric.env["key_filename"]
-        j.do.delete(keypath)
+        del j.remote.cuisine.fabric.env["key"]
 
         return True
-        
+

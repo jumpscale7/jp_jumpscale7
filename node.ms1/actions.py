@@ -11,7 +11,7 @@ class Actions(ActionsBase):
         """
         will install a node
         """
-        
+
         ms1client_hrd=j.application.getAppInstanceHRD("ms1_client","$(param.ms1.connection)")
 
         spacesecret=ms1client_hrd.get("param.secret")
@@ -27,23 +27,24 @@ class Actions(ActionsBase):
 
 
         j.action.start(retry=1, name="createmachine",description='createmachine', cmds='', action=createmachine, \
-            actionRecover=None, actionArgs={}, errorMessage='', die=True, stdOutput=True, jp=self.jp_instance)    
+            actionRecover=None, actionArgs={}, errorMessage='', die=True, stdOutput=True, jp=self.jp_instance)
 
 
         def update():
             self.execute(cmd="apt-get update")
-        j.action.start(retry=1, name="update",description='update', action=update, stdOutput=True, jp=self.jp_instance) 
+        j.action.start(retry=1, name="update",description='update', action=update, stdOutput=True, jp=self.jp_instance)
 
         def upgrade():
             self.execute(cmd="apt-get upgrade -y")
-        j.action.start(retry=1, name="upgrade",description='upgrade', action=upgrade, stdOutput=True, jp=self.jp_instance) 
+        j.action.start(retry=1, name="upgrade",description='upgrade', action=upgrade, stdOutput=True, jp=self.jp_instance)
 
         def jumpscale():
-            self.execute(cmd="curl https://raw.githubusercontent.com/Jumpscale/jumpscale_core7/master/install/install_python_web.sh | bash")
-        j.action.start(retry=1, name="jumpscale",description='install jumpscale', action=jumpscale, stdOutput=True, jp=self.jp_instance) 
+            self.execute(cmd="curl https://raw.githubusercontent.com/Jumpscale/jumpscale_core7/master/install/install_python_web.sh > /tmp/installjs.sh")
+            self.execute(cmd="sh /tmp/installjs.sh")
+        j.action.start(retry=1, name="jumpscale",description='install jumpscale', action=jumpscale, stdOutput=True, jp=self.jp_instance)
 
         return True
-    
+
 
     def removedata(self,**args):
         """
@@ -54,24 +55,30 @@ class Actions(ActionsBase):
         j.tools.ms1.deleteMachine(spacesecret, "$(param.name)")
 
         return True
-    
+
     def execute(self,**args):
         """
         execute over ssh something onto the machine
         """
-        # self.jp_instance.hrd.set("param.machine.id",machineid)
         ip=self.jp_instance.hrd.get("param.machine.ssh.ip")
         port=self.jp_instance.hrd.get("param.machine.ssh.port")
+
+        keyhrd=j.application.getAppInstanceHRD("sshkey",'$(param.ssh.key.name)')
+        key = keyhrd.get("param.ssh.key.priv")
+
+        j.remote.cuisine.fabric.env["key"] = key
         cl=j.remote.cuisine.connect(ip,port)
 
         if "cmd" not in args:
-            raise RuntimeError("cmd need to be in args")
+            raise RuntimeError("cmd need to be in args, example usage:jpackage execute -n node.ssh.key -i ovh5 --data=\"cmd:'ls /'\"")
 
         if "shell" in args:
             #can pass something to lua or jumpscale
             pass
         else:
-            cl.run(args["cmd"])
+            cl.run(''.join(args['cmd']))
+
+        #clean priv key from memory
+        del j.remote.cuisine.fabric.env["key"]
 
         return True
-        
