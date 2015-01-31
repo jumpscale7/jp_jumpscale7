@@ -1,3 +1,10 @@
+git.url='https://git.aydo.com/binary/gitlab-ce.git'
+git.export.1=
+    url:$(git.url),
+    source:'',
+    dest:'/home/git/gitlab',
+    link:False
+
 dependencies.1=
     name:'ruby',
     domain:,
