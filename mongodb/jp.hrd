@@ -2,7 +2,7 @@
 process.1=
     cmd:'rm -f /opt/jumpscale7/var/mongodb/main/mongod.lock;export LC_ALL=C;/opt/mongodb/bin/mongod --dbpath $(system.paths.var)/mongodb/$(jp.instance)/ --smallfiles --rest --httpinterface',
     args:,
-    prio:10,
+    prio:5,
     env:,
     cwd:'/opt/mongodb/bin',
     timeout_start:60,
