@@ -39,7 +39,8 @@ class Actions(ActionsBase):
         # j.application.config.applyOnDir("$(param.base)/cfg",filter=None, changeFileName=True,changeContent=True,additionalArgs={})  
 
         if j.system.fs.exists(path="$(datadir)"):
-            j.system.fs.removeDirTree("$(datadir)")
+            # Already configured once. Nothing to do here.
+            return
         
         j.system.fs.createDir("$(datadir)")
         j.system.fs.chown(path="$(param.base)", user="postgres")
