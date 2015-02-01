@@ -8,6 +8,7 @@ dep.args.redis                 =
     param.mem:100,
     param.passwd:'$(param.rootpasswd)',
     param.port:9999,
+    param.unixsocket:0,
 
 dependencies.2                 =
     name:'web',
