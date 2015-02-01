@@ -105,7 +105,7 @@ git.export.86= url:$(bin.git.url), source:'model_database', dest:'$(param.base)/
 
 process.1=
     name:'$(jp.instance)_$(jp.name)',
-    cmd:'PATH=/opt/nodejs/bin/:$PATH $(param.base)/odoo.py -r $(param.db.user) -w $(param.db.password)',
+    cmd:'PATH=/opt/nodejs/bin/:$PATH $(param.base)/odoo.py --db_host localhost -r $(param.db.user) -w $(param.db.password)',
     user: 'odoo',
     args:,
     prio:8000,

@@ -63,9 +63,13 @@ class Actions(ActionsBase):
         if not j.system.unix.unixUserExists('odoo'):
             j.system.unix.addSystemUser('odoo', homedir='/var/lib/odoo')
 
+        user_commands = 'sudo -u postgres /opt/postgresql/bin/createuser -s -w $(param.db.user); sudo -u postgres /opt/postgresql/bin/psql --command "ALTER USER $(param.db.user) WITH PASSWORD \'$(param.db.password)\'"' 
+        j.action.start(name='Create Postgresql odoo user', cmds=user_commands, jp=self.jp_instance)
+
         # Copy over the files from the model_database
         j.system.fs.copyDirTree(os.path.join(self.jp_instance.hrd.get('param.base'), 'model_database/filestore'), '/var/lib/odoo/.local/share/Odoo/filestore')
+        j.system.fs.chown('/var/lib/odoo/', 'odoo')
         
         # Load the database dump from model_databasse
-        commands = 'sudo -u postgres createdb codescalers ; sudo -u postgres psql -f %(sql_dump_path)s codescalers' % {'sql_dump_path': os.path.join(self.jp_instance.hrd.get('param.base'), 'model_database/dump.sql')}
+        commands = 'sudo -u $(param.db.user) /opt/postgresql/bin/createdb codescalers ; sudo -u $(param.db.user) /opt/postgresql/bin/psql -f %(sql_dump_path)s codescalers' % {'sql_dump_path': os.path.join(self.jp_instance.hrd.get('param.base'), 'model_database/dump.sql')}
         j.action.start(name='Load model database image', cmds=commands, jp=self.jp_instance)
