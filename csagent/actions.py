@@ -4,6 +4,9 @@ ActionsBase=j.packages.getActionsBaseClass()
 
 import os.path
 
+def log(message):
+    print(' :: ' + message)
+
 
 class Actions(ActionsBase):
 
@@ -25,7 +28,8 @@ class Actions(ActionsBase):
             LUNIX_BUILD_BASE = '/opt/build/github.com/wahern/lunix'  # It is put there by jpackage before doing the build 
             LUA_PREFIX = '/opt/luajit'
             command = 'cd %(build_base)s ; make all prefix=%(prefix)s ; make install prefix=%(dest_prefix)s' %{'build_base': LUNIX_BUILD_BASE, 'prefix': LUA_PREFIX, 'dest_prefix': os.path.join(BUILD_BASE, 'deps')}
-            j.action.start(retry=1, name="install_lua_dep-lunix", description='', cmds=command, action=None, actionRecover=None, actionArgs={}, errorMessage='', die=True, stdOutput=True, jp=self.jp_instance)
+            log('Installing lunix')
+            j.do.execute(command)
 
         def install_lua_deps():
             for dep in lua_deps():
@@ -34,7 +38,8 @@ class Actions(ActionsBase):
                     'local_tree_path': os.path.join(BUILD_BASE, 'deps'), 
                     'dep': dep}
             
-                j.action.start(retry=1, name="install_lua_dep-" + dep, description='', cmds=install_command, action=None, actionRecover=None, actionArgs={}, errorMessage='', die=True, stdOutput=True, jp=self.jp_instance) 
+                log('Installing ' + dep)
+                j.do.execute(install_command) 
 
         install_lunix()
         install_lua_deps()

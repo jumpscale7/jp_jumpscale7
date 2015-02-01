@@ -14,7 +14,7 @@ git.export.6= url:$(bin.git.url), source:'netinfo.lua', dest:'$(param.base)', li
 git.export.7= url:$(bin.git.url), source:'utils.lua', dest:'$(param.base)', link:False,
 
 
-process.1= name:'$(jp.instance)_$(jp.name)', cmd:'LUA_PATH="$(param.base)/?.lua;$(param.base)/deps/share/lua/5.1/?.lua;$(param.base)/deps/share/lua/5.1/?/init.lua;$(param.base)/deps/share/lua/5.1/?.lua;$(param.base)/deps/share/lua/5.1/?/init.lua;./?.lua;/opt/luajit/share/luajit-2.0.3/?.lua;/usr/local/share/lua/5.1/?.lua;/usr/local/share/lua/5.1/?/init.lua;/opt/luajit/share/lua/5.1/?.lua;/opt/luajit/share/lua/5.1/?/init.lua;" /opt/luajit/bin/luajit $(param.base)/csagent.lua', args:, env:, timeout_start:10, timeout_stop:10, ports:[], startupmanager:tmux, filterstr:'csagent.lua', 
+process.1= name:'$(jp.instance)_$(jp.name)', cmd:'LUA_PATH="$(param.base)/?.lua;$(param.base)/deps/share/lua/5.1/?.lua;$(param.base)/deps/share/lua/5.1/?/init.lua;$(param.base)/deps/share/lua/5.1/?.lua;$(param.base)/deps/share/lua/5.1/?/init.lua;$(param.base)/deps/lib/lua/5.1/?;./?.lua;/opt/luajit/share/luajit-2.0.3/?.lua;/usr/local/share/lua/5.1/?.lua;/usr/local/share/lua/5.1/?/init.lua;/opt/luajit/share/lua/5.1/?.lua;/opt/luajit/share/lua/5.1/?/init.lua;" LUA_CPATH="$(param.base)/deps/lib/lua/5.1/?.so;/opt/luajit/lib/lua/5.1/?.so;./?.so;/usr/local/lib/lua/5.1/?.so;/usr/local/lib/lua/5.1/loadall.so" /opt/luajit/bin/luajit $(param.base)/csagent.lua', args:, env:, timeout_start:10, timeout_stop:10, ports:[], startupmanager:tmux, filterstr:'csagent.lua', 
 
 dependencies.1 = name:'luajit'
 
