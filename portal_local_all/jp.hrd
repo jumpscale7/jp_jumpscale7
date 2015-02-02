@@ -33,17 +33,31 @@ dep.args.mongodbclient         =
     param.passwd:,
     param.port:27017,
 
+dependencies.5                 =
+    name:'influxdb',
 
-dependencies.5                =
+dependencies.6                 =
+    args:'dep.args.influxdbclient',
+    name:'influxdb_client',
+
+dep.args.influxdbclient         =
+    param.influxdb.client.address:'localhost',
+    param.influxdb.client.port:8086,
+    param.influxdb.client.login:'root',
+    param.influxdb.client.passwd:'root',
+
+
+dependencies.7               =
     args:'dep.args.osis',
     name:'osis',
 
 dep.args.osis         =
     param.osis.connection.mongodb:'main',
+    param.osis.connection.influxdb:'main',
     param.osis.superadmin.passwd:'$(param.rootpasswd)',
 
 
-dependencies.6               =
+dependencies.8               =
     args:'dep.args.osis_client',
     name:'osis_client',
 
@@ -52,7 +66,7 @@ dep.args.osis_client         =
     param.osis.client.login:'root',
     param.osis.client.passwd:'$(param.rootpasswd)',
 
-dependencies.7               =
+dependencies.9               =
     args:'dep.args.mailclient',
     name:'mailclient',
 
@@ -64,7 +78,7 @@ dep.args.mailclient         =
     smtp.sender:'info@incubaid.com',
 
 
-dependencies.8               =
+dependencies.10               =
     args:'dep.args.portal',
     name:'portal',
 
@@ -76,7 +90,7 @@ dep.args.portal         =
     param.portal.secret:'$(param.rootpasswd)',
     param.osis.connection:'main',
 
-dependencies.9               =
+dependencies.11              =
     args:'dep.args.portal_client',
     name:'portal_client',
 
