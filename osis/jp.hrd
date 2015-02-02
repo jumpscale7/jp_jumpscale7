@@ -40,6 +40,10 @@ git.export.3=
 dependencies.1                 =
     name:'portal_lib',
     
+dependencies.2 =
+   name:'influxdb_client',
+
+
 #name of packages which need to be installed locally
 
 platform.supported=linux64,

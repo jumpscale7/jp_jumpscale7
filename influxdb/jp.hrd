@@ -4,7 +4,7 @@ process.1=
     name:'$(jp.name)__$(jp.instance)',
     cmd:'./influxdb -config=../cfg/influxdb/config.toml',
     args:,
-    prio:9,
+    prio:5,
     cwd:'$(param.base)/influxdb',
     timeout_start:10,
     timeout_stop:10,
