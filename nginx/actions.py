@@ -28,6 +28,6 @@ class Actions(ActionsBase):
     def stop(self, **kwargs):
         if not j.system.process.getPidsByPort(80):
             return
-        j.system.process.execute('./nginx -c /opt/nginx/cfg/nginx.conf -s quit ')
+        j.system.process.execute('cd /opt/nginx && ./nginx -c /opt/nginx/cfg/nginx.conf -s quit')
 
      
