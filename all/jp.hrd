@@ -8,7 +8,7 @@ dependencies.2                 =
 dep.args.agentcontroller              =
     osis.connection:'main',  
 
-dependencie.3                 =
+dependencies.3                 =
     args:'dep.args.jsagent',
     name:'jsagent',
 
@@ -19,10 +19,12 @@ dep.args.jsagent         =
     ac.passwd:'EMPTY',
     osis.connection:'processmanager',
     agentcontroller.connection:'main',
+    id:1,
+    node.roles:'node',
 
 dependencies.4 = 
     name:'csagent',
 
-dependencie.5  =    
+dependencies.5  =    
     name:'nginx',
 

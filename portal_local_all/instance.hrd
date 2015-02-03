@@ -1,1 +1,1 @@
-param.rootpasswd               = @ASK
+param.rootpasswd = 'rooter'
