@@ -41,9 +41,8 @@ apt-get install curlftpfs -y
 mkdir -p /mnt/ftp
 curlftpfs pub:pub1234@ftp.aydo.com /mnt/ftp
 mkdir -p /mnt/vmstor/kvm/images
-#rsync -arv --partial --progress /mnt/ftp/images/ubuntu1404/ /mnt/vmstor/kvm/images/ubuntu1404/
+rsync -arv --partial --progress /mnt/ftp/images/ubuntu1404/ /mnt/vmstor/kvm/images/ubuntu1404/
 #rsync -arv --partial --progress /mnt/ftp/images/ubuntu1410/ /mnt/vmstor/kvm/images/ubuntu1410/
-rsync -arv --partial --progress /mnt/ftp/images/openwrt/ /mnt/vmstor/kvm/images/openwrt/
 """
 
         j.action.start(retry=2, name="getimages",description='get ubuntu & openwrt images (can take a while)', cmds=C, action=None, actionRecover=None, actionArgs={}, errorMessage='', die=True, stdOutput=True, jp=self.jp_instance) 
@@ -57,39 +56,3 @@ rsync -arv --partial --progress /mnt/ftp/images/openwrt/ /mnt/vmstor/kvm/images/
         unpack()
 
 
-    def configure(self, **args):
-
-        def setnetwork():
-            import JumpScale.lib.kvm
-            j.system.platform.kvm.initPhysicalBridges()
-            # j.system.platform.kvm.initLibvirtNetwork()
-
-        j.action.start(retry=2, name="setnetwork",description='setnetwork', cmds='', action=setnetwork, actionRecover=None, actionArgs={}, errorMessage='', die=True, stdOutput=True, jp=self.jp_instance) 
-
-    def removedata(self, **args):
-        pass
-
-    def build(self, **args):
-        def prepare_build():
-            j.system.platform.ubuntu.checkInstall(["cmake"], "cmake")
-
-            cmd='apt-get update && apt-get install --no-install-recommends -y libglib2.0-dev libpixman-1-dev autoconf libtool build-essential'
-            j.do.executeInteractive(cmd)
-
-
-        j.action.start(retry=2, name="prepare_build",description='', cmds='', action=prepare_build, actionRecover=None, actionArgs={}, errorMessage='', die=True, stdOutput=True, jp=self.jp_instance)
-        
-        cmd = """
-set -e
-cd /opt/build/git.aydo.com/aydo/qemu-ledis
-./configure --target-list="x86_64-softmmu x86_64-linux-user" --enable-debug --prefix=/opt/jumpscale7/apps/kvm
-make
-make DESTDIR="/opt/code/git/binary/kvm/root" install
-mv /opt/code/git/binary/kvm/root/opt/jumpscale7/apps /opt/code/git/binary/kvm/root/
-rm -rf /opt/code/git/binary/kvm/root/opt
-"""
-        j.action.start(retry=1, name="qemu-ledis",description='compile qemu ledis', cmds=cmd, action=None, actionRecover=None, actionArgs={}, errorMessage='', die=True, stdOutput=True, jp=self.jp_instance)
-
-
-    def cleanup(self, **args):
-        pass

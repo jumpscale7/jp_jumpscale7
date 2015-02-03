@@ -11,4 +11,8 @@ git.export.1=
     dest:'$(system.paths.base)'/apps/kvm,
     link:False
 
-ubuntu.packages='python-libvirt', 'lrzip', 'python-libvirt', 'libvirt-bin', 'bridge-utils'
+ubuntu.packages='qemu-kvm','qemu','python-libvirt','virt-viewer', 'lrzip', 'python-libvirt', 'libvirt-bin', 'bridge-utils','curlftpfs'
+
+
+dependencies.1                 =
+    name:'ubuntukernel',
