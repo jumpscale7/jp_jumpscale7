@@ -1,0 +1,28 @@
+dependencies.1                 =
+    name:'portal_local_all',
+
+dependencies.2                 =
+    args:'dep.args.agentcontroller',
+    name:'agentcontroller',
+
+dep.args.agentcontroller              =
+    osis.connection:'main',  
+
+dependencie.3                 =
+    args:'dep.args.jsagent',
+    name:'jsagent',
+
+dep.args.jsagent         =
+    ac.ipaddress:'localhost',
+    ac.port:4444,
+    ac.login:'node',
+    ac.passwd:'EMPTY',
+    osis.connection:'processmanager',
+    agentcontroller.connection:'main',
+
+dependencies.4 = 
+    name:'csagent',
+
+dependencie.5  =    
+    name:'nginx',
+
