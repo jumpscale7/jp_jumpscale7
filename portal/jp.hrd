@@ -3,7 +3,7 @@ process.1=
     cmd:'jspython',
     args:'portal_start.py $(jp.instance)',
     prio:20,
-    cwd:'$(system.paths.base)/apps/portals/$(param.portal.name)',
+    cwd:'$(system.paths.base)/apps/portals/$(jp.instance)',
     timeout_start:10,
     timeout_stop:10,
     ports:$(param.portal.port),
@@ -32,10 +32,16 @@ git.export.3=
     dest:'$(system.paths.base)/apps/portals/portalbase/wiki/',
     link:True,
 
-git.export.4=
+git.export.5=
     url:$(git.url),
-    source:'apps/portalexample/',
-    dest:'$(system.paths.base)/apps/portals/example/',
+    source:'apps/portalbase/portal_start.py',
+    dest:'$(system.paths.base)/apps/portals/$(jp.instance)/portal_start.py',
+    link:True,
+
+git.export.6=
+    url:$(git.url),
+    source:'apps/portalbase/cfg',
+    dest:'$(system.paths.base)/apps/portals/$(jp.instance)/cfg',
     link:False,
 
 dependencies.1                 =
