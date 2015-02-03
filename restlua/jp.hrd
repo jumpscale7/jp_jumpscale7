@@ -1,0 +1,13 @@
+
+process.1=
+    name:'$(jp.instance)_$(jp.name)',
+    cmd:'luajit',
+    args:'server.lua',
+    prio:200,
+    env:,
+    cwd:'$(system.paths.base)/apps/restlua/$(jp.instance)',
+    timeout_start:10,
+    timeout_stop:10,
+    ports:[$(param.port)],
+    startupmanager:tmux,
+    filterstr:'lua',

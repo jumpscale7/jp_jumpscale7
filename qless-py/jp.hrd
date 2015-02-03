@@ -1,0 +1,23 @@
+
+git.url='https://github.com/seomoz/qless-py'
+git.export.1=
+    url:$(git.url),
+    source:'qless/*',
+    dest:'$(system.paths.base)/lib/qless/',
+    link:True,
+
+git.export.2=
+    url:$(git.url),
+    source:'bin/qless-py-worker',
+    dest:'$(system.paths.base)/apps/qless-py/$(jp.instance)',
+    link:False,
+
+process.1=
+    cmd:'jspython qless-py-worker',
+    args:'--host=$(param.redis.host)',
+    prio:20,
+    cwd:'$(system.paths.base)/apps/qless-py/$(jp.instance)',
+    timeout_start:10,
+    timeout_stop:10,
+    startupmanager:tmux,
+    filterstr:'',

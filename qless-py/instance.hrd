@@ -1,0 +1,2 @@
+param.redis.instance = @ASK default:main descr:'The redis instance to connect to'
+param.redis.host =
