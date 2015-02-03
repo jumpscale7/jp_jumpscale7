@@ -25,7 +25,7 @@ class Actions(ActionsBase):
         """
         j.system.platform.ubuntu.createUser("postgres", passwd=j.base.idgenerator.generateGUID(), home="/home/postgresql", creategroup=True)
         
-        j.system.process.killProcessByPort(5432)
+        j.system.process.killProcessByPort("$(param.port)")
         j.system.fs.createDir("/tmp/postgres")
 
         return True
@@ -38,41 +38,42 @@ class Actions(ActionsBase):
         """
         # j.application.config.applyOnDir("$(param.base)/cfg",filter=None, changeFileName=True,changeContent=True,additionalArgs={})  
 
-        if not j.system.fs.exists(path="$(datadir)"):
-            j.system.fs.removeDirTree("$(datadir)")
-            j.system.fs.createDir("$(datadir)")
-
-            j.system.fs.chown(path="$(param.base)", user="postgres")
-            j.system.fs.chown(path="$(datadir)", user="postgres")        
-            j.system.fs.chmod("$(datadir)",0777)
-
-            cmd="su -c '$(param.base)/bin/initdb -D $(datadir)' postgres"
-            j.system.process.executeWithoutPipe(cmd)
-
-            def replace(path,newline,find):
-                lines=j.system.fs.fileGetContents(path)
-                out=""
-                found=False
-                for line in lines.split("\n"):
-                    if line.find(find)<>-1:
-                        line=newline
-                        found=True
-                    out+="%s\n"%line
-                if found==False:
-                    out+="%s\n"%newline
-                j.system.fs.writeFile(filename=path,contents=out)
-
-            replace("$(datadir)/pg_hba.conf","host    all             all             0.0.0.0/0               md5","0.0.0.0/0")
-
-            j.system.fs.createDir("/var/log/postgresql")
+        if j.system.fs.exists(path="$(datadir)"):
+            # Already configured once. Nothing to do here.
+            return
         
-            self.start()
-            time.sleep(2)
+        j.system.fs.createDir("$(datadir)")
+        j.system.fs.chown(path="$(param.base)", user="postgres")
+        j.system.fs.chown(path="$(datadir)", user="postgres")        
+        j.system.fs.chmod("$(datadir)",0777)
 
-            cmd="cd $(param.base)/bin;./psql -U postgres template1 -c \"alter user postgres with password '$(param.rootpasswd)';\" -h localhost"
-            j.do.execute(cmd)
+        cmd="su -c '$(param.base)/bin/initdb -D $(datadir)' postgres"
+        j.system.process.executeWithoutPipe(cmd)
 
-            # self.stop()
+        def replace(path,newline,find):
+            lines=j.system.fs.fileGetContents(path)
+            out=""
+            found=False
+            for line in lines.split("\n"):
+                if line.find(find)<>-1:
+                    line=newline
+                    found=True
+                out+="%s\n"%line
+            if found==False:
+                out+="%s\n"%newline
+            j.system.fs.writeFile(filename=path,contents=out)
+
+        replace("$(datadir)/pg_hba.conf","host    all             all             0.0.0.0/0               md5","0.0.0.0/0")
+
+        j.system.fs.createDir("/var/log/postgresql")
+    
+        self.start()
+        time.sleep(2)
+
+        cmd="cd $(param.base)/bin;./psql -U postgres template1 -c \"alter user postgres with password '$(param.rootpasswd)';\" -h localhost"
+        j.do.execute(cmd)
+
+        # self.stop()
 
         return True
 
@@ -97,7 +98,11 @@ class Actions(ActionsBase):
         if you want a gracefull shutdown implement this method
         a uptime check will be done afterwards (local)
         return True if stop was ok, if not this step will have failed & halt will be executed.
-        """        
+        """
+        # No process actually running
+        if not j.system.process.getPidsByPort("$(param.port)"):
+            return
+        
         cmd="sudo -u postgres $(param.base)/bin/pg_ctl -D /var/jumpscale/postgresql stop  -m fast"
         # print (cmd)
         rc,out,err=j.do.execute(cmd, dieOnNonZeroExitCode=False, outputStdout=False, outputStderr=True,timeout=5)

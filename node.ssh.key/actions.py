@@ -17,16 +17,14 @@ class Actions(ActionsBase):
         def upgrade():
             self.execute(cmd="apt-get upgrade -y")
         j.action.start(retry=2, name="upgrade",description='upgrade', action=upgrade, stdOutput=True, jp=self.jp_instance)
+        def extra():
+            self.execute(cmd="apt-get install byobu curl -y")
+        j.action.start(retry=1, name="extra",description='extra', action=extra, stdOutput=True, jp=self.jp_instance)
 
         def jumpscale():
             self.execute(cmd="curl https://raw.githubusercontent.com/Jumpscale/jumpscale_core7/master/install/install_python_web.sh > /tmp/installjs.sh")
             self.execute(cmd="sh /tmp/installjs.sh")
         j.action.start(retry=1, name="jumpscale",description='install jumpscale', action=jumpscale, stdOutput=True, jp=self.jp_instance)
-
-        def extra():
-            self.execute(cmd="apt-get install byobu -y")
-        j.action.start(retry=1, name="extra",description='extra', action=extra, stdOutput=True, jp=self.jp_instance)
-
 
         return True
 

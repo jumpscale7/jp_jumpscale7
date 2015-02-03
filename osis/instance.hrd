@@ -2,5 +2,5 @@ param.osis.key=
 #@ASK encryptionkey:var descr:give_encryption_key_for_osis type:str regex:^(?!\s*$).+ retry:5
 #example: param.osis.connection.mongodb:main param.osis.connection.influxdb:main
 param.osis.connection.mongodb=@ASK default:'main'
+param.osis.connection.influxdb=@ASK default:'main'
 param.osis.superadmin.passwd=@ASK default:'rooter'
-

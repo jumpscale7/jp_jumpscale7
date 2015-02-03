@@ -33,8 +33,7 @@ class Actions(ActionsBase):
         after this step the system will try to start the jpackage if anything needs to be started
         """
 
-        dest="$(system.paths.base)/apps/portals/$(param.portal.name)"
-        j.system.fs.copyDirTree("$(system.paths.base)/apps/portals/example",dest)
+        dest="$(system.paths.base)/apps/portals/$(jp.instance)"
         self.jp_instance.hrd.applyOnDir(dest)
         j.application.config.applyOnDir(dest)
         cmd='jsuser delete -ul admin'
@@ -42,9 +41,11 @@ class Actions(ActionsBase):
         cmd='jsuser add -d admin:$(param.portal.rootpasswd):admin:fakeemail.test.com:jumpscale'
         j.do.execute(cmd)
         secret = "$(param.portal.secret)".strip()
+        port = "$(param.portal.port)".strip()
+        ini = j.config.getInifile(dest + '/cfg/portal')
         if secret:
-            ini = j.config.getInifile(dest + '/cfg/portal')
             ini.setParam('main', 'secret', secret)
-            ini.write()
+        ini.setParam('main', 'webserverport', port)
+        ini.write()
         return True
 

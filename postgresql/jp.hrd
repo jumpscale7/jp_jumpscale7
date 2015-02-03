@@ -1,5 +1,5 @@
-base='/opt/postgresql'
-datadir='/var/jumpscale/postgresql'
+param.base='/opt/postgresql'
+datadir='/var/jumpscale/postgresql/'
 
 process.1=
     name:'$(jp.name)__$(jp.instance)',

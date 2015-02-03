@@ -65,7 +65,6 @@ class Actions(ActionsBase):
         j.do.execute('chown git:git -R /home/git')
         j.do.execute('pwd')
         j.do.chdir('/home/git')
-        j.do.execute('sudo -u git -H git clone https://git.aydo.com/binary/gitlab-ce.git gitlab')
         j.do.chdir('/home/git/gitlab')
         j.do.copyFile('config/gitlab.yml.example', 'config/gitlab.yml')
         j.do.chown('config/gitlab.yml', 'git')
