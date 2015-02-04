@@ -28,3 +28,11 @@ dependencies.4 =
 dependencies.5  =    
     name:'nginx',
 
+dependencies.6  =   
+    name:'grafana',
+    args:'dep.args.grafana',
+
+dep.args.grafana =
+   param.influxdb.connection:'main',
+
+

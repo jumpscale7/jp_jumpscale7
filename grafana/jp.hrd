@@ -1,0 +1,10 @@
+
+dependencies.1                 =      
+    name:'portal_lib',                       
+
+
+dependencies.2                 =      
+    name:'influxdb_client',                       
+
+
+instances.maxnr=1
