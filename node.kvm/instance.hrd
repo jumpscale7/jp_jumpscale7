@@ -1,0 +1,9 @@
+param.name=@ASK descr:'machine name'
+param.baseimage=@ASK descr:'base image type' type:dropdown dropdownvals:openwrt,ubuntu1404,ubuntu1410
+
+param.hostnode.type=@ASK descr:'the type of node you install the vm machine on' type:dropdown dropdownvals:node.ssh.key,node.ms1
+param.hostnode.instance=@ASK descr:'the instance name of the host node'
+
+param.machine.ssh.ip=
+param.machine.ssh.port=
+param.machine.ssh.key=
