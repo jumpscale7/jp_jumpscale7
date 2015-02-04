@@ -1,5 +1,5 @@
 param.machine.ssh.ip=@ASK
-param.machine.ssh.port=@ASK
+param.machine.ssh.port=@ASK default:22
 
 #link to sshkey to be used
 param.ssh.key.name = @ASK default:'default'
