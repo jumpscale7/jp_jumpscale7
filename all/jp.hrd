@@ -6,21 +6,16 @@ dependencies.2                 =
     name:'agentcontroller',
 
 dep.args.agentcontroller              =
-    osis.connection:'main',  
+    osis.connection:'main',
 
-dependencies.3                 =
-    args:'dep.args.jsagent',
+dependencies.3     =
     name:'jsagent',
+    args:'dep.args.jsagent',
 
-dep.args.jsagent         =
+dep.args.jsagent =
     ac.ipaddress:'localhost',
-    ac.port:4444,
     ac.login:'node',
-    ac.passwd:'EMPTY',
-    osis.connection:'processmanager',
-    agentcontroller.connection:'main',
-    id:1,
-    node.roles:'node',
+    ac.passwd:,
 
 dependencies.4 = 
     name:'csagent',
