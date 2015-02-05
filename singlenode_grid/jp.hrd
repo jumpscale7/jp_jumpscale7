@@ -36,4 +36,10 @@ dependencies.6  =
 dep.args.grafana =
    param.influxdb.connection:'main',
 
+dependencies.7  =
+    name:'gridportal',
+    args:'dep.args.gridportal',
+
+dep.args.gridportal =
+   portal.instance:'main',
 
