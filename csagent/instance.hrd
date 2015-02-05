@@ -1,2 +1,2 @@
 
-param.gid=@ASK type:int
+param.gid=@ASK type:int default:1

@@ -19,6 +19,10 @@ dep.args.jsagent =
 
 dependencies.4 = 
     name:'csagent',
+    args:dep.args.csagent'',
+
+dep.args.csagent = 
+    param.gid:1,
 
 dependencies.5  =    
     name:'nginx',
