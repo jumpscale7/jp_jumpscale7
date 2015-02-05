@@ -16,6 +16,8 @@ dep.args.jsagent =
     ac.ipaddress:'localhost',
     ac.login:'node',
     ac.passwd:,
+    grid.id:1,
+    grid.node.roles:node,
 
 dependencies.4 = 
     name:'csagent',

@@ -1,4 +1,6 @@
 from JumpScale import j
+import ipdb
+import pdb
 
 ActionsBase = j.packages.getActionsBaseClass()
 
@@ -21,16 +23,19 @@ class Actions(ActionsBase):
     """
 
     def prepare(self, **args):
-        C = """
-#Grid information
-id = @ASK descr:'id of grid' default:1
-node.id = 0
-node.machineguid = %s
-node.roles = @ASK descr:'roles this node subscribes to' default:node type:list
-""" % j.application.getUniqueMachineId()
         hpath = j.system.fs.joinPaths(j.dirs.hrdDir, 'system', 'grid.hrd')
-        if not j.system.fs.exists(path=hpath):
+        if not j.system.fs.exists(path=hpath):    
+            C = """
+#Grid information
+id = %(grid.id)s
+node.id = 0
+node.machineguid = %(machineguid)s
+node.roles = %(grid.node.roles)s
+""" % {'machineguid':j.application.getUniqueMachineId(), 'grid.id': self.jp_instance.hrd.get('grid.id'), 'grid.node.roles':self.jp_instance.hrd.get('grid.node.roles')}
             j.system.fs.writeFile(hpath, C)
         j.application.loadConfig()
         j.application.config.get('grid.id')
         j.application.config.get('grid.node.roles')
+        self.jp_instance.hrd.pop('grid.id')
+        self.jp_instance.hrd.pop('grid.node.roles')
+        self.jp_instance.hrd.save()
