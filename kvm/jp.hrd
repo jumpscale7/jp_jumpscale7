@@ -12,7 +12,3 @@ git.export.1=
     link:False
 
 ubuntu.packages='qemu-kvm','qemu','python-libvirt','virt-viewer', 'lrzip', 'python-libvirt', 'libvirt-bin', 'bridge-utils','curlftpfs'
-
-
-dependencies.1                 =
-    name:'ubuntukernel',
