@@ -60,25 +60,12 @@ class Actions(ActionsBase):
         """
         execute over ssh something onto the machine
         """
-        ip=self.jp_instance.hrd.get("param.machine.ssh.ip")
-        port=self.jp_instance.hrd.get("param.machine.ssh.port")
 
-        keyhrd=j.application.getAppInstanceHRD("sshkey",'$(param.ssh.key.name)')
-        key = keyhrd.get("param.ssh.key.priv")
-
-        j.remote.cuisine.fabric.env["key"] = key
-        cl=j.remote.cuisine.connect(ip,port)
-
-        if "cmd" not in args:
+        if "cmd" not in self.jp_instance.args:
             raise RuntimeError("cmd need to be in args, example usage:jpackage execute -n node.ssh.key -i ovh5 --data=\"cmd:'ls /'\"")
 
-        if "shell" in args:
-            #can pass something to lua or jumpscale
-            pass
-        else:
-            cl.run(''.join(args['cmd']))
-
-        #clean priv key from memory
-        del j.remote.cuisine.fabric.env["key"]
+        cl = j.packages.remote.sshPython(jp=self.jp_instance,node=self.jp_instance.instance)
+        cmd = self.jp_instance.args['cmd']
+        cl.connection.run(cmd)
 
         return True

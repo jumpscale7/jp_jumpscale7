@@ -25,16 +25,17 @@ key = j.system.fs.fileGetContents("/root/.ssh/id_dsa")
 print key
 """
         key = cl.executeCode(C)
-        from ipdb import set_trace;set_trace()
         self.jp_instance.hrd.set("param.machine.ssh.key",key)
         C="""
+import JumpScale.lib.kvm
 config = j.system.platform.kvm.getConfig("$(param.name)")
 print config
 """
         config = cl.executeCode(C)
         vmHRD = j.core.hrd.get(content=config)
         self.jp_instance.hrd.set("param.machine.ssh.ip",vmHRD.get("bootstrap.ip"))
-        self.jp_instance.hrd.set("param.machine.ssh.port",vmHRD.get("bootstrap.port"))
+        self.jp_instance.hrd.set("param.machine.ssh.login",vmHRD.get("bootstrap.login"))
+        self.jp_instance.hrd.set("param.machine.ssh.passwd",vmHRD.get("bootstrap.passwd"))
         return True
 
 
@@ -54,24 +55,11 @@ j.system.platform.kvm.destroy("$(param.name)")
         """
         execute over ssh something onto the machine
         """
-        cl = self._getHostClient()
-
-        if "cmd" not in args:
+        if "cmd" not in self.jp_instance.args:
             raise RuntimeError("cmd need to be in args, example usage:jpackage execute -n node.ssh.key -i ovh5 --data=\"cmd:'ls /'\"")
 
-        if "shell" in args:
-            #can pass something to lua or jumpscale
-            pass
-        else:
-            cmd = ''.join(args['cmd'])
-            C = """
-from JumpScale import j
-import JumpScale.lib.kvm
-j.system.platform.kvm.execute(name='$(param.name)', cmd='%s')
-            """ % cmd
-            cl.executeCode(C)
-
-        #clean priv key from memory
-        del j.remote.cuisine.fabric.env["key"]
+        cl = j.packages.remote.sshPython(jp=self.jp_instance,node=self.jp_instance.instance)
+        cmd = self.jp_instance.args['cmd']
+        cl.connection.run(cmd)
 
         return True

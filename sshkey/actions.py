@@ -4,7 +4,6 @@ ActionsBase = j.packages.getActionsBaseClass()
 
 import JumpScale.baselib.remote.cuisine
 
-
 class Actions(ActionsBase):
 
     def prepare(self, **args):
@@ -32,7 +31,6 @@ class Actions(ActionsBase):
 
         self.jp_instance.hrd.set("param.ssh.key.pub", keypub)
         self.jp_instance.hrd.set("param.ssh.key.priv", key)
-
 
     def configure(self, **args):
         """
