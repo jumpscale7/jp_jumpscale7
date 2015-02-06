@@ -1,0 +1,2 @@
+
+param.heka.role = @ASK type:dropdown dropdownvals:master,collector
