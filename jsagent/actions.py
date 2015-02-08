@@ -1,6 +1,4 @@
 from JumpScale import j
-import ipdb
-import pdb
 
 ActionsBase = j.packages.getActionsBaseClass()
 
@@ -24,18 +22,17 @@ class Actions(ActionsBase):
 
     def prepare(self, **args):
         hpath = j.system.fs.joinPaths(j.dirs.hrdDir, 'system', 'grid.hrd')
-        if not j.system.fs.exists(path=hpath):    
-            C = """
-#Grid information
-id = %(grid.id)s
-node.id = 0
-node.machineguid = %(machineguid)s
-node.roles = %(grid.node.roles)s
-""" % {'machineguid':j.application.getUniqueMachineId(), 'grid.id': self.jp_instance.hrd.get('grid.id'), 'grid.node.roles':self.jp_instance.hrd.get('grid.node.roles')}
-            j.system.fs.writeFile(hpath, C)
+        if not j.system.fs.exists(path=hpath):
+            hrd = j.core.hrd.get(hpath)
+            hrd.set('id', self.jp_instance.hrd.get('grid.id'))
+            hrd.set('node.id', '0')
+            hrd.set('node.machineguid', j.application.getUniqueMachineId())
+            hrd.set('node.roles', self.jp_instance.hrd.getList('grid.node.roles'))
+            hrd.save()
+
+        # reload system config / whoAmI
         j.application.loadConfig()
-        j.application.config.get('grid.id')
-        j.application.config.get('grid.node.roles')
+        # remove temp vars from instanceconfig
         self.jp_instance.hrd.pop('grid.id')
         self.jp_instance.hrd.pop('grid.node.roles')
         self.jp_instance.hrd.save()
