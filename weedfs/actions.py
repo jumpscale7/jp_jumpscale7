@@ -24,7 +24,8 @@ class Actions(ActionsBase):
 
     def configure(self,**args):
 
-
+        if not j.system.fs.exists("$(param.storagelocation)"):
+            j.system.fs.createDir("$(param.storagelocation)")
         storlocs=j.do.listDirsInDir("$(param.storagelocation)")
         for storloc in storlocs:
             counter=int(j.do.getBaseName(storloc))

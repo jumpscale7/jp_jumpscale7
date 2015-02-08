@@ -32,7 +32,3 @@ class Actions(ActionsBase):
 
         # reload system config / whoAmI
         j.application.loadConfig()
-        # remove temp vars from instanceconfig
-        self.jp_instance.hrd.pop('grid.id')
-        self.jp_instance.hrd.pop('grid.node.roles')
-        self.jp_instance.hrd.save()
