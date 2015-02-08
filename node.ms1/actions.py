@@ -31,16 +31,18 @@ class Actions(ActionsBase):
 
 
         def update():
-            self.execute(cmd="apt-get update")
+            self.jp_instance.args['cmd'] = "apt-get update"
+            self.execute()
         j.action.start(retry=1, name="update",description='update', action=update, stdOutput=True, jp=self.jp_instance)
 
         def upgrade():
-            self.execute(cmd="apt-get upgrade -y")
+            self.jp_instance.args['cmd'] = "apt-get upgrade -y"
+            self.execute()
         j.action.start(retry=1, name="upgrade",description='upgrade', action=upgrade, stdOutput=True, jp=self.jp_instance)
 
         def jumpscale():
-            self.execute(cmd="curl https://raw.githubusercontent.com/Jumpscale/jumpscale_core7/master/install/install_python_web.sh > /tmp/installjs.sh")
-            self.execute(cmd="sh /tmp/installjs.sh")
+            self.jp_instance.args['cmd'] = "curl https://raw.githubusercontent.com/Jumpscale/jumpscale_core7/master/install/install_python_web.sh > /tmp/installjs.sh; sh /tmp/installjs.sh"
+            self.execute(cmd="")
         j.action.start(retry=1, name="jumpscale",description='install jumpscale', action=jumpscale, stdOutput=True, jp=self.jp_instance)
 
         return True
