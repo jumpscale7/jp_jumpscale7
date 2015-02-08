@@ -7,6 +7,9 @@ bin.git.url = 'http://git.aydo.com/binary/heka.git'
 git.export.1= url:$(bin.git.url), source:'bin', dest:'$(param.base)/bin', link:True,
 git.export.2= url:$(bin.git.url), source:'share', dest:'$(param.base)/share', link:True,
 
-process.1= name:'$(jp.instance)_$(jp.name)', cmd:'$(param.base)/bin/hekad -config="$(param.base)/$(param.heka.role)_configs"', filterstr:'hekad -config=/opt/heka/$(param.heka.role)_configs'
+process.1= 
+    name:'$(jp.instance)_$(jp.name)', 
+    cmd:'$(param.base)/bin/hekad -config="$(param.base)/$(param.heka.role)_configs"', 
+    filterstr:'$(param.base)/$(param.heka.role)_configs'
 
 platform.supported=linux64,
