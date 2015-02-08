@@ -37,21 +37,33 @@ class Actions(ActionsBase):
         config_files = {
             'collector': (
                 'main.toml',
+                'httpoutput.toml',
+                'statsdagregator.toml',
+            ),
+            'master': (
+                'main.toml',
                 'statsdagregator.toml',
                 'tcpinput.toml',
                 'httpinput.toml',
                 'influx_ouput.toml',
-            ),
-            'master': (
-                'main.toml',
-                'httpoutput.toml',
-                'statsdagregator.toml',
             )
         }
 
+        tcp_ports = {
+            'collector': [],
+            'master': ['5565', '8325'], 
+        }
+
+        process_dict = self.jp_instance.hrd.get('process.1')
+        process_dict['ports'] = tcp_ports[role]
+        self.jp_instance.hrd.set('process.1', process_dict)
+        self.jp_instance.hrd.save()
+
         j.system.fs.createDir(INSTALLATION_CONFIGS_PATH)
-        for file_name in config_files[self.jp_instance.hrd.get('param.heka.role')]:
+        for file_name in config_files[role]:
             source_file = os.path.join(CONFIGS_PATH, file_name) 
             dest_file = os.path.join(INSTALLATION_CONFIGS_PATH, file_name) 
             log('Installing configuration file: ' + dest_file)
             j.system.fs.copyFile(source_file, dest_file)
+
+        self.jp_instance.hrd.applyOnDir(INSTALLATION_CONFIGS_PATH)
