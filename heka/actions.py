@@ -30,28 +30,47 @@ class Actions(ActionsBase):
     def configure(self, *args, **kwargs):
 
         role = self.jp_instance.hrd.get('param.heka.role')
+        BASE_PATH = self.jp_instance.hrd.get('param.base') 
         CONFIGS_PATH = '/opt/code/git/binary/heka/configs/'
-        INSTALLATION_CONFIGS_PATH = os.path.join(self.jp_instance.hrd.get('param.base'), role + '_configs') 
+        INSTALLATION_CONFIGS_PATH = os.path.join(BASE_PATH, role + '_configs') 
 
         # A mapping from installation type ('collector' or 'master') to the required configuration files
         config_files = {
             'collector': (
-                'main.toml',
-                'statsdagregator.toml',
+                'httpoutput.toml',
+            ),
+            'master': (
                 'tcpinput.toml',
                 'httpinput.toml',
                 'influx_ouput.toml',
-            ),
-            'master': (
-                'main.toml',
-                'httpoutput.toml',
-                'statsdagregator.toml',
             )
         }
 
+        common_config_files = (
+            'main.toml',
+            'statsdagregator.toml',
+        )
+
+        tcp_ports = {
+            'collector': [],
+            'master': ['5565', '8325'], 
+        }
+
+        process_dict = self.jp_instance.hrd.get('process.1')
+        process_dict['ports'] = tcp_ports[role]
+        self.jp_instance.hrd.set('process.1', process_dict)
+        self.jp_instance.hrd.save()
+
         j.system.fs.createDir(INSTALLATION_CONFIGS_PATH)
-        for file_name in config_files[self.jp_instance.hrd.get('param.heka.role')]:
+        for file_name in common_config_files + config_files[role]:
             source_file = os.path.join(CONFIGS_PATH, file_name) 
             dest_file = os.path.join(INSTALLATION_CONFIGS_PATH, file_name) 
             log('Installing configuration file: ' + dest_file)
             j.system.fs.copyFile(source_file, dest_file)
+
+        testing_source_file = os.path.join(CONFIGS_PATH, 'testing.toml')
+        testing_dest_file = os.path.join(BASE_PATH, 'testing.toml')
+        log('Installing the configuration file: testing.toml')
+        j.system.fs.copyFile(testing_source_file, testing_dest_file)
+
+        self.jp_instance.hrd.applyOnDir(INSTALLATION_CONFIGS_PATH)
