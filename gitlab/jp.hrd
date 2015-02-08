@@ -8,11 +8,26 @@ git.export.1=
 dependencies.1=
     name:'ruby',
     domain:,
-    instance:
 
 dependencies.2=
+    name:'postgresql'
+    domain:,
+    args:'postgresql.args'
+postgresql.args=
+    param.rootpasswd:R00t3r
+
+dependencies.3=
+    name:'postgresql_client',
+    domain:,
+    args:'postgresql-client.args'
+postgresql-client.args=
+    param.addr:'localhost',
+    param.port:5432,
+    param.passwd:'R00t3r'
+
+dependencies.4=
     name:'redis',
-    instance:'gitlab'
+    instance:'gitlab',
     args:'redis.server.args'
 
 redis.server.args=

@@ -31,14 +31,14 @@ class Actions(ActionsBase):
         j.do.execute('adduser --disabled-login --gecos \'GitLab\' git')
         j.do.createDir('/home/git/gitlab')
         j.do.copyFile('/etc/login.defs', '/etc/login.defs.org')
-        j.do.execute("cd /etc/ && sed 's/ENV_PATH\tPATH=.*/ENV_PATH\tPATH=\/opt\/jumpscale7\/bin:\/opt\/jumpscale7\/apps\/redis:\/usr\/local\/sbin:\/usr\/local\/bin:\/usr\/sbin:\/usr\/bin:\/sbin:\/bin:\/usr\/games:\/usr\/local\/games/' login.defs.org | tee login.defs")
+        j.do.execute("cd /etc/ && sed 's/ENV_PATH\tPATH=.*/ENV_PATH\tPATH=\/opt\/jumpscale7\/bin:\/opt\/postgresql\/bin:\/opt\/jumpscale7\/apps\/redis:\/usr\/local\/sbin:\/usr\/local\/bin:\/usr\/sbin:\/usr\/bin:\/sbin:\/bin:\/usr\/games:\/usr\/local\/games/' login.defs.org | tee login.defs")
         j.do.execute('chmod +w /etc/sudoers')
         j.do.copyFile('/etc/sudoers', '/etc/sudoers.org')
-        j.do.execute("cd /etc/ && sed 's/Defaults\tsecure_path=.*/Defaults\tsecure_path=\/opt\/jumpscale7\/bin:\/opt\/jumpscale7\/apps\/redis:\/usr\/local\/sbin:\/usr\/local\/bin:\/usr\/sbin:\/usr\/bin:\/sbin:\/bin:\/usr\/games:\/usr\/local\/games/' sudoers.org | tee sudoers")
+        j.do.execute("cd /etc/ && sed 's/Defaults\tsecure_path=.*/Defaults\tsecure_path=\/opt\/jumpscale7\/bin:\/opt\/postgresql\/bin:\/opt\/jumpscale7\/apps\/redis:\/usr\/local\/sbin:\/usr\/local\/bin:\/usr\/sbin:\/usr\/bin:\/sbin:\/bin:\/usr\/games:\/usr\/local\/games/' sudoers.org | tee sudoers")
 
    # Install postgresql 9.3
-        j.system.platform.ubuntu.checkInstall('postgresql-9.3', 'psql')
-        j.system.platform.ubuntu.checkInstall('postgresql-client', 'psql')
+#        j.system.platform.ubuntu.checkInstall('postgresql-9.3', 'psql')
+#        j.system.platform.ubuntu.checkInstall('postgresql-client', 'psql')
         j.do.execute('apt-get install -y libpq-dev')
         cmd = """
         export LC_ALL=$LANG
@@ -48,7 +48,7 @@ class Actions(ActionsBase):
         sudo -u postgres psql -d template1 -c 'CREATE USER git CREATEDB' &&
         sudo -u postgres psql -d template1 -c 'CREATE DATABASE gitlabhq_production OWNER git'
         """
-        j.do.execute(cmd)
+#        j.do.execute(cmd)
 
    # Install Enginx
         j.system.platform.ubuntu.checkInstall('nginx', 'nginx')
@@ -61,6 +61,9 @@ class Actions(ActionsBase):
     #     this step is used to do configuration steps to the platform
     #     after this step the system will try to start the jpackage if anything needs to be started
     #     """
+   # Postgresql partation
+        j.do.execute('cd /opt/postgresql/bin; sudo -u postgres psql -d template1 -c \'CREATE USER git CREATEDB\'')
+        j.do.execute('cd /opt/postgresql/bin; sudo -u postgres psql -d template1 -c \'CREATE DATABASE gitlabhq_production OWNER git\'')
    # Install gitlab
         j.do.execute('chown git:git -R /home/git')
         j.do.execute('pwd')
@@ -93,7 +96,7 @@ class Actions(ActionsBase):
         j.do.execute('update-rc.d gitlab defaults 21')
         j.do.copyFile('/home/git/gitlab/lib/support/logrotate/gitlab', '/etc/logrotate.d/gitlab')
         j.do.copyFile('/home/git/gitlab-shell/config.yml', '/home/git/gitlab-shell/config.yml.org')
-        os.system("cd /home/git/gitlab-shell && sed 's/socket:.*/\/opt\/jumpscale7\/var\/redis\/main\/redis.sock/' config.yml.org | tee config.yml")
+        os.system("cd /home/git/gitlab-shell && sed 's/socket:.*/socket:\ \"\/opt\/jumpscale7\/var\/redis\/gitlab\/redis.sock\"/' config.yml.org | tee config.yml")
 
         j.do.execute('chown git:git -R /home/git')
         print 1
@@ -109,7 +112,7 @@ class Actions(ActionsBase):
         print 3
         os.system("cd /home/git/gitlab && sudo -u git -H bundle install --deployment --without development test mysql aws")
         print 4
-        os.system("cd /home/git/gitlab && sudo -u git -H bundle exec rake gitlab:shell:install[v2.4.0] REDIS_URL=unix:/opt/jumpscale7/var/redis/main/redis.sock RAILS_ENV=production")
+        os.system("cd /home/git/gitlab && sudo -u git -H bundle exec rake gitlab:shell:install[v2.4.0] REDIS_URL=unix:/opt/jumpscale7/var/redis/gitlab/redis.sock RAILS_ENV=production")
         os.system("cd /home/git/gitlab && sudo -u git -H bundle exec rake gitlab:setup RAILS_ENV=production")
         os.system("cd /home/git/gitlab && sudo -u git -H bundle exec rake gitlab:env:info RAILS_ENV=production")
         os.system("cd /home/git/gitlab && sudo -u git -H bundle exec rake assets:precompile RAILS_ENV=production")
