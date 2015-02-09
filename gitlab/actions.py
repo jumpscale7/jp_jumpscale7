@@ -24,6 +24,8 @@ class Actions(ActionsBase):
         """
         this gets executed before the files are downloaded & installed on approprate spots
         """
+        j.system.platform.ubuntu.checkInstall('cmake', 'make')
+        j.do.execute('apt-get install -y build-essential zlib1g-dev libyaml-dev libssl-dev libgdbm-dev libreadline-dev libncurses5-dev libffi-dev checkinstall libxml2-dev libxslt-dev libcurl4-openssl-dev libicu-dev logrotate pkg-config cmake libkrb5-dev')
     #Install postfix
         j.system.platform.ubuntu.checkInstall('postfix', 'postfix')
 
@@ -34,7 +36,7 @@ class Actions(ActionsBase):
         j.do.execute("cd /etc/ && sed 's/ENV_PATH\tPATH=.*/ENV_PATH\tPATH=\/opt\/jumpscale7\/bin:\/opt\/postgresql\/bin:\/opt\/jumpscale7\/apps\/redis:\/usr\/local\/sbin:\/usr\/local\/bin:\/usr\/sbin:\/usr\/bin:\/sbin:\/bin:\/usr\/games:\/usr\/local\/games:\/opt\/ruby\/bin/' login.defs.org | tee login.defs")
         j.do.execute('chmod +w /etc/sudoers')
         j.do.copyFile('/etc/sudoers', '/etc/sudoers.org')
-        j.do.execute("cd /etc/ && sed 's/Defaults\tsecure_path=.*/Defaults\tsecure_path=\/opt\/jumpscale7\/bin:\/opt\/postgresql\/bin:\/opt\/jumpscale7\/apps\/redis:\/usr\/local\/sbin:\/usr\/local\/bin:\/usr\/sbin:\/usr\/bin:\/sbin:\/bin:\/usr\/games:\/usr\/local\/games/:\/opt\/ruby\/bin' sudoers.org | tee sudoers")
+        j.do.execute("cd /etc/ && sed 's/Defaults\tsecure_path=.*/Defaults\tsecure_path=\/opt\/jumpscale7\/bin:\/opt\/postgresql\/bin:\/opt\/jumpscale7\/apps\/redis:\/usr\/local\/sbin:\/usr\/local\/bin:\/usr\/sbin:\/usr\/bin:\/sbin:\/bin:\/usr\/games:\/usr\/local\/games:\/opt\/ruby\/bin/' /etc/sudoers.org | tee /etc/sudoers")
 
    # Install postgresql 9.3
 #        j.system.platform.ubuntu.checkInstall('postgresql-9.3', 'psql')
@@ -61,10 +63,13 @@ class Actions(ActionsBase):
     #     this step is used to do configuration steps to the platform
     #     after this step the system will try to start the jpackage if anything needs to be started
     #     """
+        os.system('export PATH=$PATH:/opt/ruby/bin')
    # Postgresql partation
         j.do.execute('cd /opt/postgresql/bin; sudo -u postgres psql -d template1 -c \'CREATE USER git CREATEDB\'')
         j.do.execute('cd /opt/postgresql/bin; sudo -u postgres psql -d template1 -c \'CREATE DATABASE gitlabhq_production OWNER git\'')
    # Install gitlab
+#        j.do.execute('cd /home/git/gitlab && gem install bundler --no-ri --no-rdoc')
+        j.do.execute('sudo gem install bundler --no-ri --no-rdoc')
         j.do.execute('chown git:git -R /home/git')
         j.do.execute('pwd')
         j.do.chdir('/home/git')
@@ -95,6 +100,7 @@ class Actions(ActionsBase):
         j.do.copyFile('/home/git/gitlab/lib/support/init.d/gitlab.default.example', '/etc/default/gitlab')
         j.do.execute('update-rc.d gitlab defaults 21')
         j.do.copyFile('/home/git/gitlab/lib/support/logrotate/gitlab', '/etc/logrotate.d/gitlab')
+        os.system("cd /home/git/gitlab && sudo -u git -H bundle install --deployment --without development test mysql aws")
         os.system("cd /home/git/gitlab && sudo -u git -H bundle exec rake gitlab:shell:install[v2.4.0] REDIS_URL=unix:/opt/jumpscale7/var/redis/gitlab/redis.sock RAILS_ENV=production")
         j.do.copyFile('/home/git/gitlab-shell/config.yml', '/home/git/gitlab-shell/config.yml.org')
         os.system("cd /home/git/gitlab-shell && sed 's/socket:.*/socket:\ \"\/opt\/jumpscale7\/var\/redis\/gitlab\/redis.sock\"/' config.yml.org | tee config.yml")
@@ -102,8 +108,6 @@ class Actions(ActionsBase):
         j.do.execute('chown git:git -R /home/git')
         print 1
         j.do.execute('usermod -a -G root git')
-        print 2
-        j.do.execute('cd /home/git/gitlab && gem install bundler --no-ri --no-rdoc')
    # Configure Enginx
         if not j.do.isFile('/etc/nginx/sites-available/gitlab'):
             j.do.copyFile('/home/git/gitlab/lib/support/nginx/gitlab', '/etc/nginx/sites-available/gitlab')
@@ -111,9 +115,11 @@ class Actions(ActionsBase):
             j.do.execute('ln -s /etc/nginx/sites-available/gitlab /etc/nginx/sites-enabled/gitlab')
             j.do.delete('/etc/nginx/sites-enabled/default')
         print 3
-        os.system("cd /home/git/gitlab && sudo -u git -H bundle install --deployment --without development test mysql aws")
+#        os.system("cd /home/git/gitlab && sudo -u git -H bundle install --deployment --without development test mysql aws")
         print 4
 #        os.system("cd /home/git/gitlab && sudo -u git -H bundle exec rake gitlab:shell:install[v2.4.0] REDIS_URL=unix:/opt/jumpscale7/var/redis/gitlab/redis.sock RAILS_ENV=production")
+        j.do.copyFile('/home/git/gitlab/config/resque.yml', '/home/git/gitlab/config/resque.yml.org')
+        j.do.execute("sed 's/production:\ unix:.*/production:\ unix:\/opt\/jumpscale7\/var\/redis\/gitlab\/redis.sock/' /home/git/gitlab/config/resque.yml.org | tee /home/git/gitlab/config/resque.yml")
         os.system("cd /home/git/gitlab && sudo -u git -H bundle exec rake gitlab:setup RAILS_ENV=production")
         os.system("cd /home/git/gitlab && sudo -u git -H bundle exec rake gitlab:env:info RAILS_ENV=production")
         os.system("cd /home/git/gitlab && sudo -u git -H bundle exec rake assets:precompile RAILS_ENV=production")
@@ -193,3 +199,4 @@ class Actions(ActionsBase):
     #     uninstall the apps, remove relevant files
     #     """
     #     pass
+
