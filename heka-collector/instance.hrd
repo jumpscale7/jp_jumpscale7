@@ -1,0 +1,2 @@
+
+param.heka.master.host=@ASK default:localhost

@@ -1,3 +1,14 @@
+process.1=
+    cmd:'sudo -u git -H ./gitlab start',
+    args:,
+    prio:10,
+    cwd:'/home/git/gitlab/lib/support/init.d',
+    timeout_start:10,
+    timeout_stop:10,
+    ports:,
+    startupmanager:tmux,
+    filterstr:'gitlab'
+
 git.url='https://git.aydo.com/binary/gitlab-ce.git'
 
 git.export.1=
@@ -7,41 +18,40 @@ git.export.1=
     link:False
 
 dependencies.1=
-    name:'ruby',
-    domain:
-
-dependencies.2=
     name:'postgresql',
     domain:,
-    args:'postgresql.args'
+    args:'postgresql.args',
 
 postgresql.args=
     param.rootpasswd:'R00t3r',
-    param.port:5432
+    param.port:5432,
 
-dependencies.3=
+dependencies.2=
     name:'postgresql_client',
     domain:,
-    args:'postgresql_client.args'
+    args:'client.args',
 
-dependencies.4=
+client.args=
+    addr:'localhost',
+    port:5432,
+    passwd:'R00t3r',
+
+dependencies.3=
     name:'redis',
     instance:'gitlab',
-    args:'redis.server.args'
-
-postgresql_client.args=
-    param.addr:'localhost',
-    param.port:5432,
-    param.passwd:'R00t3r'
+    args:'redis.server.args',
 
 redis.server.args=
     param.disk:0,
     param.mem:32,
     param.name:'main',
     param.passwd:,
-    param.port:0,
+    param.port:,
     param.unixsocket:1
 
+dependencies.4=
+    name:'ruby',
+    domain:,
 platform.supported=linux64,
 #how many instances can be installed of this package, if 1 the instance name is always 'main'
 instances.maxnr=1
