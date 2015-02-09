@@ -114,20 +114,10 @@ class Actions(ActionsBase):
         if not j.do.isLink('/etc/nginx/sites-enabled/gitlab'):
             j.do.execute('ln -s /etc/nginx/sites-available/gitlab /etc/nginx/sites-enabled/gitlab')
             j.do.delete('/etc/nginx/sites-enabled/default')
-        print 3
-#        os.system("cd /home/git/gitlab && sudo -u git -H bundle install --deployment --without development test mysql aws")
-        print 4
-#        os.system("cd /home/git/gitlab && sudo -u git -H bundle exec rake gitlab:shell:install[v2.4.0] REDIS_URL=unix:/opt/jumpscale7/var/redis/gitlab/redis.sock RAILS_ENV=production")
-<<<<<<< HEAD
         j.do.copyFile('/home/git/gitlab/config/resque.yml', '/home/git/gitlab/config/resque.yml.org')
         j.do.execute("sed 's/production:\ unix:.*/production:\ unix:\/opt\/jumpscale7\/var\/redis\/gitlab\/redis.sock/' /home/git/gitlab/config/resque.yml.org | tee /home/git/gitlab/config/resque.yml")
-=======
-#        os.system("cd /home/git/gitlab && sudo -u git -H bundle exec rake gitlab:setup RAILS_ENV=production")
-#        os.system("cd /home/git/gitlab && sudo -u git -H bundle exec rake gitlab:env:info RAILS_ENV=production")
-#        os.system("cd /home/git/gitlab && sudo -u git -H bundle exec rake assets:precompile RAILS_ENV=production")
         os.system("cd /home/git/gitlab-shell && sudo -u git -H git fetch && sudo -u git -H git checkout v`cat /home/git/gitlab/GITLAB_SHELL_VERSION`")
         os.system("sudo -u git -H RAILS_ENV=production bin/background_jobs start")
->>>>>>> 591e99f8462c0a806ee8cc2e54e6d4372cf85c9f
         os.system("cd /home/git/gitlab && sudo -u git -H bundle exec rake gitlab:setup RAILS_ENV=production")
         os.system("cd /home/git/gitlab && sudo -u git -H bundle exec rake gitlab:env:info RAILS_ENV=production")
         os.system("cd /home/git/gitlab && sudo -u git -H bundle exec rake assets:precompile RAILS_ENV=production")
