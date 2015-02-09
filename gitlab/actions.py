@@ -24,7 +24,7 @@ class Actions(ActionsBase):
         j.do.execute("cd /etc/ && sed 's/Defaults\tsecure_path=.*/Defaults\tsecure_path=\/opt\/jumpscale7\/bin:\/opt\/postgresql\/bin:\/opt\/jumpscale7\/apps\/redis:\/usr\/local\/sbin:\/usr\/local\/bin:\/usr\/sbin:\/usr\/bin:\/sbin:\/bin:\/usr\/games:\/usr\/local\/games:\/opt\/ruby\/bin/' /etc/sudoers.org | tee /etc/sudoers")
 
    # Install Enginx
-        j.system.platform.ubuntu.checkInstall('nginx', 'nginx')
+#        j.system.platform.ubuntu.checkInstall('nginx', 'nginx')
         
         return True
         
@@ -62,11 +62,17 @@ class Actions(ActionsBase):
         j.do.execute('chown git:git -R /home/git')
         j.do.execute('usermod -a -G root git')
    # Configure Enginx
-        if not j.do.isFile('/etc/nginx/sites-available/gitlab'):
-            j.do.copyFile('/home/git/gitlab/lib/support/nginx/gitlab', '/etc/nginx/sites-available/gitlab')
-        if not j.do.isLink('/etc/nginx/sites-enabled/gitlab'):
-            j.do.execute('ln -s /etc/nginx/sites-available/gitlab /etc/nginx/sites-enabled/gitlab')
-            j.do.delete('/etc/nginx/sites-enabled/default')
+#        if not j.do.isFile('/etc/nginx/sites-available/gitlab'):
+#            j.do.copyFile('/home/git/gitlab/lib/support/nginx/gitlab', '/etc/nginx/sites-available/gitlab')
+#        if not j.do.isLink('/etc/nginx/sites-enabled/gitlab'):
+#            j.do.execute('ln -s /etc/nginx/sites-available/gitlab /etc/nginx/sites-enabled/gitlab')
+#            j.do.delete('/etc/nginx/sites-enabled/default')
+   # Configure Enginx
+        if not j.do.isFile('/opt/nginx/cfg/sites-available/gitlab'):
+            j.do.copyFile('/home/git/gitlab/lib/support/nginx/gitlab', '/opt/nginx/cfg/sites-available/gitlab')
+        if not j.do.isLink('/opt/nginx/cfg/sites-enabled/gitlab'):
+            j.do.execute('ln -s /opt/nginx/cfg/sites-available/gitlab /opt/nginx/cfg/sites-enabled/gitlab')
+            j.do.delete('/opt/nginx/cfg/sites-enabled/default')
 
         j.do.copyFile('/home/git/gitlab/config/resque.yml', '/home/git/gitlab/config/resque.yml.org')
         j.do.execute("sed 's/production:\ unix:.*/production:\ unix:\/opt\/jumpscale7\/var\/redis\/gitlab\/redis.sock/' /home/git/gitlab/config/resque.yml.org | tee /home/git/gitlab/config/resque.yml")
@@ -75,7 +81,7 @@ class Actions(ActionsBase):
         os.system("cd /home/git/gitlab && sudo -u git -H bundle exec rake gitlab:setup RAILS_ENV=production")
         os.system("cd /home/git/gitlab && sudo -u git -H bundle exec rake gitlab:env:info RAILS_ENV=production")
         os.system("cd /home/git/gitlab && sudo -u git -H bundle exec rake assets:precompile RAILS_ENV=production")
-        j.do.execute('service nginx restart')
+#        j.do.execute('service nginx restart')
 
         print('userName: root\npassword: 5iveL!fe')
         return True
