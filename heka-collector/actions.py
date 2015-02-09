@@ -14,7 +14,7 @@ class Actions(ActionsBase):
     def build(self, **kwargs):
     
         BIN_TARBALL_URL = 'https://github.com/mozilla-services/heka/releases/download/v0.8.3/heka-0_8_3-linux-amd64.tar.gz'
-        BUILD_BASE = '/opt/build/heka/'
+        BUILD_BASE = '/opt/build/heka-master/'
         BIN_TARBALL_PATH = os.path.join(BUILD_BASE, 'heka-0_8_3-linux-amd64.tar.gz')
         BIN_ROOT = os.path.join(BUILD_BASE, 'heka-0_8_3-linux-amd64')   # The tarball will be extracted into this
 
@@ -29,40 +29,19 @@ class Actions(ActionsBase):
 
     def configure(self, *args, **kwargs):
 
-        role = self.jp_instance.hrd.get('param.heka.role')
+        BINARY_PATH = '/opt/code/git/binary/heka-collector/'
         BASE_PATH = self.jp_instance.hrd.get('param.base') 
-        CONFIGS_PATH = '/opt/code/git/binary/heka/configs/'
-        INSTALLATION_CONFIGS_PATH = os.path.join(BASE_PATH, role + '_configs') 
+        CONFIGS_PATH = os.path.join(BINARY_PATH, 'configs')
+        INSTALLATION_CONFIGS_PATH = os.path.join(BASE_PATH, 'configs') 
 
-        # A mapping from installation type ('collector' or 'master') to the required configuration files
-        config_files = {
-            'collector': (
-                'httpoutput.toml',
-            ),
-            'master': (
-                'tcpinput.toml',
-                'httpinput.toml',
-                'influx_ouput.toml',
-            )
-        }
-
-        common_config_files = (
+        config_files = (
+            'httpoutput.toml',
             'main.toml',
             'statsdagregator.toml',
         )
 
-        tcp_ports = {
-            'collector': [],
-            'master': ['5565', '8325'], 
-        }
-
-        process_dict = self.jp_instance.hrd.get('process.1')
-        process_dict['ports'] = tcp_ports[role]
-        self.jp_instance.hrd.set('process.1', process_dict)
-        self.jp_instance.hrd.save()
-
         j.system.fs.createDir(INSTALLATION_CONFIGS_PATH)
-        for file_name in common_config_files + config_files[role]:
+        for file_name in config_files:
             source_file = os.path.join(CONFIGS_PATH, file_name) 
             dest_file = os.path.join(INSTALLATION_CONFIGS_PATH, file_name) 
             log('Installing configuration file: ' + dest_file)

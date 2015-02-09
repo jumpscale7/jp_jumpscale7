@@ -1,0 +1,18 @@
+
+# Installation root of the project
+param.base=/opt/heka-collector
+
+bin.git.url = 'http://git.aydo.com/binary/heka-collector.git'
+
+git.export.1= url:$(bin.git.url), source:'bin', dest:'$(param.base)/bin', link:True,
+git.export.2= url:$(bin.git.url), source:'share', dest:'$(param.base)/share', link:True,
+git.export.3= url:$(bin.git.url), source:'configs', dest:'$(param.base)/configs', link:True,
+
+process.1= 
+    name:'$(jp.instance)_$(jp.name)', 
+    cmd:'$(param.base)/bin/hekad -config="$(param.base)/configs"', 
+    filterstr:'$(param.base)/configs',
+
+dependencies.1 = name:'influxdb_client',
+
+platform.supported=linux64,
