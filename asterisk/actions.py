@@ -28,5 +28,6 @@ class Actions(ActionsBase):
 
 
     def stop(self,**kwargs):
-        if j.system.fs.exists('/opt/jumpscale7/apps/asterisk/config'):
-            j.do.execute('cd /opt/jumpscale7/apps/asterisk/config && ./asterisk stop ')
+        if j.system.fs.exists('$(param.base)/var/run/asterisk/asterisk.ctl'):
+            j.do.execute('cd $(param.base)/sbin && ./asterisk -rx "core stop now" ')
+
