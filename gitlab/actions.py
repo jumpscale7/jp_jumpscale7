@@ -4,21 +4,6 @@ import os
 ActionsBase=j.packages.getActionsBaseClass()
 
 class Actions(ActionsBase):
-    """
-    process for install
-    -------------------
-    step1: prepare actions
-    step2: check_requirements action
-    step3: download files & copy on right location (hrd info is used)
-    step4: configure action
-    step5: check_uptime_local to see if process stops  (uses timeout $process.stop.timeout)
-    step5b: if check uptime was true will do stop action and retry the check_uptime_local check
-    step5c: if check uptime was true even after stop will do halt action and retry the check_uptime_local check
-    step6: use the info in the hrd to start the application
-    step7: do check_uptime_local to see if process starts
-    step7b: do monitor_local to see if package healthy installed & running
-    step7c: do monitor_remote to see if package healthy installed & running, but this time test is done from central location
-    """
 
     def prepare(self,**args):
         """
@@ -38,46 +23,22 @@ class Actions(ActionsBase):
         j.do.copyFile('/etc/sudoers', '/etc/sudoers.org')
         j.do.execute("cd /etc/ && sed 's/Defaults\tsecure_path=.*/Defaults\tsecure_path=\/opt\/jumpscale7\/bin:\/opt\/postgresql\/bin:\/opt\/jumpscale7\/apps\/redis:\/usr\/local\/sbin:\/usr\/local\/bin:\/usr\/sbin:\/usr\/bin:\/sbin:\/bin:\/usr\/games:\/usr\/local\/games:\/opt\/ruby\/bin/' /etc/sudoers.org | tee /etc/sudoers")
 
-   # Install postgresql 9.3
-#        j.system.platform.ubuntu.checkInstall('postgresql-9.3', 'psql')
-#        j.system.platform.ubuntu.checkInstall('postgresql-client', 'psql')
-        j.do.execute('apt-get install -y libpq-dev')
-        cmd = """
-        export LC_ALL=$LANG
-        export  LANGUAGE=$LANG
-        pg_createcluster 9.3 main --start &&
-        service postgresql start &&
-        sudo -u postgres psql -d template1 -c 'CREATE USER git CREATEDB' &&
-        sudo -u postgres psql -d template1 -c 'CREATE DATABASE gitlabhq_production OWNER git'
-        """
-#        j.do.execute(cmd)
-
    # Install Enginx
         j.system.platform.ubuntu.checkInstall('nginx', 'nginx')
         
         return True
         
     def configure(self,**args):
-    #     """
-    #     this gets executed when files are installed
-    #     this step is used to do configuration steps to the platform
-    #     after this step the system will try to start the jpackage if anything needs to be started
-    #     """
         os.system('export PATH=$PATH:/opt/ruby/bin')
    # Postgresql partation
         j.do.execute('cd /opt/postgresql/bin; sudo -u postgres psql -d template1 -c \'CREATE USER git CREATEDB\'')
         j.do.execute('cd /opt/postgresql/bin; sudo -u postgres psql -d template1 -c \'CREATE DATABASE gitlabhq_production OWNER git\'')
    # Install gitlab
-#        j.do.execute('cd /home/git/gitlab && gem install bundler --no-ri --no-rdoc')
         j.do.execute('sudo gem install bundler --no-ri --no-rdoc')
         j.do.execute('chown git:git -R /home/git')
         j.do.execute('pwd')
         j.do.chdir('/home/git')
         j.do.chdir('/home/git/gitlab')
-        j.do.copyFile('config/gitlab.yml.example', 'config/gitlab.yml')
-        j.do.chown('config/gitlab.yml', 'git')
-        j.do.chown('log/', 'git')
-        j.do.chown('tmp/', 'git')
         j.do.execute('chmod -R u+rwX,go-w log/ && chmod -R u+rwX tmp/')
         j.do.createDir('/home/git/gitlab-satellites')
         j.do.chown('/home/git/gitlab-satellites', 'git')
@@ -85,16 +46,9 @@ class Actions(ActionsBase):
         j.do.execute('chmod -R u+rwX tmp/pids/')
         j.do.execute('chmod -R u+rwX tmp/sockets/')
         j.do.execute('chmod -R u+rwX  public/uploads')
-        j.do.copyFile('config/unicorn.rb.example', 'config/unicorn.rb')
-        j.do.copyFile('config/initializers/rack_attack.rb.example', 'config/initializers/rack_attack.rb')
-        j.do.chown('config/', 'git')
         os.system('sudo -u git -H git config --global user.name \"GitLab\"')
         os.system('sudo -u git -H git config --global user.email \"$(param.email)\"')
         os.system("sudo -u git -H git config --global core.autocrlf input")
-        j.do.copyFile('config/resque.yml.example', 'config/resque.yml')
-        j.do.copyFile('config/database.yml.postgresql', 'config/database.yml')
-        j.do.chown('config/resque.yml', 'git')
-        j.do.chown('config/database.yml', 'git')
         j.do.execute('sudo -u git -H chmod o-rwx config/database.yml')
         j.do.copyFile('/home/git/gitlab/lib/support/init.d/gitlab', '/etc/init.d/gitlab')
         j.do.copyFile('/home/git/gitlab/lib/support/init.d/gitlab.default.example', '/etc/default/gitlab')
@@ -106,7 +60,6 @@ class Actions(ActionsBase):
         os.system("cd /home/git/gitlab-shell && sed 's/socket:.*/socket:\ \"\/opt\/jumpscale7\/var\/redis\/gitlab\/redis.sock\"/' config.yml.org | tee config.yml")
 
         j.do.execute('chown git:git -R /home/git')
-        print 1
         j.do.execute('usermod -a -G root git')
    # Configure Enginx
         if not j.do.isFile('/etc/nginx/sites-available/gitlab'):
@@ -114,6 +67,7 @@ class Actions(ActionsBase):
         if not j.do.isLink('/etc/nginx/sites-enabled/gitlab'):
             j.do.execute('ln -s /etc/nginx/sites-available/gitlab /etc/nginx/sites-enabled/gitlab')
             j.do.delete('/etc/nginx/sites-enabled/default')
+
         j.do.copyFile('/home/git/gitlab/config/resque.yml', '/home/git/gitlab/config/resque.yml.org')
         j.do.execute("sed 's/production:\ unix:.*/production:\ unix:\/opt\/jumpscale7\/var\/redis\/gitlab\/redis.sock/' /home/git/gitlab/config/resque.yml.org | tee /home/git/gitlab/config/resque.yml")
         os.system("cd /home/git/gitlab-shell && sudo -u git -H git fetch && sudo -u git -H git checkout v`cat /home/git/gitlab/GITLAB_SHELL_VERSION`")
