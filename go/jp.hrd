@@ -3,6 +3,7 @@ param.base='/opt/go'
 
 
 git.url='http://git.aydo.com/binary/go'
+
 git.export.1=
     url:$(git.url),
     source:'go/',

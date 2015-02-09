@@ -42,21 +42,20 @@ class Actions(ActionsBase):
             j.system.fs.createDir("/opt/go/workspace/pkg")
             j.system.fs.createDir("/opt/go/workspace/src")
             j.system.fs.createDir("/opt/go/workspace/bin")
-            j.do.execute(command="sed -i '/PATH/d' /root/.bashrc")
+
+            j.do.execute(command="sed -i '/$GOPATH/d' /root/.bashrc")
             j.do.execute(command="sed -i '/GOPATH/d' /root/.bashrc")
             j.do.execute(command="sed -i '/GOROOT/d' /root/.bashrc")
 
             j.do.execute(command="echo 'export GOPATH=/opt/go/workspace' >> /root/.bashrc")
             j.do.execute(command="echo 'export GOROOT=/opt/go' >> /root/.bashrc")
-            _,path,_ = j.do.execute("echo $PATH",outputStdout=False)
-            cmd = "echo 'export PATH=%s:$GOROOT/bin:$GOPATH/bin' >> /root/.bashrc" % path.strip()
-            j.do.execute(command=cmd)
+            j.do.execute(command="echo 'export PATH=$PATH:$GOROOT/bin:$GOPATH/bin' >> /root/.bashrc")
         j.action.start(retry=0, name="createENV",description='create GOPATH', cmds='', action=createENV, actionRecover=None, actionArgs={}, errorMessage='', die=True, stdOutput=True, jp=self.jp_instance)
-        return True
 
         def installGodep():
-            j.do.execute("go get -u github.com/tools/godep")
-            j.action.start(retry=0, name="installGodep",description='install GOPATH', cmds='', action=installGodep, actionRecover=None, actionArgs={}, errorMessage='', die=True, stdOutput=True, jp=self.jp_instance)
+            j.do.execute("/opt/go/bin/go get -u github.com/tools/godep")
+        j.action.start(retry=0, name="installGodep",description='install godep (can take a while)', cmds='', action=installGodep, actionRecover=None, actionArgs={}, errorMessage='', die=True, stdOutput=True, jp=self.jp_instance)
+        return True
 
     def removedata(self,**args):
         j.system.fs.removeDirTree("/opt/go")
