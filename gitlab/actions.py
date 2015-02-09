@@ -15,7 +15,7 @@ class Actions(ActionsBase):
         j.system.platform.ubuntu.checkInstall('postfix', 'postfix')
 
    # Add git user
-        j.do.execute('adduser --disabled-login --gecos \'GitLab\' git')
+#        j.do.execute('adduser --disabled-login --gecos \'GitLab\' git')
         j.do.createDir('/home/git/gitlab')
         j.do.copyFile('/etc/login.defs', '/etc/login.defs.org')
         j.do.execute("cd /etc/ && sed 's/ENV_PATH\tPATH=.*/ENV_PATH\tPATH=\/opt\/jumpscale7\/bin:\/opt\/postgresql\/bin:\/opt\/jumpscale7\/apps\/redis:\/usr\/local\/sbin:\/usr\/local\/bin:\/usr\/sbin:\/usr\/bin:\/sbin:\/bin:\/usr\/games:\/usr\/local\/games:\/opt\/ruby\/bin/' login.defs.org | tee login.defs")
@@ -31,8 +31,8 @@ class Actions(ActionsBase):
     def configure(self,**args):
         os.system('export PATH=$PATH:/opt/ruby/bin')
    # Postgresql partation
-        j.do.execute('cd /opt/postgresql/bin; sudo -u postgres psql -d template1 -c \'CREATE USER git CREATEDB\'')
-        j.do.execute('cd /opt/postgresql/bin; sudo -u postgres psql -d template1 -c \'CREATE DATABASE gitlabhq_production OWNER git\'')
+#        j.do.execute('cd /opt/postgresql/bin; sudo -u postgres psql -d template1 -c \'CREATE USER git CREATEDB\'')
+#        j.do.execute('cd /opt/postgresql/bin; sudo -u postgres psql -d template1 -c \'CREATE DATABASE gitlabhq_production OWNER git\'')
    # Install gitlab
         j.do.execute('sudo gem install bundler --no-ri --no-rdoc')
         j.do.execute('chown git:git -R /home/git')
@@ -50,9 +50,9 @@ class Actions(ActionsBase):
         os.system('sudo -u git -H git config --global user.email \"$(param.email)\"')
         os.system("sudo -u git -H git config --global core.autocrlf input")
         j.do.execute('sudo -u git -H chmod o-rwx config/database.yml')
-        j.do.copyFile('/home/git/gitlab/lib/support/init.d/gitlab', '/etc/init.d/gitlab')
+#        j.do.copyFile('/home/git/gitlab/lib/support/init.d/gitlab', '/etc/init.d/gitlab')
         j.do.copyFile('/home/git/gitlab/lib/support/init.d/gitlab.default.example', '/etc/default/gitlab')
-        j.do.execute('update-rc.d gitlab defaults 21')
+#        j.do.execute('update-rc.d gitlab defaults 21')
         j.do.copyFile('/home/git/gitlab/lib/support/logrotate/gitlab', '/etc/logrotate.d/gitlab')
         os.system("cd /home/git/gitlab && sudo -u git -H bundle install --deployment --without development test mysql aws")
         os.system("cd /home/git/gitlab && sudo -u git -H bundle exec rake gitlab:shell:install[v2.4.0] REDIS_URL=unix:/opt/jumpscale7/var/redis/gitlab/redis.sock RAILS_ENV=production")
@@ -75,7 +75,7 @@ class Actions(ActionsBase):
         os.system("cd /home/git/gitlab && sudo -u git -H bundle exec rake gitlab:setup RAILS_ENV=production")
         os.system("cd /home/git/gitlab && sudo -u git -H bundle exec rake gitlab:env:info RAILS_ENV=production")
         os.system("cd /home/git/gitlab && sudo -u git -H bundle exec rake assets:precompile RAILS_ENV=production")
-        j.do.execute('service nginx restart && service gitlab restart')
+        j.do.execute('service nginx restart')
 
         print('userName: root\npassword: 5iveL!fe')
         return True

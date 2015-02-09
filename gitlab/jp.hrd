@@ -7,7 +7,7 @@ process.1=
     timeout_stop:10,
     ports:,
     startupmanager:tmux,
-    filterstr:'./gitlab start'
+    filterstr:'gitlab'
 
 git.url='https://git.aydo.com/binary/gitlab-ce.git'
 
@@ -46,7 +46,7 @@ redis.server.args=
     param.mem:32,
     param.name:'main',
     param.passwd:,
-    param.port:0,
+    param.port:,
     param.unixsocket:1
 
 dependencies.4=
