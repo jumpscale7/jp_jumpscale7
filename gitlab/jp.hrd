@@ -1,3 +1,14 @@
+process.1=
+    cmd:'sudo -u git -H ./gitlab start',
+    args:,
+    prio:10,
+    cwd:'/home/git/gitlab/lib/support/init.d',
+    timeout_start:10,
+    timeout_stop:10,
+    ports:,
+    startupmanager:tmux,
+    filterstr:'./gitlab start'
+
 git.url='https://git.aydo.com/binary/gitlab-ce.git'
 
 git.export.1=
