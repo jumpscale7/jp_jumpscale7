@@ -1,8 +1,0 @@
-
-param.heka.role = @ASK default:master type:dropdown dropdownvals:master,collector
-param.heka.influxdb.host = @ASK default:localhost type:str
-param.heka.influxdb.dbname = @ASK default:codescalers type:str
-param.heka.influxdb.user = @ASK default:root type:str
-param.heka.influxdb.password = @ASK default:rooter type:str
-param.heka.master.host = @ASK default:localhost type:str
-
