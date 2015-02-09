@@ -1,13 +1,14 @@
+param.base='/opt/jumpscale7/apps/asterisk'
 process.1=
     cmd:'./asterisk',
-    args:start,
+    args:-v -f,
     prio:10,
-    cwd:'$(system.paths.base)/apps/asterisk/config',
+    cwd:'$(param.base)/sbin',
     timeout_start:10,
     timeout_stop:10,
     ports:,
     startupmanager:tmux,
-    filterstr:'/sbin/asterisk'
+    filterstr:'./asterisk',
 
 #base of repo where code or files are e.g. http://git.aydo.com/binary/base
 git.url='https://git.aydo.com/binary/asterisk.git'
