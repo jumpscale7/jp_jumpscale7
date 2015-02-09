@@ -10,7 +10,7 @@ class Actions(ActionsBase):
         this gets executed before the files are downloaded & installed on approprate spots
         """
         j.system.platform.ubuntu.checkInstall('cmake', 'make')
-        j.do.execute('apt-get install -y build-essential zlib1g-dev libyaml-dev libssl-dev libgdbm-dev libreadline-dev libncurses5-dev libffi-dev checkinstall libxml2-dev libxslt-dev libcurl4-openssl-dev libicu-dev logrotate pkg-config cmake libkrb5-dev')
+        j.do.execute('apt-get install -y build-essential libgd3 zlib1g-dev libyaml-dev libssl-dev libgdbm-dev libreadline-dev libncurses5-dev libffi-dev checkinstall libxml2-dev libxslt-dev libcurl4-openssl-dev libicu-dev logrotate pkg-config cmake libkrb5-dev')
     #Install postfix
         j.system.platform.ubuntu.checkInstall('postfix', 'postfix')
 
