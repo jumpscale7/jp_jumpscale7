@@ -37,9 +37,9 @@ class Actions(ActionsBase):
         self.jp_instance.hrd.applyOnDir(dest)
         j.application.config.applyOnDir(dest)
         cmd='jsuser delete -ul admin'
-        j.do.execute(cmd)
+        j.do.execute(cmd, dieOnNonZeroExitCode=False)
         cmd='jsuser add -d admin:$(param.portal.rootpasswd):admin:fakeemail.test.com:jumpscale'
-        j.do.execute(cmd)
+        j.do.execute(cmd, dieOnNonZeroExitCode=False)
         secret = "$(param.portal.secret)".strip()
         port = "$(param.portal.port)".strip()
         ini = j.config.getInifile(dest + '/cfg/portal')

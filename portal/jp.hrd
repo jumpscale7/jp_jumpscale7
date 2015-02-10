@@ -44,10 +44,21 @@ git.export.6=
     dest:'$(system.paths.base)/apps/portals/$(jp.instance)/cfg',
     link:False,
 
+git.export.7=
+    url:$(git.url),
+    source:'lib/portal',
+    dest:'$(system.paths.python.lib.js)/portal',
+    link:True,
+
+
 dependencies.1                 =
     name:'portal_lib',
-
+    
 dependencies.2                 =
+    name:'osis_client',
+    instance:'main',
+
+dependencies.3                 =
     name:'mailclient',
 
 
