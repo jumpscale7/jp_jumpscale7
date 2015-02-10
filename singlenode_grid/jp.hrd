@@ -1,5 +1,9 @@
 dependencies.1                 =
     name:'portal_local_all',
+    args:'dep.args.portal_local_all',
+
+dep.args.portal_local_all              =
+    param.rootpasswd:'$(rootpasswd)',
 
 dependencies.2                 =
     args:'dep.args.agentcontroller',
@@ -8,7 +12,17 @@ dependencies.2                 =
 dep.args.agentcontroller              =
     osis.connection:'main',
 
-dependencies.3     =
+dependencies.3                 =
+    args:'dep.args.agentcontroller_client',
+    name:'agentcontroller_client',
+
+dep.args.agentcontroller_client              =
+    agentcontroller.client.addr:'localhost',
+    agentcontroller.client.port:'4444',
+    agentcontroller.client.login:'node',
+    agentcontroller.client.passwd:'$(rootpasswd)',
+
+dependencies.4     =
     name:'jsagent',
     args:'dep.args.jsagent',
 
@@ -19,29 +33,29 @@ dep.args.jsagent =
     grid.id:1,
     grid.node.roles:node,
 
-dependencies.4 = 
+dependencies.5 = 
     name:'csagent',
     args:dep.args.csagent'',
 
 dep.args.csagent = 
     param.gid:1,
 
-dependencies.5  =    
+dependencies.6  =    
     name:'nginx',
 
-dependencies.6  =   
+dependencies.7  =   
     name:'grafana',
     args:'dep.args.grafana',
 
 dep.args.grafana =
    param.influxdb.connection:'main',
 
-dependencies.7  =
+dependencies.8  =
     name:'gridportal',
     args:'dep.args.gridportal',
 
 dep.args.gridportal =
    portal.instance:'main',
 
-dependencies.8  =
+dependencies.9  =
     name:'heka-master',
