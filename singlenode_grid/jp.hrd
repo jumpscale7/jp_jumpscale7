@@ -43,3 +43,5 @@ dependencies.7  =
 dep.args.gridportal =
    portal.instance:'main',
 
+dependencies.8  =
+    name:'heka-master',
