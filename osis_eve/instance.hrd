@@ -1,0 +1,2 @@
+param.port = @ASK default:5000 type:int
+param.mongodb.connection = @ASK default:main type:str
