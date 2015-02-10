@@ -29,30 +29,7 @@ class Actions(ActionsBase):
 
     def configure(self, *args, **kwargs):
 
-        BINARY_PATH = '/opt/code/git/binary/heka-master/'
-        BASE_PATH = self.jp_instance.hrd.get('param.base') 
-        CONFIGS_PATH = os.path.join(BINARY_PATH, 'configs')
-        INSTALLATION_CONFIGS_PATH = os.path.join(BASE_PATH, 'configs') 
-
-        config_files = (
-            'tcpinput.toml',
-            'httpinput.toml',
-            'influx_ouput.toml',
-            'main.toml',
-            'statsdagregator.toml',
-        )
-
-        j.system.fs.createDir(INSTALLATION_CONFIGS_PATH)
-        for file_name in config_files:
-            source_file = os.path.join(CONFIGS_PATH, file_name) 
-            dest_file = os.path.join(INSTALLATION_CONFIGS_PATH, file_name) 
-            log('Installing configuration file: ' + dest_file)
-            j.system.fs.copyFile(source_file, dest_file)
-
-        testing_source_file = os.path.join(CONFIGS_PATH, 'testing.toml')
-        testing_dest_file = os.path.join(BASE_PATH, 'testing.toml')
-        log('Installing the configuration file: testing.toml')
-        j.system.fs.copyFile(testing_source_file, testing_dest_file)
+        INSTALLATION_CONFIGS_PATH = os.path.join(self.jp_instance.hrd.get('param.base'), 'master-configs') 
 
         influxdb_client_hrd = j.application.getAppInstanceHRD('influxdb_client', 'main')
         influxdb_client_hrd.applyOnDir(INSTALLATION_CONFIGS_PATH)
