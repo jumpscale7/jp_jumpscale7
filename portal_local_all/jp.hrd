@@ -45,7 +45,7 @@ dep.args.influxdbclient         =
     param.influxdb.client.port:8086,
     param.influxdb.client.login:'root',
     param.influxdb.client.passwd:'root',
-
+    param.influxdb.client.dbname:'main',
 
 dependencies.7               =
     args:'dep.args.osis',
