@@ -6,6 +6,7 @@ git.export.1=
     url:$(git.url),
     source:'root/lib/*',
     dest:'$(param.base)/',
+    overwrite:False,
     link:False,
 
 git.export.2=
