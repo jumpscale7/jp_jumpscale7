@@ -5,7 +5,7 @@ process.1=
     cwd:'/home/git/gitlab/lib/support/init.d',
     timeout_start:10,
     timeout_stop:10,
-    ports:,
+    ports:8080,
     startupmanager:tmux,
     filterstr:'gitlab'
 
@@ -46,11 +46,15 @@ redis.server.args=
     param.mem:32,
     param.name:'main',
     param.passwd:,
-    param.port:,
+    param.port:0,
     param.unixsocket:1
 
 dependencies.4=
     name:'ruby',
+    domain:,
+
+dependencies.5=
+    name:'nginx',
     domain:,
 platform.supported=linux64,
 #how many instances can be installed of this package, if 1 the instance name is always 'main'
