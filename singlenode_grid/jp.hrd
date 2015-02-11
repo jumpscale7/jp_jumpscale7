@@ -13,8 +13,20 @@ dep.args.agentcontroller              =
     osis.connection:'main',
 
 dependencies.3                 =
+    args:'dep.args.osis_client',
+    name:'osis_client',
+    instance:'jsagent',
+
+dep.args.osis_client              =
+    param.osis.client.addr:localhost,
+    param.osis.client.port:5544,
+    param.osis.client.login:'node',
+    param.osis.client.passwd:'',
+
+dependencies.4                 =
     args:'dep.args.agentcontroller_client',
     name:'agentcontroller_client',
+    instance:'main'
 
 dep.args.agentcontroller_client              =
     agentcontroller.client.addr:'localhost',
@@ -22,35 +34,33 @@ dep.args.agentcontroller_client              =
     agentcontroller.client.login:'node',
     agentcontroller.client.passwd:'$(rootpasswd)',
 
-dependencies.4     =
+dependencies.5     =
     name:'jsagent',
     args:'dep.args.jsagent',
 
 dep.args.jsagent =
-    ac.ipaddress:'localhost',
-    ac.login:'node',
-    ac.passwd:,
+    agentcontroller.connection:'main',
     grid.id:1,
     grid.node.roles:node,
 
-dependencies.5 = 
+dependencies.6 = 
     name:'csagent',
     args:dep.args.csagent'',
 
 dep.args.csagent = 
     param.gid:1,
 
-dependencies.6  =    
+dependencies.7  =    
     name:'nginx',
 
-dependencies.7  =   
+dependencies.8  =   
     name:'grafana',
     args:'dep.args.grafana',
 
 dep.args.grafana =
    param.influxdb.connection:'main',
 
-dependencies.8  =
+dependencies.9  =
     name:'osis_eve',
     args:'dep.args.osis_eve',
 
@@ -58,12 +68,12 @@ dep.args.osis_eve =
     param.port:5000,
     param.mongodb.connection:main,
 
-dependencies.9  =
+dependencies.10  =
     name:'gridportal',
     args:'dep.args.gridportal',
 
 dep.args.gridportal =
    portal.instance:'main',
 
-dependencies.10  =
+dependencies.11  =
     name:'heka-master',
