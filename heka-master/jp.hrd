@@ -13,7 +13,7 @@ process.1=
     name:'$(jp.instance)_$(jp.name)', 
     cmd:'$(param.base)/bin/hekad -config="$(param.base)/master-configs"', 
     filterstr:'$(param.base)/master-configs',
-    ports:['5565','8325'],
+    ports:8325,
 
 dependencies.1 = name:'influxdb_client',
 
