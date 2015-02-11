@@ -9,7 +9,7 @@ class Actions(ActionsBase):
         """
         
 
-        cmd = 'apt-get install -y bzip2 gcc build-essential zlib1g-dev libyaml-dev libssl-dev libgdbm-dev libreadline-dev libncurses5-dev libffi-dev curl checkinstall libxml2-dev libxslt-dev libcurl4-openssl-dev libicu-dev logrotate python-docutils pkg-config cmake libkrb5-dev'
+#        cmd = 'apt-get install -y bzip2 gcc build-essential zlib1g-dev libyaml-dev libssl-dev libgdbm-dev libreadline-dev libncurses5-dev libffi-dev curl checkinstall libxml2-dev libxslt-dev libcurl4-openssl-dev libicu-dev logrotate python-docutils pkg-config cmake libkrb5-dev'
         j.action.start(retry=1, name="apt_get_install",description='', cmds=cmd, actionRecover=None, actionArgs={}, errorMessage='', die=True, stdOutput=True, jp=self.jp_instance)
         
         def downloadruby():
