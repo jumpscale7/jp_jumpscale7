@@ -23,7 +23,7 @@ dependencies.1=
     args:'postgresql.args',
 
 postgresql.args=
-    param.rootpasswd:'R00t3r',
+    param.rootpasswd:'rooter',
     param.port:5432,
 
 dependencies.2=
@@ -34,7 +34,7 @@ dependencies.2=
 client.args=
     addr:'localhost',
     port:5432,
-    passwd:'R00t3r',
+    passwd:'rooter',
 
 dependencies.3=
     name:'redis',
