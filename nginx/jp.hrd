@@ -27,3 +27,6 @@ instances.maxnr=1
 
 #a way to describe where to backup to
 #backup.location=
+
+dependencies.1                 =
+    name:'base',
