@@ -9,12 +9,12 @@ process.1=
     startupmanager:tmux,
     filterstr:'gitlab'
 
-git.url='https://git.aydo.com/binary/gitlab-ce.git'
+git.url='https://git.aydo.com/binary/gitlab-test.git'
 
 git.export.1=
     url:$(git.url),
     source:'',
-    dest:'/home/git/gitlab',
+    dest:'/home/git/',
     link:False
 
 dependencies.1=
