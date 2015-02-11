@@ -1,3 +1,2 @@
-
-rootpasswd=@ASK type:str descr:'SINGLENODE_GRID:rootpasswd (Agent controller, OSIS, PORTAL, REDIS)'
-
+rootpasswd=rooter
+param.osis.client.addr=localhost

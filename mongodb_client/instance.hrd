@@ -2,5 +2,5 @@ param.addr=@ASK default:localhost descr:'MONGODB CLIENT: Server address'
 param.port=@ASK default:27017 descr:'MONGODB CLIENT: Server port'
 param.login=@ASK default: descr:'MONGODB CLIENT: Server username'
 param.passwd=@ASK default: descr:'MONGODB CLIENT: Server password'
-param.ssl= descr:'MONGODB CLIENT: SSL?'
+param.ssl=
 param.replicaSet= descr:'MONGODB CLIENT: relicaset'

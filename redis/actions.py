@@ -24,5 +24,5 @@ class Actions(ActionsBase):
         if "$(param.disk)".lower().strip()=="true" or "$(param.disk)".strip()=="1":
             appendonly=True
         passwd = "$(param.passwd)".strip() or None
-        j.clients.redis.configureInstance(self.jp_instance.instance,port=$(param.port),maxram=$(param.mem),appendonly=appendonly, passwd=passwd, unixsocket=$(param.unixsocket))
+        j.clients.redis.configureInstance(self.jp_instance.instance,port="$(param.port)",maxram="$(param.mem)",appendonly=appendonly, passwd=passwd, unixsocket="$(param.unixsocket)")
         return True

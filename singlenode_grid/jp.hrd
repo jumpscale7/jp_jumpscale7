@@ -27,9 +27,8 @@ dependencies.4     =
     args:'dep.args.jsagent',
 
 dep.args.jsagent =
-    ac.ipaddress:'localhost',
-    ac.login:'node',
-    ac.passwd:,
+    agentcontroller.connection:'main',
+    osis.connection:'main',
     grid.id:1,
     grid.node.roles:node,
 
