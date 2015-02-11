@@ -10,7 +10,6 @@ git.export.1=
     source:'doublecmd/',
     dest:'$(param.base)/',
     link:True,
-    delete:True,
 
 git.export.2=
     url:$(git.url),

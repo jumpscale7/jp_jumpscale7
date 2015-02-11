@@ -1,4 +1,4 @@
-param.base=/opt/csagent
+param.base=/opt/csagent/
 
 bin.git.url = 'http://git.aydo.com/binary/csagent.git'
 
