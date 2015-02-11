@@ -5,6 +5,7 @@ ActionsBase=j.packages.getActionsBaseClass()
 class Actions(ActionsBase):
     
     def prepare(self, **kwargs):
+        j.do.execute('apt-get install -y libgd3')
         try:
             j.system.platform.ubuntu.stopService("nginx")
         except:

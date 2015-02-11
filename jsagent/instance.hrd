@@ -1,9 +1,5 @@
-ac.ipaddress=@ASK default:localhost
-ac.port=4444
-ac.login=@ASK descr:Login__default(node) default:node
-ac.passwd=@ASK descr:passwd?_leave__empty__for__node default:EMPTY
-osis.connection=processmanager
-agentcontroller.connection=main
+osis.connection=jsagent
+agentcontroller.connection=@ASK default:main
 
 grid.id = @ASK default:1 type:int
 grid.node.roles = @ASK descr:'comma-separated roles this node subscribes to' default:node type:str

@@ -51,11 +51,19 @@ dep.args.grafana =
    param.influxdb.connection:'main',
 
 dependencies.8  =
+    name:'osis_eve',
+    args:'dep.args.osis_eve',
+
+dep.args.osis_eve =
+    param.port:5000,
+    param.mongodb.connection:main,
+
+dependencies.9  =
     name:'gridportal',
     args:'dep.args.gridportal',
 
 dep.args.gridportal =
    portal.instance:'main',
 
-dependencies.9  =
+dependencies.10  =
     name:'heka-master',

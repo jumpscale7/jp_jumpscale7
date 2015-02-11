@@ -9,7 +9,7 @@ class Actions(ActionsBase):
         """
         this gets executed before the files are downloaded & installed on approprate spots
         """
-        j.do.execute('apt-get install -y build-essential libgd3 zlib1g-dev libyaml-dev libssl-dev libgdbm-dev libreadline-dev libncurses5-dev libffi-dev checkinstall libxml2-dev libxslt-dev libcurl4-openssl-dev libicu-dev logrotate pkg-config cmake libkrb5-dev')
+        j.do.execute('apt-get install -y logrotate')
     #Install postfix
         j.system.platform.ubuntu.checkInstall('postfix', 'postfix')
 
@@ -32,11 +32,8 @@ class Actions(ActionsBase):
         j.do.execute('cd /opt/postgresql/bin; sudo -u postgres psql -d template1 -c \'CREATE DATABASE gitlabhq_production OWNER git\'')
    # Install gitlab
         j.do.execute('sudo gem install bundler --no-ri --no-rdoc')
-        j.do.execute('chown git:git -R /home/git')
         j.do.execute('sudo -u git -H mkdir /home/git/repositories')
-        j.do.createDir('/home/git/gitlab-satellites')
-        j.do.chown('/home/git/gitlab-satellites', 'git')
-        j.do.execute('chmod u+rwx,g=rx,o-rwx /home/git/gitlab-satellites')
+        j.do.execute('sudo -u git -H mkdir -m 750 /home/git/gitlab-satellites')
         j.do.copyFile('/home/git/gitlab/lib/support/init.d/gitlab.default.example', '/etc/default/gitlab')
         j.do.copyFile('/home/git/gitlab/lib/support/logrotate/gitlab', '/etc/logrotate.d/gitlab')
         j.do.execute('chown git:git -R /home/git')
