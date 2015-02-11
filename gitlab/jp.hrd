@@ -3,7 +3,7 @@ process.1=
     args:,
     prio:10,
     cwd:'/home/git/gitlab/lib/support/init.d',
-    timeout_start:10,
+    timeout_start:50,
     timeout_stop:10,
     ports:8080,
     startupmanager:tmux,
