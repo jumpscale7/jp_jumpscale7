@@ -1,4 +1,4 @@
-agentcontroller.client.addr=@ASK default:localhost  descr:can__be__more__than__one__use__comma__separated__list
-agentcontroller.client.port=@ASK default:4444
-agentcontroller.client.login=@ASK default:node
+agentcontroller.client.addr=@ASK default:localhost  descr:'Agent controller Client: Address'
+agentcontroller.client.port=@ASK default:4444 descr:'Agent controller Client: PORT'
+agentcontroller.client.login=@ASK default:node descr:'Agent controller Client: User name'
 agentcontroller.client.passwd=

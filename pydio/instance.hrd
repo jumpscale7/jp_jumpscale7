@@ -1,1 +1,1 @@
-rootpasswd = @ASK
+rootpasswd = @ASK descr:'PYDIO: root password'

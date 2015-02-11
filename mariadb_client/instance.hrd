@@ -1,5 +1,5 @@
-addr=@ASK default:localhost
-port=@ASK default:3306
-login=root
-passwd=@ASK default:rooter
+addr=@ASK default:localhost descr:'MARIADB CLIENT: address'
+port=@ASK default:3306 descr:'MARIADB CLIENT: port'
+login=root descr:'MARIADB CLIENT: username'
+passwd=@ASK default:rooter descr:'MARIADB CLIENT: password'
 

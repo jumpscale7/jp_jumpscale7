@@ -1,3 +1,3 @@
 
-rootpasswd=@ASK type:str descr:'rootpasswd'
+rootpasswd=@ASK type:str descr:'SINGLENODE_GRID:rootpasswd (Agent controller, OSIS, PORTAL, REDIS)'
 

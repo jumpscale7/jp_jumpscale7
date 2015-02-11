@@ -1,6 +1,5 @@
-param.host=@ASK type:str default:'127.0.0.1'
-param.port=@ASK type:int default:27017
-param.replicaset=@ASK descr:'Name of replicaset, leave empty if not part of replicaSet'
-
+param.host=@ASK type:str default:'127.0.0.1' descr:'MONGODB: host'
+param.port=@ASK type:int default:27017 descr:'MONGODB: port'
+param.replicaset=@ASK default:'' descr:'MONGODB: replicaset (leave empty if none)'
 
 

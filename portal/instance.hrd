@@ -1,7 +1,5 @@
-param.osis.connection=@ASK default:main
-param.portal.port=@ASK default:82
-param.portal.ipaddr=@ASK default:127.0.0.1
-param.portal.rootpasswd = @ASK default:admin
-param.portal.secret = @ASK default:admin descr:'Admin authkey for portal'
-
-
+param.osis.connection=@ASK default:main descr:'PORTAL: OSIS connection instance'
+param.portal.port=@ASK default:82 descr:'PORTAL: port'
+param.portal.ipaddr=@ASK default:127.0.0.1 descr:'PORTAL: IP'
+param.portal.rootpasswd = @ASK default:admin descr:'PORTAL: root password'
+param.portal.secret = @ASK default:admin descr:'PORTAL: Admin authkey for portal'

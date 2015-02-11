@@ -1,2 +1,2 @@
-osis.connection=@ASK
+osis.connection=@ASK descr:'Agent controller: OIS connection' default:'main' type:str
 

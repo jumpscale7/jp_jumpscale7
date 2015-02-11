@@ -1,4 +1,4 @@
-param.influxdb.connection=@ASK type:str default:'main'
+param.influxdb.connection=@ASK type:str default:'main' descr:'GRAFANA: Influxdb connection'
 
 
 

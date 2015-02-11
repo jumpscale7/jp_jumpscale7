@@ -1,5 +1,5 @@
-addr=@ASK default:localhost
-port=@ASK default:5432
-login=postgres
-passwd=@ASK default:rooter
+addr=@ASK default:localhost descr:'POSTGRESQL CLIENT: Server Address'
+port=@ASK default:5432 descr:'POSTGRESQL CLIENT: Server port'
+login=postgres descr:'POSTGRESQL CLIENT: username'
+passwd=@ASK default:rooter descr:'POSTGRESQL CLIENT: Server password'
 
