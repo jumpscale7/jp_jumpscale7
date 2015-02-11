@@ -23,6 +23,23 @@ process.1=
 
 platform.supported=linux64,
 
+dependencies.1                 =
+    name:'agentcontroller_client',
+    args:'dep.args.agentcontroller_client',
+
+dep.args.agentcontroller_client =
+    agentcontroller.client.login:node,
+    agentcontroller.client.passwd:'',
+
+dependencies.2                 =
+    name:'osis_client',
+    instance:'jsagent',
+    args:'dep.args.osis_client',
+
+dep.args.osis_client = 
+    param.osis.client.login:node,
+    param.osis.client.passwd:'',
+
 #how many instances can be installed of this package, if 1 the instance name is always 'main'
 instances.maxnr=10
 

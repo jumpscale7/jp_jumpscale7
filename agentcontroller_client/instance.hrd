@@ -1,4 +1,4 @@
 agentcontroller.client.addr=@ASK default:localhost  descr:can__be__more__than__one__use__comma__separated__list
 agentcontroller.client.port=@ASK default:4444
 agentcontroller.client.login=@ASK default:node
-agentcontroller.client.passwd=
+agentcontroller.client.passwd=@ASK descr:'passwd? leave empty for node' default:''
