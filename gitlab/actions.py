@@ -9,10 +9,6 @@ class Actions(ActionsBase):
         """
         this gets executed before the files are downloaded & installed on approprate spots
         """
-        j.do.execute('apt-get install -y logrotate')
-    #Install postfix
-        j.system.platform.ubuntu.checkInstall('postfix', 'postfix')
-
    # Add git user
         j.do.execute('adduser --disabled-login --gecos \'GitLab\' git')
 
@@ -26,13 +22,13 @@ class Actions(ActionsBase):
         return True
         
     def configure(self,**args):
-        os.system('export PATH=$PATH:/opt/ruby/bin')
+#        os.system('export PATH=$PATH:/opt/ruby/bin')
    # Postgresql partation
         j.do.execute('cd /opt/postgresql/bin; sudo -u postgres psql -d template1 -c \'CREATE USER git CREATEDB\'')
         j.do.execute('cd /opt/postgresql/bin; sudo -u postgres psql -d template1 -c \'CREATE DATABASE gitlabhq_production OWNER git\'')
    # Install gitlab
         j.do.execute('sudo -u git -H mkdir /home/git/repositories')
-        j.do.execute('sudo -u git -H mkdir -m 750 /home/git/gitlab-satellites')
+        j.do.execute('sudo -u git -H mkdir -m 2770 /home/git/gitlab-satellites')
         j.do.copyFile('/home/git/gitlab/lib/support/init.d/gitlab.default.example', '/etc/default/gitlab')
         j.do.copyFile('/home/git/gitlab/lib/support/logrotate/gitlab', '/etc/logrotate.d/gitlab')
         j.do.execute('chown git:git -R /home/git')
