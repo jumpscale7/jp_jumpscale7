@@ -24,8 +24,8 @@ class Actions(ActionsBase):
         """
         this gets executed before the files are downloaded & installed on appropriate spots
         """
-	#Buid steps
-
+        pass
+        
 
     def stop(self,**kwargs):
         if j.system.fs.exists('$(param.base)/var/run/asterisk/asterisk.ctl'):
