@@ -31,7 +31,6 @@ class Actions(ActionsBase):
         j.do.execute('cd /opt/postgresql/bin; sudo -u postgres psql -d template1 -c \'CREATE USER git CREATEDB\'')
         j.do.execute('cd /opt/postgresql/bin; sudo -u postgres psql -d template1 -c \'CREATE DATABASE gitlabhq_production OWNER git\'')
    # Install gitlab
-        j.do.execute('sudo gem install bundler --no-ri --no-rdoc')
         j.do.execute('sudo -u git -H mkdir /home/git/repositories')
         j.do.execute('sudo -u git -H mkdir -m 750 /home/git/gitlab-satellites')
         j.do.copyFile('/home/git/gitlab/lib/support/init.d/gitlab.default.example', '/etc/default/gitlab')
