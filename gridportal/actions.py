@@ -28,13 +28,13 @@ class Actions(ActionsBase):
             j.events.inputerror_critical("Could not find portal instance with name: $(portal.instance), please install")
         return True
 
-    # def configure(self,**args):
-    #     """
-    #     this gets executed when files are installed
-    #     this step is used to do configuration steps to the platform
-    #     after this step the system will try to start the jpackage if anything needs to be started
-    #     """
-    #     return True
+    def configure(self,**args):
+        """
+        this gets executed when files are installed
+        this step is used to do configuration steps to the platform
+        after this step the system will try to start the jpackage if anything needs to be started
+        """
+        j.packages.get(domain='jumpscale', name='portal').restart()
 
 
     # def start(self,**args):
