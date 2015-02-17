@@ -89,6 +89,8 @@ dep.args.portal         =
     param.portal.rootpasswd:'$(param.rootpasswd)',
     param.portal.secret:'$(param.rootpasswd)',
     param.osis.connection:'main',
+	param.gitlab.connection='main'
+	param.authentication.method='osis'
 
 dependencies.11              =
     args:'dep.args.portal_client',

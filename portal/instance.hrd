@@ -1,4 +1,6 @@
 param.osis.connection=@ASK default:main descr:'PORTAL: OSIS connection instance'
+param.gitlab.connection=@ASK default:main descr:'PORTAL: GITLAB connection instance'
+param.authentication.method=@ASK type:dropdown dropdownvals:osis,gitlab default:osis sescr:'Authentication method'
 param.portal.port=@ASK default:82 descr:'PORTAL: port'
 param.portal.ipaddr=@ASK default:127.0.0.1 descr:'PORTAL: IP'
 param.portal.rootpasswd = @ASK default:admin descr:'PORTAL: root password'

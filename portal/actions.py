@@ -34,7 +34,8 @@ class Actions(ActionsBase):
         """
 
         dest="$(system.paths.base)/apps/portals/$(jp.instance)"
-        self.jp_instance.hrd.applyOnDir(dest)
+        cfg_dest = "$(system.paths.base)/apps/portals/$(jp.instance)/cfg/"
+        self.jp_instance.hrd.applyOnDir(cfg_dest)
         j.application.config.applyOnDir(dest)
         cmd='jsuser delete -ul admin'
         j.do.execute(cmd, dieOnNonZeroExitCode=False)
@@ -42,10 +43,14 @@ class Actions(ActionsBase):
         j.do.execute(cmd, dieOnNonZeroExitCode=False)
         secret = "$(param.portal.secret)".strip()
         port = "$(param.portal.port)".strip()
+        gitlabinstance = "$(param.gitlab.connection)".strip()
+        authmethod = "$(param.authentication.method)".strip()
         ini = j.config.getInifile(dest + '/cfg/portal')
         if secret:
             ini.setParam('main', 'secret', secret)
         ini.setParam('main', 'webserverport', port)
+        ini.setParam('main', 'auth', authmethod)
+        ini.setParam('main', 'gitlabinstance', gitlabinstance)
         ini.write()
         return True
 
