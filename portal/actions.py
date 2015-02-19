@@ -32,25 +32,10 @@ class Actions(ActionsBase):
         this step is used to do configuration steps to the platform
         after this step the system will try to start the jpackage if anything needs to be started
         """
-
-        dest="$(system.paths.base)/apps/portals/$(jp.instance)"
-        cfg_dest = "$(system.paths.base)/apps/portals/$(jp.instance)/cfg/"
-        self.jp_instance.hrd.applyOnDir(cfg_dest)
-        j.application.config.applyOnDir(dest)
         cmd='jsuser delete -ul admin'
         j.do.execute(cmd, dieOnNonZeroExitCode=False)
         cmd='jsuser add -d admin:$(param.portal.rootpasswd):admin:fakeemail.test.com:jumpscale'
         j.do.execute(cmd, dieOnNonZeroExitCode=False)
-        secret = "$(param.portal.secret)".strip()
-        port = "$(param.portal.port)".strip()
-        gitlabinstance = "$(param.gitlab.connection)".strip()
-        authmethod = "$(param.authentication.method)".strip()
-        ini = j.config.getInifile(dest + '/cfg/portal')
-        if secret:
-            ini.setParam('main', 'secret', secret)
-        ini.setParam('main', 'webserverport', port)
-        ini.setParam('main', 'auth', authmethod)
-        ini.setParam('main', 'gitlabinstance', gitlabinstance)
-        ini.write()
+        # ini.write()
         return True
 

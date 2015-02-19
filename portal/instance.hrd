@@ -1,7 +1,15 @@
 param.osis.connection=@ASK default:main descr:'PORTAL: OSIS connection instance'
-param.gitlab.connection=@ASK default:main descr:'PORTAL: GITLAB connection instance'
-param.authentication.method=@ASK type:dropdown dropdownvals:osis,gitlab default:osis descr:'Authentication method'
-param.portal.port=@ASK default:82 descr:'PORTAL: port'
-param.portal.ipaddr=@ASK default:127.0.0.1 descr:'PORTAL: IP'
 param.portal.rootpasswd = @ASK default:admin descr:'PORTAL: root password'
-param.portal.secret = @ASK default:admin descr:'PORTAL: Admin authkey for portal'
+
+param.cfg.ipaddr = @ASK default:'127.0.0.1' descr:'PORTAL: IP'
+param.cfg.port=@ASK default:82 descr:'PORTAL: port'
+param.cfg.appdir = $base/apps/portals/portalbase
+param.cfg.filesroot = $vardir/portal/files
+param.cfg.portal.secret = @ASK default:admin descr:'PORTAL: Admin authkey for portal'
+param.cfg.defaultspace = @ASK default:system type:str descr:'PORTAL: Default space for this portal to land on'
+param.cfg.admingroups = @ASK default:'admin,'  descr:'PORTAL comma-seperated admin groups'
+param.cfg.authentication.method=@ASK type:dropdown dropdownvals:osis,gitlab default:osis descr:'Authentication method'
+param.cfg.gitlab.connection=@ASK default:main descr:'PORTAL: GITLAB connection instance'
+
+
+param.cfg.contentdirs = @ASK default:'' type:str descr:'PORTAL comma-seperated additional content directories'

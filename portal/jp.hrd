@@ -6,7 +6,7 @@ process.1=
     cwd:'$(system.paths.base)/apps/portals/$(jp.instance)',
     timeout_start:10,
     timeout_stop:10,
-    ports:$(param.portal.port),
+    ports:$(param.cfg.port),
     startupmanager:tmux,
     filterstr:''
 
@@ -39,12 +39,6 @@ git.export.5=
     link:True,
 
 git.export.6=
-    url:$(git.url),
-    source:'apps/portalbase/cfg',
-    dest:'$(system.paths.base)/apps/portals/$(jp.instance)/cfg',
-    link:False,
-
-git.export.7=
     url:$(git.url),
     source:'lib/portal',
     dest:'$(system.paths.python.lib.js)/portal',
