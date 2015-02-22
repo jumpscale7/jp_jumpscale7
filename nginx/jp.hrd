@@ -10,7 +10,7 @@ process.1=
     timeout_stop:10,
     ports:80,
     startupmanager:tmux,
-    filterstr:'postgres',
+    filterstr:'nginx',
 
 git.url = 'https://git.aydo.com/binary/nginx.git'
 #known var's are: $root,$base,$cfg,$jslib,$pylib,$lib  
