@@ -83,14 +83,17 @@ dependencies.10               =
     name:'portal',
 
 dep.args.portal         =
-    param.portal.ipaddr:'localhost',
     param.portal.name:'main',
-    param.portal.port:82,
     param.portal.rootpasswd:'$(param.rootpasswd)',
-    param.portal.secret:'$(param.rootpasswd)',
     param.osis.connection:'main',
-    param.gitlab.connection:'main',
-    param.authentication.method:'osis',
+    param.cfg.ipaddr:'localhost',
+    param.cfg.port:82,
+    param.cfg.portal.secret:'$(param.rootpasswd)',
+    param.cfg.gitlab.connection:'main',
+    param.cfg.authentication.method:'osis',
+    param.cfg.defaultspace:'default',
+    param.cfg.admingroups:'admin,',
+    param.cfg.contentdirs:'',
 
 dependencies.11              =
     args:'dep.args.portal_client',
