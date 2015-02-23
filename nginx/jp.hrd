@@ -8,7 +8,6 @@ process.1=
     cwd:'$(param.base)',
     timeout_start:10,
     timeout_stop:10,
-    ports:80,
     startupmanager:tmux,
     filterstr:'nginx',
 
