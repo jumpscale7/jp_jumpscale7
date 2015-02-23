@@ -88,7 +88,7 @@ dep.args.portal         =
     param.osis.connection:'main',
     param.cfg.ipaddr:'localhost',
     param.cfg.port:82,
-    param.cfg.portal.secret:'$(param.rootpasswd)',
+    param.cfg.secret:'$(param.rootpasswd)',
     param.cfg.gitlab.connection:'main',
     param.cfg.authentication.method:'osis',
     param.cfg.defaultspace:'system',
