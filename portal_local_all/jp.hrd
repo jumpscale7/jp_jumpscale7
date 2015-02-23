@@ -91,7 +91,7 @@ dep.args.portal         =
     param.cfg.secret:'$(param.rootpasswd)',
     param.cfg.gitlab.connection:'main',
     param.cfg.authentication.method:'osis',
-    param.cfg.defaultspace:'system',
+    param.cfg.defaultspace:'home',
     param.cfg.admingroups:'admin,',
     param.cfg.contentdirs:'',
 
