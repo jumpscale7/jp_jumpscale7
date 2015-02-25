@@ -1,0 +1,102 @@
+dependencies.1                 =
+    args:'dep.args.redis',
+    instance:'system',
+    name:'redis',
+
+dep.args.redis                 =
+    param.disk:1,
+    param.mem:100,
+    param.passwd:'$(param.rootpasswd)',
+    param.port:9999,
+    param.unixsocket:0,
+
+dependencies.2                 =
+    name:'web',
+
+dependencies.3                 =
+    args:'dep.args.mongodb',
+    name:'mongodb',
+
+dep.args.mongodb               =
+    param.host:'localhost',
+    param.port:27017,
+    param.replicaset:,
+
+
+dependencies.4                 =
+    args:'dep.args.mongodbclient',
+    name:'mongodb_client',
+
+dep.args.mongodbclient         =
+    param.addr:'localhost',
+    param.login:,
+    param.passwd:,
+    param.port:27017,
+
+dependencies.5                 =
+    name:'influxdb',
+
+dependencies.6                 =
+    args:'dep.args.influxdbclient',
+    name:'influxdb_client',
+
+dep.args.influxdbclient         =
+    param.influxdb.client.address:'localhost',
+    param.influxdb.client.port:8086,
+    param.influxdb.client.login:'root',
+    param.influxdb.client.passwd:'root',
+    param.influxdb.client.dbname:'main',
+
+dependencies.7               =
+    args:'dep.args.osis',
+    name:'osis',
+
+dep.args.osis         =
+    param.osis.connection.mongodb:'main',
+    param.osis.connection.influxdb:'main',
+    param.osis.superadmin.passwd:'$(param.rootpasswd)',
+
+
+dependencies.8               =
+    args:'dep.args.osis_client',
+    name:'osis_client',
+
+dep.args.osis_client         =
+    param.osis.client.addr:'localhost',
+    param.osis.client.login:'root',
+    param.osis.client.passwd:'$(param.rootpasswd)',
+
+dependencies.9               =
+    args:'dep.args.mailclient',
+    name:'mailclient',
+
+dep.args.mailclient         =
+    smtp.login : 'support@mothership1.com',
+    smtp.passwd: '???',
+    smtp.port  : 587,
+    smtp.server: 'smtp.mandrillapp.com',
+    smtp.sender:'info@incubaid.com',
+
+
+dependencies.10               =
+    args:'dep.args.portal',
+    name:'portal',
+
+dep.args.portal         =
+    param.portal.ipaddr:'localhost',
+    param.portal.name:'main',
+    param.portal.port:82,
+    param.portal.rootpasswd:'$(param.rootpasswd)',
+    param.portal.secret:'$(param.rootpasswd)',
+    param.osis.connection:'main',
+    param.gitlab.connection:'main',
+    param.authentication.method:'osis',
+
+dependencies.11              =
+    args:'dep.args.portal_client',
+    name:'portal_client',
+
+dep.args.portal_client       =
+    param.addr:'localhost',
+    param.port:82,
+    param.secret:'$(param.rootpasswd)',
