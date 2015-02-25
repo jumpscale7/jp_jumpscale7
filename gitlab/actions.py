@@ -5,7 +5,7 @@ ActionsBase=j.atyourservice.getActionsBaseClass()
 
 class Actions(ActionsBase):
 
-    def prepare(self,**args):
+    def prepare(self,serviceobject):
         """
         this gets executed before the files are downloaded & installed on approprate spots
         """
@@ -21,7 +21,7 @@ class Actions(ActionsBase):
 
         return True
         
-    def configure(self,**args):
+    def configure(self,serviceobject):
 #        os.system('export PATH=$PATH:/opt/ruby/bin')
    # Postgresql partation
         j.do.execute('cd /opt/postgresql/bin; sudo -u postgres psql -d template1 -c \'CREATE USER git CREATEDB\'')

@@ -20,14 +20,14 @@ class Actions(ActionsBase):
     step7c: do monitor_remote to see if package healthy installed & running, but this time test is done from central location
     """
 
-    def prepare(self,**args):
+    def prepare(self,serviceobject):
         """
         this gets executed before the files are downloaded & installed on appropriate spots
         """
         pass
         
 
-    def stop(self,**kwargs):
+    def stop(self,serviceObj):
         if j.system.fs.exists('$(param.base)/var/run/asterisk/asterisk.ctl'):
             j.do.execute('cd $(param.base)/sbin && ./asterisk -rx "core stop now" ')
 

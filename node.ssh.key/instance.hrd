@@ -1,6 +1,8 @@
-param.machine.ssh.ip=@ASK descr:'NODE.SSH.KEY: Machine SSH IP'
-param.machine.ssh.port=@ASK default:22 descr:'NODE.SSH.KEY: Machine SSH port'
+machine.ssh.ip=@ASK descr:'NODE.SSH.KEY: Machine SSH IP'
+machine.ssh.port=@ASK default:22 descr:'NODE.SSH.KEY: Machine SSH port'
 
 #link to sshkey to be used
-param.ssh.key.name = @ASK default:'default' descr:'NODE.SSH.KEY: Machine SSH key name'
+ssh.key.name = @ASK default:'default' descr:'NODE.SSH.KEY: Machine SSH key name'
+
+host=node.ssh.key
 

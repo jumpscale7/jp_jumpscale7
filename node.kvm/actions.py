@@ -9,7 +9,7 @@ class Actions(ActionsBase):
         cl = j.atyourservice.remote.sshPython(hostJP, '$(param.hostnode.instance)')
         return cl
 
-    def configure(self,**args):
+    def configure(self,serviceobject):
         """
         will create a new virtual machine
         """
@@ -39,7 +39,7 @@ print config
         return True
 
 
-    def removedata(self,**args):
+    def removedata(self,serviceobject):
         """
         delete vmachine
         """
@@ -51,7 +51,7 @@ j.system.platform.kvm.destroy("$(param.name)")
         cl.executeCode(C)
         return True
 
-    def execute(self,**args):
+    def execute(self,serviceobject):
         """
         execute over ssh something onto the machine
         """

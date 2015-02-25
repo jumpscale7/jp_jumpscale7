@@ -11,7 +11,7 @@ def log(message):
 class Actions(ActionsBase):
 
 
-    def build(self, **kwargs):
+    def build(self, serviceObj):
     
         BIN_TARBALL_URL = 'https://github.com/mozilla-services/heka/releases/download/v0.8.3/heka-0_8_3-linux-amd64.tar.gz'
         BUILD_BASE = '/opt/build/heka-master/'
@@ -27,7 +27,7 @@ class Actions(ActionsBase):
         j.system.fs.targzUncompress(BIN_TARBALL_PATH, BUILD_BASE, removeDestinationdir=False)
         
 
-    def configure(self, *args, **kwargs):
+    def configure(self, *args, serviceObj):
 
         INSTALLATION_CONFIGS_PATH = os.path.join(self.jp_instance.hrd.get('param.base'), 'master-configs') 
 

@@ -5,7 +5,7 @@ ActionsBase=j.atyourservice.getActionsBaseClass()
 
 class Actions(ActionsBase):
 
-    def build(self,**args):
+    def build(self,serviceobject):
         """
         instructions how to build the package
         build to /opt/lua
@@ -24,7 +24,7 @@ cp src/liblua.a /opt/lua/
 """
         j.action.start(retry=1, name="luabuild",description='compile lua', cmds=cmd, action=None, actionRecover=None, actionArgs={}, errorMessage='', die=True, stdOutput=True, jp=self.jp_instance)
 
-    def package(self,**args):
+    def package(self,serviceobject):
         """
         copy files to binary repo
         """

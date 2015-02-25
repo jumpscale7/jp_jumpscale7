@@ -20,7 +20,7 @@ class Actions(ActionsBase):
     step7c: do monitor_remote to see if package healthy installed & running, but this time test is done from central location
     """
 
-    def prepare(self, **args):
+    def prepare(self, serviceObj):
         hpath = j.system.fs.joinPaths(j.dirs.hrdDir, 'system', 'grid.hrd')
         if not j.system.fs.exists(path=hpath):
             hrd = j.core.hrd.get(hpath)

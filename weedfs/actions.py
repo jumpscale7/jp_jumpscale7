@@ -19,10 +19,10 @@ class Actions(ActionsBase):
     step7c: do monitor_remote to see if package healthy installed & running, but this time test is done from central location
     """
 
-    def prepare(self,**args):
+    def prepare(self,serviceobject):
         j.do.createDir("/var/weedfs")
 
-    def configure(self,**args):
+    def configure(self,serviceobject):
 
         if not j.system.fs.exists("$(param.storagelocation)"):
             j.system.fs.createDir("$(param.storagelocation)")
@@ -36,7 +36,7 @@ class Actions(ActionsBase):
             self.jp_instance.hrd.set("process.%s"%(counter+1),pd,ttype="dict")
 
 
-    def build(self,**args):
+    def build(self,serviceobject):
         """
         instructions how to build the package
         build to /opt/luajit

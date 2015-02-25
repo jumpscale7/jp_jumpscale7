@@ -11,7 +11,7 @@ def log(message):
 class Actions(ActionsBase):
 
 
-    def build(self,**args):
+    def build(self,serviceobject):
     
         # JPackage is responsible for pulling the source code and putting it here
         BUILD_BASE = '/opt/build/github.com/Jumpscale/csagent/'

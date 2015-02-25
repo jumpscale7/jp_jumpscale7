@@ -4,7 +4,7 @@ ActionsBase=j.atyourservice.getActionsBaseClass()
 
 class Actions(ActionsBase):
 
-    def build(self,**args):
+    def build(self,serviceobject):
         """
         """
         
@@ -33,7 +33,7 @@ sudo make install
         return True
 
 
-    def package(self,**args):
+    def package(self,serviceobject):
         """
         """
         src="/opt/ruby/"

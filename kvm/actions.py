@@ -19,7 +19,7 @@ class Actions(ActionsBase):
     step7c: do monitor_remote to see if package healthy installed & running, but this time test is done from central location
     """
 
-    def prepare(self,**args):
+    def prepare(self,serviceobject):
         """
         this gets executed before the files are downloaded & installed on approprate spots
         """
@@ -57,7 +57,7 @@ rsync -arv --partial --progress /mnt/ftp/images/openwrt/ /mnt/vmstor/kvm/images/
         unpack()
 
 
-    def configure(self, **args):
+    def configure(self, serviceObj):
 
         def setnetwork():
             import JumpScale.lib.kvm
@@ -66,10 +66,10 @@ rsync -arv --partial --progress /mnt/ftp/images/openwrt/ /mnt/vmstor/kvm/images/
 
         j.action.start(retry=2, name="setnetwork",description='setnetwork', cmds='', action=setnetwork, actionRecover=None, actionArgs={}, errorMessage='', die=True, stdOutput=True, jp=self.jp_instance) 
 
-    def removedata(self, **args):
+    def removedata(self, serviceObj):
         pass
 
-    def build(self, **args):
+    def build(self, serviceObj):
         def prepare_build():
             j.system.platform.ubuntu.checkInstall(["cmake"], "cmake")
 
@@ -91,5 +91,5 @@ rm -rf /opt/code/git/binary/kvm/root/opt
         j.action.start(retry=1, name="qemu-ledis",description='compile qemu ledis', cmds=cmd, action=None, actionRecover=None, actionArgs={}, errorMessage='', die=True, stdOutput=True, jp=self.jp_instance)
 
 
-    def cleanup(self, **args):
+    def cleanup(self, serviceObj):
         pass

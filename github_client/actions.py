@@ -7,7 +7,7 @@ class Actions(ActionsBase):
     """
     """
 
-    def configure(self,**args):
+    def configure(self,serviceobject):
         j.application.config.set("whoami.email","$(github.client.email)")
         j.application.config.set("whoami.fullname","$(github.client.login)")
         j.application.config.set("whoami.git.login","$(github.client.login)")

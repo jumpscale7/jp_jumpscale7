@@ -19,7 +19,7 @@ class Actions(ActionsBase):
     step7c: do monitor_remote to see if package healthy installed & running, but this time test is done from central location
     """
 
-    def prepare(self,**args):
+    def prepare(self,serviceobject):
         """
         this gets executed before the files are downloaded & installed on appropriate spots
         """
@@ -30,7 +30,7 @@ class Actions(ActionsBase):
 
         return True
 
-    def configure(self,**args):
+    def configure(self,serviceobject):
         """
         this gets executed when files are installed
         this step is used to do configuration steps to the platform
@@ -77,7 +77,7 @@ class Actions(ActionsBase):
 
         return True
 
-    # def start(self,**args):
+    # def start(self,serviceobject):
     #     #start postgresql in background
     #     if j.system.net.tcpPortConnectionTest("localhost",3306):
     #         return
@@ -93,7 +93,7 @@ class Actions(ActionsBase):
     #     if res==False:
     #         j.events.inputerror_critical("mariadb did not become active, check in byobu","jpackage.install.mariadb.startup")
 
-    def stop(self,**args):
+    def stop(self,serviceobject):
         """
         if you want a gracefull shutdown implement this method
         a uptime check will be done afterwards (local)
@@ -119,48 +119,48 @@ class Actions(ActionsBase):
         # else:
         #     j.events.opserror_critical("Cannot stop %s."%self.jp,"jpackage.stop")
 
-    # def halt(self,**args):
+    # def halt(self,serviceobject):
     #     """
     #     hard kill the app, std a linux kill is used, you can use this method to do something next to the std behaviour
     #     """
     #     return True
 
-    # def check_uptime_local(self,**args):
+    # def check_uptime_local(self,serviceobject):
     #     """
     #     do checks to see if process(es) is (are) running.
     #     this happens on system where process is
     #     """
     #     return True
 
-    # def check_requirements(self,**args):
+    # def check_requirements(self,serviceobject):
     #     """
     #     do checks if requirements are met to install this app
     #     e.g. can we connect to database, is this the right platform, ...
     #     """
     #     return True
 
-    # def monitor_local(self,**args):
+    # def monitor_local(self,serviceobject):
     #     """
     #     do checks to see if all is ok locally to do with this package
     #     this happens on system where process is
     #     """
     #     return True
 
-    # def monitor_remote(self,**args):
+    # def monitor_remote(self,serviceobject):
     #     """
     #     do checks to see if all is ok from remote to do with this package
     #     this happens on system from which we install or monitor (unless if defined otherwise in hrd)
     #     """
     #     return True
 
-    # def cleanup(self,**args):
+    # def cleanup(self,serviceobject):
     #     """
     #     regular cleanup of env e.g. remove logfiles, ...
     #     is just to keep the system healthy
     #     """
     #     return True
 
-    # def data_export(self,**args):
+    # def data_export(self,serviceobject):
     #     """
     #     export data of app to a central location (configured in hrd under whatever chosen params)
     #     return the location where to restore from (so that the restore action knows how to restore)
@@ -168,14 +168,14 @@ class Actions(ActionsBase):
     #     """
     #     return False
 
-    # def data_import(self,id,hrd,**args):
+    # def data_import(self,id,hrd,serviceObj):
     #     """
     #     import data of app to local location
     #     if specifies which retore to do, id corresponds with line item in the $name.export file
     #     """
     #     return False
 
-    # def uninstall(self,**args):
+    # def uninstall(self,serviceobject):
     #     """
     #     uninstall the apps, remove relevant files
     #     """

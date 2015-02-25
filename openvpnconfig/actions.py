@@ -9,7 +9,7 @@ import JumpScale.baselib.remote.cuisine
 class Actions(ActionsBase):
 
 
-    def configure(self,**args):
+    def configure(self,serviceobject):
         """
         generate configuration for openvpn
         """
@@ -57,6 +57,6 @@ class Actions(ActionsBase):
 
         return True
 
-    def removedata(self, **args):
+    def removedata(self, serviceObj):
         j.system.fs.removeDirTree("$(param.dest.dir)")
         return True

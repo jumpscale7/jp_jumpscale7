@@ -8,7 +8,7 @@ class Actions(ActionsBase):
     """
 
 
-    def configure(self,**args):
+    def configure(self,serviceobject):
         """
         configure ms1
         """

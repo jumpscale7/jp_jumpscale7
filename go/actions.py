@@ -19,7 +19,7 @@ class Actions(ActionsBase):
     step7c: do monitor_remote to see if package healthy installed & running, but this time test is done from central location
     """
 
-    # def prepare(self,**args):
+    # def prepare(self,serviceobject):
     #     """
     #     this gets executed before the files are downloaded & installed on appropriate spots
     #     """
@@ -30,7 +30,7 @@ class Actions(ActionsBase):
     #     j.system.fs.createDir("/var/log/nginx")
     #     return True
 
-    def configure(self,**args):
+    def configure(self,serviceobject):
         """
         this gets executed when files are installed
         this step is used to do configuration steps to the platform
@@ -57,7 +57,7 @@ class Actions(ActionsBase):
         j.action.start(retry=0, name="installGodep",description='install godep (can take a while)', cmds='', action=installGodep, actionRecover=None, actionArgs={}, errorMessage='', die=True, stdOutput=True, jp=self.jp_instance)
         return True
 
-    def removedata(self,**args):
+    def removedata(self,serviceobject):
         j.system.fs.removeDirTree("/opt/go")
         j.do.execute(command="sed -i '/GOPATH/d' /root/.bashrc")
         j.do.execute(command="sed -i '/GOROOT/d' /root/.bashrc")

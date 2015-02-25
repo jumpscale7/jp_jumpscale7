@@ -5,12 +5,12 @@ ActionsBase=j.atyourservice.getActionsBaseClass()
 
 class Actions(ActionsBase):
 
-    def removedata(self,**args):
+    def removedata(self,serviceobject):
         j.do.delete("/opt/code/luajit/",force=True)
         j.do.delete("/opt/luajit/",force=True)
         j.do.delete("/opt/code/github/torch/",force=True)
 
-    def build(self,**args):
+    def build(self,serviceobject):
 
         #to reset the state use jpackage reset -n ...
 
@@ -113,6 +113,6 @@ class Actions(ActionsBase):
         #         j.do.delete(item)
         # j.action.start(retry=1, name="cleanup",description='', cmds="", action=cleanup, actionRecover=None, actionArgs={}, errorMessage='', die=True, stdOutput=False, jp=self.jp_instance)
 
-    def package(self,**args):
+    def package(self,serviceobject):
         j.do.delete("/opt/code/git/binary/luajit/luajit/",force=True)
         j.do.copyTree("/opt/luajit/","/opt/code/git/binary/luajit/luajit/")

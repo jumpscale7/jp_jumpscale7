@@ -7,7 +7,7 @@ import JumpScale.baselib.remote.cuisine
 
 class Actions(ActionsBase):
 
-    def configure(self,**args):
+    def configure(self,serviceobject):
         """
         will install a node
         """
@@ -48,7 +48,7 @@ class Actions(ActionsBase):
         return True
 
 
-    def removedata(self,**args):
+    def removedata(self,serviceobject):
         """
         delete vmachine
         """
@@ -58,7 +58,7 @@ class Actions(ActionsBase):
 
         return True
 
-    def execute(self,**args):
+    def execute(self,serviceobject):
         """
         execute over ssh something onto the machine
         """

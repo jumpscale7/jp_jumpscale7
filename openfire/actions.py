@@ -19,7 +19,7 @@ class Actions(ActionsBase):
     step7c: do monitor_remote to see if package healthy installed & running, but this time test is done from central location
     """
 
-    def build(self, **kwargs):
+    def build(self, serviceObj):
         import urllib
         binpath = '/opt/code/git/binary/openfire'
         tmppath = j.system.fs.joinPaths(j.dirs.tmpDir, 'openfire.tgz')

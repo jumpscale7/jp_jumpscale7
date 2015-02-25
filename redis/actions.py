@@ -5,7 +5,7 @@ ActionsBase=j.atyourservice.getActionsBaseClass()
 class Actions(ActionsBase):
 
 
-    def prepare(self,**args):
+    def prepare(self,serviceobject):
         """
         this gets executed before the files are downloaded & installed on approprate spots
         """
@@ -13,7 +13,7 @@ class Actions(ActionsBase):
         j.clients.redis.deleteInstance(self.jp_instance.instance)
         return True
         
-    def configure(self,**args):
+    def configure(self,serviceobject):
         """
         this gets executed when files are installed
         this step is used to do configuration steps to the platform

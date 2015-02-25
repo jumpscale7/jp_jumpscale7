@@ -9,7 +9,7 @@ def log(message):
 
 class Actions(ActionsBase):
 
-    def build(self,**args):
+    def build(self,serviceobject):
         
         BUILD_BASE = '/opt/build/odoo'
         PKG = BUILD_BASE + '/pkg'
@@ -58,7 +58,7 @@ class Actions(ActionsBase):
                 j.action.start(name='npm-install ' + npm_dep, cmds=command, jp=self.jp_instance)
             
 
-    def configure(self, **args):
+    def configure(self, serviceObj):
 
         if not j.system.unix.unixUserExists('odoo'):
             j.system.unix.addSystemUser('odoo', homedir='/var/lib/odoo')

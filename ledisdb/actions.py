@@ -19,25 +19,25 @@ class Actions(ActionsBase):
     step7c: do monitor_remote to see if package healthy installed & running, but this time test is done from central location
     """
 
-    def prepare(self,**args):
+    def prepare(self,serviceobject):
         """
         """
         pass
 
 
-    def configure(self,**args):
+    def configure(self,serviceobject):
         """
         """
         pass
 
-    def removedata(self,**args):
+    def removedata(self,serviceobject):
         j.do.delete("/opt/code/github/siddontang/",force=True)
         j.do.delete("/opt/code/github/facebook/rocksdb/",force=True)
         j.do.delete("/opt/build/ledisdb",force=True)
         j.do.delete("/opt/ledisdb",force=True)
 
 
-    def build(self,**args):     
+    def build(self,serviceobject):     
 
         #to reset the state use jpackage reset -n ...
         params = {'ledis' :"/opt/build/git.aydo.com/aydo/ledisdb"}

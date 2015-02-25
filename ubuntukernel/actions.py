@@ -5,7 +5,7 @@ ActionsBase=j.atyourservice.getActionsBaseClass()
 class Actions(ActionsBase):
 
 
-    def prepare(self,**args):
+    def prepare(self,serviceobject):
         """
         """
         C="""

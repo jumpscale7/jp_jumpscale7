@@ -4,7 +4,7 @@ ActionsBase=j.atyourservice.getActionsBaseClass()
 
 class Actions(ActionsBase):
 
-    def init(self,**args):
+    def init(self,serviceobject):
         instance=self.jp_instance.hrd.get("param.redis.instance")
         
         jpredis=j.atyourservice.get(name="redis",instance=instance,node=self.jp_instance.node)
@@ -12,6 +12,6 @@ class Actions(ActionsBase):
         self.jp_instance.hrd.set("param.redis.port", jpredis.hrd.get("param.port"))
         return True
 
-    def configure(self,**args):
+    def configure(self,serviceobject):
         j.system.fs.changeDir("$(system.paths.base)/apps/qless-core/")
         j.do.execute("make qless.lua")

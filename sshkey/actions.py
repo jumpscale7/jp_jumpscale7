@@ -6,18 +6,18 @@ import JumpScale.baselib.remote.cuisine
 
 class Actions(ActionsBase):
 
-    def prepare(self, **args):
-        if self.jp_instance.hrd.get("param.ssh.key.priv").strip() == "":
+    def prepare(self, serviceObj):
+        if serviceObj.hrd.get("instance.ssh.key.priv").strip() == "":
             self._generateKeys()
-        elif self.jp_instance.hrd.get("param.ssh.key.pub"):
-            privkey = self.jp_instance.hrd.get("param.ssh.key.priv")
+        elif serviceObj.hrd.get("instance.ssh.key.pub"):
+            privkey = serviceObj.hrd.get("instance.ssh.key.priv")
             j.do.writeFile("/tmp/privkey", privkey)
             j.do.chmod('/tmp/privkey', 0o600)
             cmd = 'ssh-keygen -f /tmp/privkey -y -N \'\'> \'/tmp/pubkey\''
             j.do.execute(cmd)
             j.do.chmod('/tmp/pubkey', 0o600)
             pubkey = j.do.readFile('/tmp/pubkey')
-            self.jp_instance.hrd.set("param.ssh.key.pub", pubkey)
+            serviceObj.hrd.set("instance.ssh.key.pub", pubkey)
 
 
     def _generateKeys(self):
@@ -29,20 +29,20 @@ class Actions(ActionsBase):
         key = j.system.fs.fileGetContents(keyloc)
         keypub = j.system.fs.fileGetContents(keyloc + ".pub")
 
-        self.jp_instance.hrd.set("param.ssh.key.pub", keypub)
-        self.jp_instance.hrd.set("param.ssh.key.priv", key)
+        serviceObj.hrd.set("instance.ssh.key.pub", keypub)
+        serviceObj.hrd.set("instance.ssh.key.priv", key)
 
-    def configure(self, **args):
+    def configure(self, serviceObj):
         """
         create key
         """
 
-        if self.jp_instance.hrd.get("param.ssh.key.priv").strip() == "":
+        if serviceObj.hrd.get("instance.ssh.key.priv").strip() == "":
             self._generateKeys()
 
         return True
 
-    def removedata(self, **args):
+    def removedata(self, serviceObj):
         """
         remove key data
         """

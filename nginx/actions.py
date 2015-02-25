@@ -4,7 +4,7 @@ ActionsBase=j.atyourservice.getActionsBaseClass()
 
 class Actions(ActionsBase):
     
-    def prepare(self, **kwargs):
+    def prepare(self, serviceObj):
         j.do.execute('apt-get install -y libgd3')
         try:
             j.system.platform.ubuntu.stopService("nginx")
@@ -26,7 +26,7 @@ class Actions(ActionsBase):
         #hack for sandboxed nginx to start properly
         j.system.fs.createDir(j.system.fs.joinPaths('/var', 'lib', 'nginx'))
 
-    def stop(self, **kwargs):
+    def stop(self, serviceObj):
         if not j.system.process.getPidsByPort(80):
             return
         j.system.process.execute('cd /opt/nginx && ./nginx -c /opt/nginx/cfg/nginx.conf -s quit')
