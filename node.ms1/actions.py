@@ -1,6 +1,6 @@
 from JumpScale import j
 
-ActionsBase=j.packages.getActionsBaseClass()
+ActionsBase=j.atyourservice.getActionsBaseClass()
 
 import JumpScale.lib.ms1
 import JumpScale.baselib.remote.cuisine
@@ -66,7 +66,7 @@ class Actions(ActionsBase):
         if "cmd" not in self.jp_instance.args:
             raise RuntimeError("cmd need to be in args, example usage:jpackage execute -n node.ssh.key -i ovh5 --data=\"cmd:'ls /'\"")
 
-        cl = j.packages.remote.sshPython(jp=self.jp_instance,node=self.jp_instance.instance)
+        cl = j.atyourservice.remote.sshPython(jp=self.jp_instance,node=self.jp_instance.instance)
         cmd = self.jp_instance.args['cmd']
         cl.connection.run(cmd)
 

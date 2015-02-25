@@ -2,7 +2,7 @@ from JumpScale import j
 import JumpScale.baselib.sslsigning
 import OpenSSL
 
-ActionsBase=j.packages.getActionsBaseClass()
+ActionsBase=j.atyourservice.getActionsBaseClass()
 
 import JumpScale.baselib.remote.cuisine
 

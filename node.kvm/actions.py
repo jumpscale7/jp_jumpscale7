@@ -1,12 +1,12 @@
 from JumpScale import j
 
-ActionsBase=j.packages.getActionsBaseClass()
+ActionsBase=j.atyourservice.getActionsBaseClass()
 
 class Actions(ActionsBase):
 
     def _getHostClient(self):
-        hostJP = j.packages.get(name="$(param.hostnode.type)",instance="$(param.hostnode.instance)")
-        cl = j.packages.remote.sshPython(hostJP, '$(param.hostnode.instance)')
+        hostJP = j.atyourservice.get(name="$(param.hostnode.type)",instance="$(param.hostnode.instance)")
+        cl = j.atyourservice.remote.sshPython(hostJP, '$(param.hostnode.instance)')
         return cl
 
     def configure(self,**args):
@@ -58,7 +58,7 @@ j.system.platform.kvm.destroy("$(param.name)")
         if "cmd" not in self.jp_instance.args:
             raise RuntimeError("cmd need to be in args, example usage:jpackage execute -n node.ssh.key -i ovh5 --data=\"cmd:'ls /'\"")
 
-        cl = j.packages.remote.sshPython(jp=self.jp_instance,node=self.jp_instance.instance)
+        cl = j.atyourservice.remote.sshPython(jp=self.jp_instance,node=self.jp_instance.instance)
         cmd = self.jp_instance.args['cmd']
         cl.connection.run(cmd)
 

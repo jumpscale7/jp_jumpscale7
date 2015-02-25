@@ -1,7 +1,7 @@
 from JumpScale import j
 import JumpScale.baselib.swaggergen
 
-ActionsBase=j.packages.getActionsBaseClass()
+ActionsBase=j.atyourservice.getActionsBaseClass()
 
 class Actions(ActionsBase):
     """

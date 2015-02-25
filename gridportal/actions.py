@@ -1,6 +1,6 @@
 from JumpScale import j
 
-ActionsBase=j.packages.getActionsBaseClass()
+ActionsBase=j.atyourservice.getActionsBaseClass()
 
 class Actions(ActionsBase):
     """
@@ -25,7 +25,7 @@ class Actions(ActionsBase):
         this step is used to do configuration steps to the platform
         after this step the system will try to start the jpackage if anything needs to be started
         """
-        j.packages.get(domain='jumpscale', name='portal').restart()
+        j.atyourservice.get(domain='jumpscale', name='portal').restart()
 
 
     # def start(self,**args):

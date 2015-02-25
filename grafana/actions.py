@@ -4,7 +4,7 @@ import socket
 import fcntl
 import struct
 
-ActionsBase = j.packages.getActionsBaseClass()
+ActionsBase = j.atyourservice.getActionsBaseClass()
 
 class Actions(ActionsBase):
     

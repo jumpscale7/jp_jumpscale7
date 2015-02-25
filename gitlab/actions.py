@@ -1,7 +1,7 @@
 from JumpScale import j
 import os
 
-ActionsBase=j.packages.getActionsBaseClass()
+ActionsBase=j.atyourservice.getActionsBaseClass()
 
 class Actions(ActionsBase):
 
@@ -42,7 +42,7 @@ class Actions(ActionsBase):
 
         j.do.execute("sed 's/production:\ unix:.*/production:\ unix:\/opt\/jumpscale7\/var\/redis\/gitlab\/redis.sock/' /home/git/gitlab/config/resque.yml.org | tee /home/git/gitlab/config/resque.yml")
         os.system("cd /home/git/gitlab && sudo -u git -H bundle exec rake gitlab:setup RAILS_ENV=production")
-        nginx = j.packages.get(name='nginx', instance='main')
+        nginx = j.atyourservice.get(name='nginx', instance='main')
         nginx.restart()
         print('userName: root\npassword: 5iveL!fe')
         return True

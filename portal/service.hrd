@@ -44,10 +44,15 @@ git.export.6=
     dest:'$(system.paths.python.lib.js)/portal',
     link:True,
 
+git.export.7=
+    url:$(git.url),
+    source:'apps/portalbase/home/',
+    dest:'$(system.paths.base)/apps/portals/$(jp.instance)/base/home/',
+    link:True,
 
 dependencies.1                 =
     name:'portal_lib',
-    
+
 dependencies.2                 =
     name:'osis_client',
     instance:'main',

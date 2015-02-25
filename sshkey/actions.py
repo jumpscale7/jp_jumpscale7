@@ -1,6 +1,6 @@
 from JumpScale import j
 
-ActionsBase = j.packages.getActionsBaseClass()
+ActionsBase = j.atyourservice.getActionsBaseClass()
 
 import JumpScale.baselib.remote.cuisine
 
