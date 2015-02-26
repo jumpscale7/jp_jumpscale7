@@ -10,7 +10,7 @@ class Actions(ActionsBase):
         this gets executed before the files are downloaded & installed on approprate spots
         """
         import JumpScale.baselib.redis
-        j.clients.redis.deleteInstance(self.jp_instance.instance)
+        j.clients.redis.deleteInstance(serviceobject.instance)
         return True
         
     def configure(self,serviceobject):
@@ -24,5 +24,5 @@ class Actions(ActionsBase):
         if "$(param.disk)".lower().strip()=="true" or "$(param.disk)".strip()=="1":
             appendonly=True
         passwd = "$(param.passwd)".strip() or None
-        j.clients.redis.configureInstance(self.jp_instance.instance,port="$(param.port)",maxram="$(param.mem)",appendonly=appendonly, passwd=passwd, unixsocket="$(param.unixsocket)")
+        j.clients.redis.configureInstance(serviceobject.instance,port="$(param.port)",maxram="$(param.mem)",appendonly=appendonly, passwd=passwd, unixsocket="$(param.unixsocket)")
         return True

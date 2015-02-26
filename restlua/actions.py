@@ -32,19 +32,19 @@ class Actions(ActionsBase):
         this step is used to do configuration steps to the platform
         after this step the system will try to start the jpackage if anything needs to be started
         """
-        dest=j.system.fs.joinPaths("$(system.paths.base)/apps/restlua/",self.jp_instance.instance)
+        dest=j.system.fs.joinPaths("$(system.paths.base)/apps/restlua/",serviceobject.instance)
 
         def createServerAndClient():
             j.system.fs.createDir(dest)
             server = j.system.fs.joinPaths(dest, 'server.lua')
             client = j.system.fs.joinPaths(dest, 'client.spore')
-            spec = self.jp_instance.hrd.get('param.spec')
+            spec = serviceobject.hrd.get('param.spec')
             j.tools.swaggerGen.loadSpec(spec)
             j.tools.swaggerGen.generate("$(param.baseurl)",server,client)
-            self.jp_instance.hrd.set('param.port',j.tools.swaggerGen.server['port'])
+            serviceobject.hrd.set('param.port',j.tools.swaggerGen.server['port'])
 
         j.action.start(retry=1, name="createServerAndClient",description='createServerAndClient', cmds='', action=createServerAndClient, \
-            actionRecover=None, actionArgs={}, errorMessage='', die=True, stdOutput=True, jp=self.jp_instance)
+            actionRecover=None, actionArgs={}, errorMessage='', die=True, stdOutput=True, jp=serviceobject)
 
     def removedata(self):
         j.system.fs.removeDirTree(dest)

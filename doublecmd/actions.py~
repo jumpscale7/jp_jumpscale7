@@ -36,6 +36,6 @@ class Actions(ActionsBase):
     #     this step is used to do configuration steps to the platform
     #     after this step the system will try to start the jpackage if anything needs to be started
     #     """
-    #     self.jp_instance.hrd.applyOnDir( path="$(param.base)/cfg", additionalArgs={})
+    #     serviceobject.hrd.applyOnDir( path="$(param.base)/cfg", additionalArgs={})
     #     return True
 

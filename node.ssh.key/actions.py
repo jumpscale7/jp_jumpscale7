@@ -1,6 +1,7 @@
 from JumpScale import j
-
+from JumpScale.baselib.atyourservice.ActionsBase import remote
 ActionsBase=j.atyourservice.getActionsBaseClass()
+
 
 import JumpScale.baselib.remote.cuisine
 
@@ -36,17 +37,3 @@ class Actions(ActionsBase):
         j.do.execute("killall tmux;killall python;echo")
         j.do.execute("rm -rf /opt")
         return True
-
-    def execute(self,serviceObj):
-        """
-        execute over ssh something onto the machine
-        """
-        # if "cmd" not in serviceObj.args:
-        #     raise RuntimeError("cmd need to be in args, example usage:jpackage execute -n node.ssh.key -i ovh5 --data=\"cmd:'ls /'\"")
-
-        # cl = j.atyourservice.remote.sshPython(serviceObj=serviceObj,node=serviceObj.instance)
-        # cmd = serviceObj.args['cmd']
-        # cl.connection.run(cmd)
-
-        return True
-

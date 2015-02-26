@@ -40,7 +40,7 @@ class Actions(ActionsBase):
         this step is used to do configuration steps to the platform
         after this step the system will try to start the jpackage if anything needs to be started
         """
-        self.jp_instance.hrd.applyOnDir( path="$(param.base)/cfg", additionalArgs={})
+        serviceobject.hrd.applyOnDir( path="$(param.base)/cfg", additionalArgs={})
         j.system.fs.chown(path="/opt/lemp", user="www-data")
         j.system.fs.chown(path="/var/nginx", user="www-data")
         j.system.fs.chown(path="/var/log/nginx", user="www-data")        

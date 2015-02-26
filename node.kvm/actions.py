@@ -25,7 +25,7 @@ key = j.system.fs.fileGetContents("/root/.ssh/id_dsa")
 print key
 """
         key = cl.executeCode(C)
-        self.jp_instance.hrd.set("param.machine.ssh.key",key)
+        serviceobject.hrd.set("param.machine.ssh.key",key)
         C="""
 import JumpScale.lib.kvm
 config = j.system.platform.kvm.getConfig("$(param.name)")
@@ -33,9 +33,9 @@ print config
 """
         config = cl.executeCode(C)
         vmHRD = j.core.hrd.get(content=config)
-        self.jp_instance.hrd.set("param.machine.ssh.ip",vmHRD.get("bootstrap.ip"))
-        self.jp_instance.hrd.set("param.machine.ssh.login",vmHRD.get("bootstrap.login"))
-        self.jp_instance.hrd.set("param.machine.ssh.passwd",vmHRD.get("bootstrap.passwd"))
+        serviceobject.hrd.set("param.machine.ssh.ip",vmHRD.get("bootstrap.ip"))
+        serviceobject.hrd.set("param.machine.ssh.login",vmHRD.get("bootstrap.login"))
+        serviceobject.hrd.set("param.machine.ssh.passwd",vmHRD.get("bootstrap.passwd"))
         return True
 
 
@@ -55,11 +55,11 @@ j.system.platform.kvm.destroy("$(param.name)")
         """
         execute over ssh something onto the machine
         """
-        if "cmd" not in self.jp_instance.args:
+        if "cmd" not in serviceobject.args:
             raise RuntimeError("cmd need to be in args, example usage:jpackage execute -n node.ssh.key -i ovh5 --data=\"cmd:'ls /'\"")
 
-        cl = j.atyourservice.remote.sshPython(jp=self.jp_instance,node=self.jp_instance.instance)
-        cmd = self.jp_instance.args['cmd']
+        cl = j.atyourservice.remote.sshPython(jp=serviceobject,node=serviceobject.instance)
+        cmd = serviceobject.args['cmd']
         cl.connection.run(cmd)
 
         return True

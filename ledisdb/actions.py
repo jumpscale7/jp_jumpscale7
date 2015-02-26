@@ -49,7 +49,7 @@ class Actions(ActionsBase):
             cmd='apt-get install --no-install-recommends -y ca-certificates curl git-core g++ dh-autoreconf pkg-config libgflags-dev liblua5.1-dev git tmux mercurial'
             j.do.executeInteractive(cmd)
 
-        j.action.start(retry=2, name="preparebuild",description='', cmds='', action=preparebuild, actionRecover=None, actionArgs={}, errorMessage='', die=True, stdOutput=False, jp=self.jp_instance)
+        j.action.start(retry=2, name="preparebuild",description='', cmds='', action=preparebuild, actionRecover=None, actionArgs={}, errorMessage='', die=True, stdOutput=False, jp=serviceobject)
 
         #WAS QUITE UGLY, COPY PASTE FROM BASH FILES. DID SOME CLEANUP ALREADY (KRISTOF)
         #ALSO THE WAY HOW WE COMPILED IN NON SANDBOXED DIRS IS UGLY, NOW MOVED IT TO SANDBOXED DIRS
@@ -73,7 +73,7 @@ autoreconf --force --install
 make
 make install
 """ % params
-        j.action.start(retry=1, name="snappy",description='compile snappy', cmds=cmd, action=None, actionRecover=None, actionArgs={}, errorMessage='', die=True, stdOutput=True, jp=self.jp_instance)
+        j.action.start(retry=1, name="snappy",description='compile snappy', cmds=cmd, action=None, actionRecover=None, actionArgs={}, errorMessage='', die=True, stdOutput=True, jp=serviceobject)
 
 
         cmd="""
@@ -84,7 +84,7 @@ make shared_lib
 cp librocksdb.so %(ledis)s/lib
 cp -r include %(ledis)s 
 """ % params
-        j.action.start(retry=1, name="ROCKSDB",description='compile ROCKSDB', cmds=cmd, action=None, actionRecover=None, actionArgs={}, errorMessage='', die=True, stdOutput=True, jp=self.jp_instance)
+        j.action.start(retry=1, name="ROCKSDB",description='compile ROCKSDB', cmds=cmd, action=None, actionRecover=None, actionArgs={}, errorMessage='', die=True, stdOutput=True, jp=serviceobject)
 
         cmd="""
 # LEVELDB
@@ -102,7 +102,7 @@ mkdir -p $LEVELDB_DIR/lib
 cp -P libleveldb.* $LEVELDB_DIR/lib
 # ln -s /usr/local/leveldb/lib/libleveldb.so.1 /usr/lib/libleveldb.so.1
 """ % params
-        j.action.start(retry=1, name="LEVELDB",description='compile LEVELDB', cmds=cmd, action=None, actionRecover=None, actionArgs={}, errorMessage='', die=True, stdOutput=True, jp=self.jp_instance)
+        j.action.start(retry=1, name="LEVELDB",description='compile LEVELDB', cmds=cmd, action=None, actionRecover=None, actionArgs={}, errorMessage='', die=True, stdOutput=True, jp=serviceobject)
         #@todo is not working, still issue
 
         #is now embedded below in this action file
@@ -120,7 +120,7 @@ go get github.com/tools/godep
 
 """
 
-        j.action.start(retry=1, name="godeps",description='get godeps', cmds=cmd, action=None, actionRecover=None, actionArgs={}, errorMessage='', die=True, stdOutput=True, jp=self.jp_instance)
+        j.action.start(retry=1, name="godeps",description='get godeps', cmds=cmd, action=None, actionRecover=None, actionArgs={}, errorMessage='', die=True, stdOutput=True, jp=serviceobject)
 
         cmd="""
 set -ex
@@ -214,7 +214,7 @@ make
 make test
 
 """ % params
-        j.action.start(retry=1, name="ledisdb",description='compile ledisdb', cmds=cmd, action=None, actionRecover=None, actionArgs={}, errorMessage='', die=True, stdOutput=True, jp=self.jp_instance)
+        j.action.start(retry=1, name="ledisdb",description='compile ledisdb', cmds=cmd, action=None, actionRecover=None, actionArgs={}, errorMessage='', die=True, stdOutput=True, jp=serviceobject)
 
         def copyBins():
             gobin = "/opt/go/myproj/bin"
@@ -224,10 +224,10 @@ make test
             for file_ in j.system.fs.find(gobin, "ledis*"):
                 j.system.fs.copyFile(j.system.fs.joinPaths(gobin, file_), destfolder)
 
-        j.action.start(retry=1, name="package",description='copy resuls', action=copyBins, actionRecover=None, actionArgs={}, errorMessage='', die=True, stdOutput=True, jp=self.jp_instance)
+        j.action.start(retry=1, name="package",description='copy resuls', action=copyBins, actionRecover=None, actionArgs={}, errorMessage='', die=True, stdOutput=True, jp=serviceobject)
 
         def cleanup():
             todelete=["$(param.base.luajit)/include/","$(param.base.luajit)/lib/luarocks/","$(param.base.luajit)/lib/pkgconfig/","$(param.base.luajit)/share/cmake/","$(param.base.luajit)/share/man/"]
             for item in todelete:
                 j.do.delete(item)
-        # j.action.start(retry=1, name="cleanup",description='', cmds="", action=cleanup, actionRecover=None, actionArgs={}, errorMessage='', die=True, stdOutput=False, jp=self.jp_instance)
+        # j.action.start(retry=1, name="cleanup",description='', cmds="", action=cleanup, actionRecover=None, actionArgs={}, errorMessage='', die=True, stdOutput=False, jp=serviceobject)

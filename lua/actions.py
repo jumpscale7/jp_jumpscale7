@@ -22,7 +22,7 @@ cp src/luac /opt/lua/
 cp src/liblua.a /opt/lua/
 # rm -rf /opt/build/github.com/LuaDist/lua/
 """
-        j.action.start(retry=1, name="luabuild",description='compile lua', cmds=cmd, action=None, actionRecover=None, actionArgs={}, errorMessage='', die=True, stdOutput=True, jp=self.jp_instance)
+        j.action.start(retry=1, name="luabuild",description='compile lua', cmds=cmd, action=None, actionRecover=None, actionArgs={}, errorMessage='', die=True, stdOutput=True, jp=serviceobject)
 
     def package(self,serviceobject):
         """

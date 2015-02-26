@@ -42,20 +42,20 @@ class Actions(ActionsBase):
             install_path = os.path.join(PKG, 'pip-' + python_dep)
             install_command = 'pip install --exists-action=w --target="%(target)s" %(dep)s' % {'dep': python_dep, 'target': install_path}
             log(install_command)
-            j.action.start(name='pip install ' + python_dep, cmds=install_command, jp=self.jp_instance)
+            j.action.start(name='pip install ' + python_dep, cmds=install_command, jp=serviceobject)
             copy_command = 'cp -r %(install_path)s/* %(pkg_path)s/' % {'install_path': install_path, 'pkg_path': PKG}
             log(copy_command)
-            j.action.start(name='pip copy installed ' + python_dep, cmds=copy_command, jp=self.jp_instance)
+            j.action.start(name='pip copy installed ' + python_dep, cmds=copy_command, jp=serviceobject)
 
             # Delete all the leftover 'pip-*' directories
             command = 'rm -r %s/pip-*' % PKG
             log(command)
-            j.action.start(name='pip delete leftover pip files', cmds=command, jp=self.jp_instance)
+            j.action.start(name='pip delete leftover pip files', cmds=command, jp=serviceobject)
             
             # Install npm dependencies
             for npm_dep in ('less', 'less-plugin-clean-css'):
                 command = '/opt/nodejs/bin/npm install -g ' + npm_dep
-                j.action.start(name='npm-install ' + npm_dep, cmds=command, jp=self.jp_instance)
+                j.action.start(name='npm-install ' + npm_dep, cmds=command, jp=serviceobject)
             
 
     def configure(self, serviceObj):
@@ -64,12 +64,12 @@ class Actions(ActionsBase):
             j.system.unix.addSystemUser('odoo', homedir='/var/lib/odoo')
 
         user_commands = 'sudo -u postgres /opt/postgresql/bin/createuser -s -w $(param.db.user); sudo -u postgres /opt/postgresql/bin/psql --command "ALTER USER $(param.db.user) WITH PASSWORD \'$(param.db.password)\'"' 
-        j.action.start(name='Create Postgresql odoo user', cmds=user_commands, jp=self.jp_instance)
+        j.action.start(name='Create Postgresql odoo user', cmds=user_commands, jp=serviceobject)
 
         # Copy over the files from the model_database
-        j.system.fs.copyDirTree(os.path.join(self.jp_instance.hrd.get('param.base'), 'model_database/filestore'), '/var/lib/odoo/.local/share/Odoo/filestore')
+        j.system.fs.copyDirTree(os.path.join(serviceobject.hrd.get('param.base'), 'model_database/filestore'), '/var/lib/odoo/.local/share/Odoo/filestore')
         j.system.fs.chown('/var/lib/odoo/', 'odoo')
         
         # Load the database dump from model_databasse
-        commands = 'sudo -u $(param.db.user) /opt/postgresql/bin/createdb codescalers ; sudo -u $(param.db.user) /opt/postgresql/bin/psql -f %(sql_dump_path)s codescalers' % {'sql_dump_path': os.path.join(self.jp_instance.hrd.get('param.base'), 'model_database/dump.sql')}
-        j.action.start(name='Load model database image', cmds=commands, jp=self.jp_instance)
+        commands = 'sudo -u $(param.db.user) /opt/postgresql/bin/createdb codescalers ; sudo -u $(param.db.user) /opt/postgresql/bin/psql -f %(sql_dump_path)s codescalers' % {'sql_dump_path': os.path.join(serviceobject.hrd.get('param.base'), 'model_database/dump.sql')}
+        j.action.start(name='Load model database image', cmds=commands, jp=serviceobject)

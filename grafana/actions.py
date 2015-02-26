@@ -15,7 +15,7 @@ class Actions(ActionsBase):
         this step is used to do configuration steps to the platform
         after this step the system will try to start the jpackage if anything needs to be started
         """
-        influx_instance = self.jp_instance.hrd.get('param.influxdb.connection')
+        influx_instance = serviceobject.hrd.get('param.influxdb.connection')
         hrd = j.application.getAppInstanceHRD('influxdb_client', influx_instance)
         host = hrd.get('param.influxdb.client.address')
 

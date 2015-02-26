@@ -31,6 +31,6 @@ class Actions(ActionsBase):
         this step is used to do configuration steps to the platform
         after this step the system will try to start the jpackage if anything needs to be started
         """        
-        self.jp_instance.hrd.applyOnFile( path="/opt/elasticsearch/config/elasticsearch.yml", additionalArgs={})
+        serviceobject.hrd.applyOnFile( path="/opt/elasticsearch/config/elasticsearch.yml", additionalArgs={})
         return True
 

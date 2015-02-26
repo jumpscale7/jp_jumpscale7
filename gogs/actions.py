@@ -44,7 +44,7 @@ class Actions(ActionsBase):
         this step is used to do configuration steps to the platform
         after this step the system will try to start the jpackage if anything needs to be started
         """
-        self.jp_instance.hrd.applyOnDir("$(param.base)/conf",filter=None, changeFileName=True,changeContent=True,additionalArgs={})
+        serviceobject.hrd.applyOnDir("$(param.base)/conf",filter=None, changeFileName=True,changeContent=True,additionalArgs={})
 
         cmd="cd /opt/gogs;sh buildkeys.sh"
         j.system.process.execute(cmd, dieOnNonZeroExitCode=False, outputToStdout=False, useShell=False, ignoreErrorOutput=True)

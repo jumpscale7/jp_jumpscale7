@@ -29,7 +29,7 @@ class Actions(ActionsBase):
 
     def configure(self, *args, serviceObj):
 
-        INSTALLATION_CONFIGS_PATH = os.path.join(self.jp_instance.hrd.get('param.base'), 'master-configs') 
+        INSTALLATION_CONFIGS_PATH = os.path.join(serviceobject.hrd.get('param.base'), 'master-configs') 
 
         influxdb_client_hrd = j.application.getAppInstanceHRD('influxdb_client', 'main')
         influxdb_client_hrd.applyOnDir(INSTALLATION_CONFIGS_PATH)

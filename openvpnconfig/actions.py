@@ -13,7 +13,7 @@ class Actions(ActionsBase):
         """
         generate configuration for openvpn
         """
-        path = self.jp_instance.hrd.get('param.ca.dir')
+        path = serviceobject.hrd.get('param.ca.dir')
 
         cacrt_filename = "%s/ca.crt"%path
         cakey_filename = "%s/ca.key"%path
@@ -32,9 +32,9 @@ class Actions(ActionsBase):
         prikey,req=j.tools.sslSigning.createCertificateSigningRequest(hostname)
         clientcert=j.tools.sslSigning.signRequest(req, ca_cert, ca_key)
 
-        self.jp_instance.hrd.set('openvpn.client.crt',clientcert)
-        self.jp_instance.hrd.set('openvpn.client.crt',prikey)
-        self.jp_instance.hrd.set('openvpn.ca.crt',cacert_filecontent)
+        serviceobject.hrd.set('openvpn.client.crt',clientcert)
+        serviceobject.hrd.set('openvpn.client.crt',prikey)
+        serviceobject.hrd.set('openvpn.ca.crt',cacert_filecontent)
 
         config = """
     client

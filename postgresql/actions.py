@@ -111,7 +111,7 @@ class Actions(ActionsBase):
                 cmd="sudo -u postgres $(param.base)/bin/pg_ctl -D /var/jumpscale/postgresql stop  -m immediate"
                 rc,out,err=j.do.execute(cmd, dieOnNonZeroExitCode=False, outputStdout=False, outputStderr=True,timeout=5)
             else:
-                raise RuntimeError("could not stop %s"%self.jp_instance)
+                raise RuntimeError("could not stop %s"%serviceobject)
 
 
         # if self.check_down_local(hrd):

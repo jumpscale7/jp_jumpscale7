@@ -29,6 +29,6 @@ class Actions(ActionsBase):
 
     def configure(self, *args, serviceObj):
 
-        INSTALLATION_CONFIGS_PATH = os.path.join(self.jp_instance.hrd.get('param.base'), 'configs') 
+        INSTALLATION_CONFIGS_PATH = os.path.join(serviceobject.hrd.get('param.base'), 'configs') 
 
-        self.jp_instance.hrd.applyOnDir(INSTALLATION_CONFIGS_PATH)
+        serviceobject.hrd.applyOnDir(INSTALLATION_CONFIGS_PATH)

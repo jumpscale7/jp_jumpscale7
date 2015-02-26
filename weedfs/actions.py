@@ -33,7 +33,7 @@ class Actions(ActionsBase):
             pd["ports"]=[9333+counter]
             pd["cmd"]="'./weed volume -port=%s -dir=%s -max=5 -ip=127.0.0.1 -ip.bind=127.0.0.1 -whiteList=127.0.0.1 -mserver=localhost:9333'"%(9333+counter,storloc)
 
-            self.jp_instance.hrd.set("process.%s"%(counter+1),pd,ttype="dict")
+            serviceobject.hrd.set("process.%s"%(counter+1),pd,ttype="dict")
 
 
     def build(self,serviceobject):
@@ -49,7 +49,7 @@ cd /opt/go/myproj
 go get github.com/chrislusf/weed-fs/go/weed
 """
         print cmd
-        j.action.start(retry=1, name="weedfsbuild",description='', cmds=cmd, action=None, actionRecover=None, actionArgs={}, errorMessage='', die=True, stdOutput=True, jp=self.jp_instance)
+        j.action.start(retry=1, name="weedfsbuild",description='', cmds=cmd, action=None, actionRecover=None, actionArgs={}, errorMessage='', die=True, stdOutput=True, jp=serviceobject)
 
         source="/opt/go/myproj/bin/weed"
         j.do.createDir("/opt/weedfs")

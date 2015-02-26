@@ -30,7 +30,7 @@ class Actions(ActionsBase):
                 pass
             j.do.delete("/usr/lib/libsnappy.so.1.2.1")
 
-        j.action.start(retry=1, name="deps",description='install deps', cmds='', action=deps, actionRecover=None, actionArgs={}, errorMessage='', die=True, stdOutput=True, jp=self.jp_instance)
+        j.action.start(retry=1, name="deps",description='install deps', cmds='', action=deps, actionRecover=None, actionArgs={}, errorMessage='', die=True, stdOutput=True, jp=serviceobject)
 
         def buildluarocks():
             #build luarocks
@@ -45,7 +45,7 @@ class Actions(ActionsBase):
             j.do.execute(cmdstr, outputStdout=True, outputStderr=True, timeout=240, errors=[], ok=[], captureout=True, dieOnNonZeroExitCode=True)
             j.do.symlinkFilesInDir("$(param.base)/bin/", "/usr/local/bin/", delete=True)
 
-        j.action.start(retry=2, name="buildluarocks",description='', cmds='', action=buildluarocks, actionRecover=None, actionArgs={}, errorMessage='', die=True, stdOutput=False, jp=self.jp_instance)
+        j.action.start(retry=2, name="buildluarocks",description='', cmds='', action=buildluarocks, actionRecover=None, actionArgs={}, errorMessage='', die=True, stdOutput=False, jp=serviceobject)
 
 
         toinstall=["penlight","fs","buffer","async","redis-async","parallel","trepl","readline","persist","sys","xlua","paths","pprint",\
@@ -55,20 +55,20 @@ class Actions(ActionsBase):
 
         for item in toinstall:
             cmd="luarocks install %s"%item
-            j.action.start(retry=3, name="%s"%cmd,description='', cmds=cmd, action=None, actionRecover=None, actionArgs={}, errorMessage='', die=True, stdOutput=False, jp=self.jp_instance)
+            j.action.start(retry=3, name="%s"%cmd,description='', cmds=cmd, action=None, actionRecover=None, actionArgs={}, errorMessage='', die=True, stdOutput=False, jp=serviceobject)
 
         cmd="luarocks build https://raw.github.com/leafo/sitegen/master/sitegen-dev-1.rockspec"
-        # j.action.start(retry=2, name="build sitegen",description='', cmds=cmd, action=None, actionRecover=None, actionArgs={}, errorMessage='', die=True, stdOutput=False, jp=self.jp_instance)
+        # j.action.start(retry=2, name="build sitegen",description='', cmds=cmd, action=None, actionRecover=None, actionArgs={}, errorMessage='', die=True, stdOutput=False, jp=serviceobject)
 
         j.do.symlinkFilesInDir("$(param.base)/bin/", "/usr/local/bin/", delete=True)
 
         cmd="curl https://raw.githubusercontent.com/uleelx/lupy/master/lupy.lua > $(param.base)/share/lua/5.1/lupy.lua"
-        j.action.start(retry=2, name="install lupy",description='', cmds=cmd, action=None, actionRecover=None, actionArgs={}, errorMessage='', die=True, stdOutput=False, jp=self.jp_instance)
+        j.action.start(retry=2, name="install lupy",description='', cmds=cmd, action=None, actionRecover=None, actionArgs={}, errorMessage='', die=True, stdOutput=False, jp=serviceobject)
 
         def buildLuamongo():
             deps = ["pkg-config","mongodb-dev","libmongo-client-dev","libboost-thread-dev", "libboost-filesystem-dev"]
             for dep in deps:
-                j.action.start(retry=3, name="install %s"%dep,description='luamongo dependencies', cmds='', action=j.system.platform.ubuntu.install(dep), actionRecover=None, actionArgs={}, errorMessage='', die=True, stdOutput=False, jp=self.jp_instance)
+                j.action.start(retry=3, name="install %s"%dep,description='luamongo dependencies', cmds='', action=j.system.platform.ubuntu.install(dep), actionRecover=None, actionArgs={}, errorMessage='', die=True, stdOutput=False, jp=serviceobject)
 
             luajitpc = """
     # Package information for LuaJIT to be used by pkg-config.
@@ -106,12 +106,12 @@ class Actions(ActionsBase):
             j.do.execute(cmdstr, outputStdout=True, outputStderr=True, timeout=300, errors=[], ok=[], captureout=True, dieOnNonZeroExitCode=True)
             j.system.fs.copyFile("/opt/build/github.com/moai/luamongo/mongo.so","/opt/luajit/lib/lua/5.1/mongo.so")
 
-        j.action.start(retry=0, name="build luamongo",description='', cmds='', action=buildLuamongo, actionRecover=None, actionArgs={}, errorMessage='', die=True, stdOutput=False, jp=self.jp_instance)
+        j.action.start(retry=0, name="build luamongo",description='', cmds='', action=buildLuamongo, actionRecover=None, actionArgs={}, errorMessage='', die=True, stdOutput=False, jp=serviceobject)
         # def cleanup():
         #     todelete=["$(param.base)/lib/pkgconfig/","$(param.base)/share/cmake/","$(param.base)/share/man/"]#,"$(param.base)/lib/luarocks/","$(param.base)/include/"
         #     for item in todelete:
         #         j.do.delete(item)
-        # j.action.start(retry=1, name="cleanup",description='', cmds="", action=cleanup, actionRecover=None, actionArgs={}, errorMessage='', die=True, stdOutput=False, jp=self.jp_instance)
+        # j.action.start(retry=1, name="cleanup",description='', cmds="", action=cleanup, actionRecover=None, actionArgs={}, errorMessage='', die=True, stdOutput=False, jp=serviceobject)
 
     def package(self,serviceobject):
         j.do.delete("/opt/code/git/binary/luajit/luajit/",force=True)

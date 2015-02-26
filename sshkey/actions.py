@@ -8,7 +8,7 @@ class Actions(ActionsBase):
 
     def prepare(self, serviceObj):
         if serviceObj.hrd.get("instance.ssh.key.priv").strip() == "":
-            self._generateKeys()
+            self._generateKeys(serviceObj)
         elif serviceObj.hrd.get("instance.ssh.key.pub"):
             privkey = serviceObj.hrd.get("instance.ssh.key.priv")
             j.do.writeFile("/tmp/privkey", privkey)
@@ -20,7 +20,7 @@ class Actions(ActionsBase):
             serviceObj.hrd.set("instance.ssh.key.pub", pubkey)
 
 
-    def _generateKeys(self):
+    def _generateKeys(self,serviceObj):
         keyloc = "/tmp/id_dsa"
         j.system.process.executeWithoutPipe("ssh-keygen -t dsa -f %s" % keyloc)
         if not j.system.fs.exists(path=keyloc):
@@ -38,7 +38,7 @@ class Actions(ActionsBase):
         """
 
         if serviceObj.hrd.get("instance.ssh.key.priv").strip() == "":
-            self._generateKeys()
+            self._generateKeys(serviceObj)
 
         return True
 

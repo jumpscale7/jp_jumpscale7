@@ -5,11 +5,11 @@ ActionsBase=j.atyourservice.getActionsBaseClass()
 class Actions(ActionsBase):
 
     def init(self,serviceobject):
-        instance=self.jp_instance.hrd.get("param.redis.instance")
+        instance=serviceobject.hrd.get("param.redis.instance")
         
-        jpredis=j.atyourservice.get(name="redis",instance=instance,node=self.jp_instance.node)
-        self.jp_instance.hrd.set("param.redis.host","localhost")
-        self.jp_instance.hrd.set("param.redis.port", jpredis.hrd.get("param.port"))
+        jpredis=j.atyourservice.get(name="redis",instance=instance,node=serviceobject.node)
+        serviceobject.hrd.set("param.redis.host","localhost")
+        serviceobject.hrd.set("param.redis.port", jpredis.hrd.get("param.port"))
         return True
 
     def configure(self,serviceobject):

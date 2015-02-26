@@ -50,11 +50,11 @@ class Actions(ActionsBase):
             j.do.execute(command="echo 'export GOPATH=/opt/go/workspace' >> /root/.bashrc")
             j.do.execute(command="echo 'export GOROOT=/opt/go' >> /root/.bashrc")
             j.do.execute(command="echo 'export PATH=$PATH:$GOROOT/bin:$GOPATH/bin' >> /root/.bashrc")
-        j.action.start(retry=0, name="createENV",description='create GOPATH', cmds='', action=createENV, actionRecover=None, actionArgs={}, errorMessage='', die=True, stdOutput=True, jp=self.jp_instance)
+        j.action.start(retry=0, name="createENV",description='create GOPATH', cmds='', action=createENV, actionRecover=None, actionArgs={}, errorMessage='', die=True, stdOutput=True, jp=serviceobject)
 
         def installGodep():
             j.do.execute("/opt/go/bin/go get -u github.com/tools/godep")
-        j.action.start(retry=0, name="installGodep",description='install godep (can take a while)', cmds='', action=installGodep, actionRecover=None, actionArgs={}, errorMessage='', die=True, stdOutput=True, jp=self.jp_instance)
+        j.action.start(retry=0, name="installGodep",description='install godep (can take a while)', cmds='', action=installGodep, actionRecover=None, actionArgs={}, errorMessage='', die=True, stdOutput=True, jp=serviceobject)
         return True
 
     def removedata(self,serviceobject):
