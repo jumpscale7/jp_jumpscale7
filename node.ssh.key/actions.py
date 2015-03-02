@@ -56,22 +56,22 @@ class Actions(ActionsBase):
         cl.run(cmd)
 
     def upload(self, serviceObj,source,dest):
-        keyname = serviceobj.hrd.get("instance.ssh.key.name")
+        keyname = serviceObj.hrd.get("instance.ssh.key.name")
         sshkeyHRD = j.application.getAppInstanceHRD("sshkey",keyname)
         sshkey = sshkeyHRD.get("instance.ssh.key.priv")
 
-        ip = serviceobj.hrd.get("instance.machine.ssh.ip")
-        port = serviceobj.hrd.get("instance.machine.ssh.port")
+        ip = serviceObj.hrd.get("instance.machine.ssh.ip")
+        port = serviceObj.hrd.get("instance.machine.ssh.port")
         dest = "%s:%s" % (ip,dest)
         self._rsync(source,dest,sshkey,port)
 
-    def download(self, serviceobj,source,dest):
-        keyname = serviceobj.hrd.get("instance.ssh.key.name")
+    def download(self, serviceObj,source,dest):
+        keyname = serviceObj.hrd.get("instance.ssh.key.name")
         sshkeyHRD = j.application.getAppInstanceHRD("sshkey",keyname)
         sshkey = sshkeyHRD.get("instance.ssh.key.priv")
 
-        ip = serviceobj.hrd.get("instance.machine.ssh.ip")
-        port = serviceobj.hrd.get("instance.machine.ssh.port")
+        ip = serviceObj.hrd.get("instance.machine.ssh.ip")
+        port = serviceObj.hrd.get("instance.machine.ssh.port")
         source = "%s:%s" % (ip,source)
         self._rsync(source,dest,sshkey,port)
 
