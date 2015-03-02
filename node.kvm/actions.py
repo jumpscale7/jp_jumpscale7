@@ -37,7 +37,9 @@ class Actions(ActionsBase):
         ip = serviceobject.hrd.get("instance.machine.ssh.ip")
         login = serviceobject.hrd.get("instance.machine.ssh.login")
         passwd = serviceobject.hrd.get("instance.machine.ssh.passwd")
-        from ipdb import set_trace;set_trace()
+
         c = j.remote.cuisine
+        if serviceobject.hrd.get("instance.baseimage") == "openwrt":
+            c.fabric.env['shell'] = "/bin/ash -l -c"
         cl = c.connect(ip,22,passwd)
         cl.run(cmd)
