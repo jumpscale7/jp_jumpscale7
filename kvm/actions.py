@@ -33,7 +33,7 @@ class Actions(ActionsBase):
         #         cmd="apt-get install qemu-kvm qemu python-libvirt virt-viewer libvirt-bin bridge-utils lrzip -y"
         #         rc,out,err=j.do.execute( cmd, outputStdout=True, outputStderr=True, useShell=True, log=True, cwd=None, timeout=360, captureout=True, dieOnNonZeroExitCode=False)
 
-        # j.action.start(retry=2, name="deps",description='install deps', cmds='', action=deps, actionRecover=None, actionArgs={}, errorMessage='', die=True, stdOutput=True, serviceObj=serviceobject) 
+        # j.action.start(retry=2, name="deps",description='install deps', cmds='', action=deps, actionRecover=None, actionArgs={}, errorMessage='', die=True, stdOutput=True, serviceObj=serviceobject)
 
 
         C="""
@@ -46,14 +46,14 @@ mkdir -p /mnt/vmstor/kvm/images
 rsync -arv --partial --progress /mnt/ftp/images/openwrt/ /mnt/vmstor/kvm/images/openwrt/
 """
 
-        j.actions.start(retry=2, name="getimages",description='get ubuntu & openwrt images (can take a while)', cmds=C, action=None, actionRecover=None, actionArgs={}, errorMessage='', die=True, stdOutput=True, serviceObj=serviceobject) 
+        j.actions.start(retry=2, name="getimages",description='get ubuntu & openwrt images (can take a while)', cmds=C, action=None, actionRecover=None, actionArgs={}, errorMessage='', die=True, stdOutput=True, serviceObj=serviceobject)
 
         def unpack():
             for item in j.system.fs.listFilesInDir( "/mnt/vmstor/kvm/images/", recursive=True, filter="*.lrz", followSymlinks=True, listSymlinks=False):
                 cmd="lrzip -d %s"%item
                 j.do.executeInteractive(cmd)
                 j.do.delete(item)
-                
+
         unpack()
 
 
@@ -64,7 +64,7 @@ rsync -arv --partial --progress /mnt/ftp/images/openwrt/ /mnt/vmstor/kvm/images/
             j.system.platform.kvm.initPhysicalBridges()
             # j.system.platform.kvm.initLibvirtNetwork()
 
-        j.actions.start(retry=2, name="setnetwork",description='setnetwork', cmds='', action=setnetwork, actionRecover=None, actionArgs={}, errorMessage='', die=True, stdOutput=True, serviceObj=serviceObj) 
+        j.actions.start(retry=2, name="setnetwork",description='setnetwork', cmds='', action=setnetwork, actionRecover=None, actionArgs={}, errorMessage='', die=True, stdOutput=True, serviceObj=serviceObj)
 
     def removedata(self, serviceObj):
         pass
@@ -78,7 +78,7 @@ rsync -arv --partial --progress /mnt/ftp/images/openwrt/ /mnt/vmstor/kvm/images/
 
 
         j.actions.start(retry=2, name="prepare_build",description='', cmds='', action=prepare_build, actionRecover=None, actionArgs={}, errorMessage='', die=True, stdOutput=True, serviceObj=serviceObj)
-        
+
         cmd = """
 set -e
 cd /opt/build/git.aydo.com/aydo/qemu-ledis

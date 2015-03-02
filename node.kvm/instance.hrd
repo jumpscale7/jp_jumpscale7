@@ -1,10 +1,7 @@
-param.name=@ASK descr:'NODE.KVM: name'
-param.baseimage=@ASK descr:'NODE.KVM: base image type' type:dropdown dropdownvals:openwrt,ubuntu1404,ubuntu1410
+name=@ASK descr:'NODE.KVM: name'
+baseimage=@ASK descr:'NODE.KVM: base image type' type:dropdown dropdownvals:openwrt,ubuntu1404,ubuntu1410
 
-param.hostnode.type=@ASK descr:'NODE.KVM: node type' type:dropdown dropdownvals:node.ssh.key,node.ms1
-param.hostnode.instance=@ASK descr:'NODE.KVM: host node instance name'
-
-param.machine.ssh.ip=
-param.machine.ssh.login=
-param.machine.ssh.passwd=
-param.machine.ssh.key=
+machine.ssh.ip=
+machine.ssh.login=
+machine.ssh.passwd=
+machine.ssh.key=
