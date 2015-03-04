@@ -13,6 +13,7 @@ git.export.5= url:$(bin.git.url), source:'log.lua', dest:'$(param.base)', link:F
 git.export.6= url:$(bin.git.url), source:'netinfo.lua', dest:'$(param.base)', link:False,
 git.export.7= url:$(bin.git.url), source:'utils.lua', dest:'$(param.base)', link:False,
 git.export.8= url:$(bin.git.url), source:'args.lua', dest:'$(param.base)', link:False,
+git.export.9= url:$(bin.git.url), source:'machineguid.lua', dest:'$(param.base)', link:False,
 
 
 
