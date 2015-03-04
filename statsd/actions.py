@@ -27,7 +27,7 @@ class Actions(ActionsBase):
         }
         
         configsamplepath = j.system.fs.joinPaths('/opt/', 'statsd', 'exampleConfig.js')
-        configpath = j.system.fs.joinPaths('/opt/', 'statsd', 'config.js')
+        configpath = j.system.fs.joinPaths('/opt/', 'statsd', 'conf.js')
         if not j.system.fs.exists(configpath):
             j.system.fs.createEmptyFile(configpath)
 
