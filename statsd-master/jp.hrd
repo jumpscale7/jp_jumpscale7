@@ -2,15 +2,15 @@ param.base='/opt/statsd/'
 
 process.1=
     name:'$(jp.name)__$(jp.instance)',
-    cmd:'/opt/nodejs/bin/node  stats.js conf.js',
+    cmd:'/opt/nodejs/bin/node  stats.js statsd.master.conf.js',
     args:,
     prio:5,
     cwd:'$(param.base)/',
     timeout_start:10,
     timeout_stop:10,
-    ports:8126,
+    ports:8128,
     startupmanager:tmux,
-    filterstr:'statsd',
+    filterstr:'statsd.master.conf.js',
     
 dependencies.1                 =      
     name:'nodejs',                       

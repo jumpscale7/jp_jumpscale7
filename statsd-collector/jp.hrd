@@ -8,7 +8,7 @@ process.1=
     cwd:'$(param.base)/',
     timeout_start:10,
     timeout_stop:10,
-    ports:8128,
+    ports:8126,
     startupmanager:tmux,
     filterstr:'statsd.collector.conf.js',
 

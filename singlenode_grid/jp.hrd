@@ -77,4 +77,17 @@ dep.args.gridportal =
    portal.instance:'main',
 
 dependencies.11  =
-    name:'heka-master',
+    name:'statsd-collector',
+    args:'dep.args.statsd-collector',
+
+dep.args.statsd-collector =
+    statsd.master.host:'localhost',
+
+
+dependencies.12  =
+    name:'statsd-master',
+    args:'dep.args.statsd-master',
+
+dep.args.statsd-master =
+   param.influxdb.connection:'main',
+
