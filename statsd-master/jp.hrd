@@ -1,4 +1,4 @@
-param.base='/opt/statsd/'
+param.base='/opt/statsd-master/'
 
 process.1=
     name:'$(jp.name)__$(jp.instance)',
@@ -10,7 +10,7 @@ process.1=
     timeout_stop:10,
     ports:8128,
     startupmanager:tmux,
-    filterstr:'statsd statsd.master.conf.js',
+    filterstr:'statsd.master.conf.js',
     
 dependencies.1                 =      
     name:'nodejs',                       
