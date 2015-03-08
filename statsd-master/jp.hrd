@@ -10,7 +10,7 @@ process.1=
     timeout_stop:10,
     ports:8128,
     startupmanager:tmux,
-    filterstr:'statsd.master.conf.js',
+    filterstr:'statsd statsd.master.conf.js',
     
 dependencies.1                 =      
     name:'nodejs',                       
