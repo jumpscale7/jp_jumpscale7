@@ -27,7 +27,7 @@ class Actions(ActionsBase):
             hrd.set('id', self.jp_instance.hrd.get('grid.id'))
             hrd.set('node.id', '0')
             hrd.set('node.machineguid', j.application.getUniqueMachineId())
-            hrd.set('node.roles', self.jp_instance.hrd.getList('grid.node.roles'))
+            hrd.set('node.roles', self.jp_instance.hrd.getStr('grid.node.roles').split(','))
             hrd.save()
 
         # reload system config / whoAmI

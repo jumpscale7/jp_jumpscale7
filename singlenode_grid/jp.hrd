@@ -42,7 +42,7 @@ dep.args.jsagent =
     agentcontroller.connection:'main',
     osis.connection:'main',
     grid.id:1,
-    grid.node.roles:node;master,
+    grid.node.roles:'node,master',
 
 dependencies.6 = 
     name:'csagent',
