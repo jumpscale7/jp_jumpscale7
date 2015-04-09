@@ -1,5 +1,10 @@
 #source $(system.paths.base)/env.sh;/$(system.paths.base)/bin/
 
+
+dependencies.1                =
+    name:'web',
+
+
 #base of repo where code or files are e.g. http://git.aydo.com/binary/base
 git.url='https://git.aydo.com/aydo/1clickshare'
 #known var's are: $root,$base,$cfg,$jslib,$pylib,$lib  
