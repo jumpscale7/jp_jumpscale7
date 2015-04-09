@@ -42,11 +42,11 @@ dep.args.jsagent =
     agentcontroller.connection:'main',
     osis.connection:'main',
     grid.id:1,
-    grid.node.roles:node,
+    grid.node.roles:'node,master',
 
 dependencies.6 = 
     name:'csagent',
-    args:dep.args.csagent'',
+    args:'dep.args.csagent',
 
 dep.args.csagent = 
     param.gid:1,
@@ -77,4 +77,16 @@ dep.args.gridportal =
    portal.instance:'main',
 
 dependencies.11  =
-    name:'heka-master',
+    name:'statsd-master',
+    args:'dep.args.statsd-master',
+
+dep.args.statsd-master =
+   param.influxdb.connection:'main',
+
+dependencies.12  =
+    name:'statsd-collector',
+    args:'dep.args.statsd-collector',
+
+dep.args.statsd-collector =
+    statsd.master.host:'localhost',
+
