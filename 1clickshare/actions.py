@@ -23,16 +23,16 @@ class Actions(ActionsBase):
         """
         this gets executed before the files are downloaded & installed on appropriate spots
         """
-        j.system.fs.createDir("$(system.paths.base)/apps/agentcontroller")
         return True
 
-    # def configure(self,**args):
-    #     """
-    #     this gets executed when files are installed
-    #     this step is used to do configuration steps to the platform
-    #     after this step the system will try to start the jpackage if anything needs to be started
-    #     """
-    #     return True
+    def configure(self,**args):
+        """
+        this gets executed when files are installed
+        this step is used to do configuration steps to the platform
+        after this step the system will try to start the jpackage if anything needs to be started
+        """
+        print 'Remember to restart osis/portal'
+        return True
 
 
     # def start(self,**args):

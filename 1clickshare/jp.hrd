@@ -11,7 +11,19 @@ git.url='https://git.aydo.com/aydo/1clickshare'
 git.export.1=
     url:$(git.url),
     source:'lib/*',
-    dest:'$(system.paths.base)/lib/JumpScale/lib/1clickshare/',
+    dest:'$(system.paths.base)/libext/',
+    link:True,
+
+git.export.2=
+    url:$(git.url),
+    source:'base/*',
+    dest:'$(system.paths.base)/apps/portals/$(portal.instance)/base/',
+    link:True,
+
+git.export.3=
+    url:$(git.url),
+    source:'osis*',
+    dest:'$(system.paths.base)/apps/osis/logic/',
     link:True,
 
 platform.supported=linux64,
